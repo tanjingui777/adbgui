@@ -79,7 +79,6 @@
   .bld.locked .art{filter:grayscale(.28) opacity(.84)}
   .bld .art{transition:transform .12s}
   .bld.avail:hover .art{transform:translateY(-3px)}
-  .numbox ellipse{stroke:#fff;stroke-width:2}
 
   /* 奖励气泡 */
   .bubble{position:absolute;transform:translate(-50%,-100%);pointer-events:none;opacity:0;transition:opacity .15s;
@@ -89,30 +88,10 @@
     border:9px solid transparent;border-top-color:#d9a52a}
   .bubble.on{opacity:1}
 
-  /* Q宠农庄木牌 */
-  .fsign{position:absolute;left:6.5%;bottom:7%;transform:translateY(0) rotate(-3deg);pointer-events:none;
-    background:linear-gradient(180deg,#f3d98f,#dcb459);border:4px solid #a5701f;border-radius:12px;
-    padding:6px 16px;box-shadow:0 6px 0 #8a5c17,inset 0 2px 0 rgba(255,255,255,.6)}
-  .fsign .t1{font-size:20px;font-weight:900;color:#c0392b;letter-spacing:2px;text-align:center;line-height:1;
-    text-shadow:0 2px 0 #fff3c4}
-  .fsign .t2{font-size:15px;font-weight:900;color:#c0392b;letter-spacing:6px;text-align:center;line-height:1.2;
-    text-shadow:0 2px 0 #fff3c4}
-
-  /* 右侧木牌菜单 */
-  .menu{position:absolute;right:1.2%;top:30%;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
-  .mbtn{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer;border:none;outline:none;
-    font-family:inherit;font-size:16px;font-weight:900;letter-spacing:1px;
-    padding:9px 16px 9px 26px;border-radius:10px 4px 4px 10px;color:#6b3f0d;
-    background:linear-gradient(180deg,#f6df9c,#dcb95c);
-    border:3px solid #9c6f22;box-shadow:0 5px 0 #8a5c17,inset 0 2px 0 rgba(255,255,255,.65);
-    text-shadow:0 1px 0 rgba(255,255,255,.6);transition:transform .08s,filter .08s}
-  .mbtn::before{content:"";position:absolute;left:8px;top:50%;transform:translateY(-50%);
-    border:7px solid transparent;border-right-color:#c98a26}
-  .mbtn:hover{transform:translateX(-3px);filter:brightness(1.05)}
-  .mbtn:active{transform:translateX(0) translateY(3px);box-shadow:0 2px 0 #8a5c17}
-  .mbtn .star{width:16px;height:16px;flex:0 0 16px}
-  .mbtn.hot{background:linear-gradient(180deg,#ffe08a,#f4b62c)}
-  .mbtn.hot .star path{fill:#ff5f9e}
+  /* 右侧木牌菜单交互 */
+  .msign{cursor:pointer;transition:filter .12s}
+  .msign:hover{filter:brightness(1.07) drop-shadow(0 3px 4px rgba(90,61,22,.35))}
+  .msign:active{filter:brightness(.94)}
 
   /* HUD */
   .hudslot{display:flex;gap:7px;align-items:center;font-size:12px;font-weight:bold;color:#5a3d0a}
@@ -169,12 +148,6 @@
   .winbig{color:#ffe36a;font-weight:900;font-size:18px}
   .losebig{color:#ffd0c6;font-weight:900;font-size:18px}
   .hint{font-size:12.5px;color:#e9dcff;margin-top:8px}
-
-  @media (max-width:640px){
-    .menu{top:24%;gap:8px}
-    .mbtn{font-size:13px;padding:7px 10px 7px 20px}
-    .fsign .t1{font-size:15px}.fsign .t2{font-size:12px}
-  }
 </style>
 </head>
 <body>
@@ -235,249 +208,392 @@
       <div class="scene" id="scene">
         <svg id="scene-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <linearGradient id="gFarm" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#e6c257"/><stop offset=".45" stop-color="#dcb44c"/><stop offset="1" stop-color="#cba13d"/>
+            <linearGradient id="gStraw" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f7e391"/><stop offset="1" stop-color="#e7c95d"/>
             </linearGradient>
             <linearGradient id="gGrass" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#a9da50"/><stop offset="1" stop-color="#7cba33"/>
+              <stop offset="0" stop-color="#9ade4e"/><stop offset="1" stop-color="#5fb02a"/>
             </linearGradient>
             <linearGradient id="gPath" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#e9d189"/><stop offset="1" stop-color="#d8bb6c"/>
+              <stop offset="0" stop-color="#f3e4ad"/><stop offset="1" stop-color="#e2cf88"/>
             </linearGradient>
-            <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#d8a95c"/><stop offset="1" stop-color="#b07f34"/>
+            <linearGradient id="gBarnBlue" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5cb3e8"/><stop offset="1" stop-color="#2f86c8"/>
             </linearGradient>
-            <linearGradient id="gBarn" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#7fc8f0"/><stop offset="1" stop-color="#3f8fd0"/>
+            <linearGradient id="gPumpkin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffab34"/><stop offset="1" stop-color="#ef7a10"/>
             </linearGradient>
-            <linearGradient id="gPump" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffb43c"/><stop offset="1" stop-color="#e07a12"/>
+            <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#a99ce8"/><stop offset="1" stop-color="#7f6fd0"/>
             </linearGradient>
-            <linearGradient id="gGourd" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#b7e26a"/><stop offset="1" stop-color="#6fae2c"/>
-            </linearGradient>
-            <linearGradient id="gPurp" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#d7c6f5"/><stop offset="1" stop-color="#9c7fe0"/>
-            </linearGradient>
-            <linearGradient id="gHive" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffd98a"/><stop offset="1" stop-color="#e9a23c"/>
+            <linearGradient id="gPost" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#b07f34"/><stop offset=".5" stop-color="#d8a95c"/><stop offset="1" stop-color="#96681f"/>
             </linearGradient>
             <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#fff2a8" stop-opacity=".95"/>
+              <stop offset="0" stop-color="#fff6b0" stop-opacity=".95"/>
               <stop offset="1" stop-color="#ffd23f" stop-opacity="0"/>
             </radialGradient>
           </defs>
 
-          <!-- 天空/远景麦田 -->
-          <rect x="0" y="0" width="1000" height="600" fill="url(#gFarm)"/>
-          <g stroke="#b98f33" stroke-width="2" opacity=".45">
-            <path d="M-20 120 Q500 96 1020 122"/><path d="M-20 152 Q500 128 1020 154"/>
-            <path d="M-20 184 Q500 160 1020 186"/>
-          </g>
-          <g opacity=".5" stroke="#c79a3a" stroke-width="1.6">
-            <path d="M40 90 L30 150"/><path d="M90 88 L80 150"/><path d="M140 86 L132 150"/>
-            <path d="M690 84 L682 150"/><path d="M740 84 L732 150"/><path d="M790 86 L784 150"/>
+          <!-- 金色麦田远景 -->
+          <rect x="0" y="0" width="1000" height="600" fill="url(#gStraw)"/>
+          <g stroke="#d9b74e" stroke-width="2.5" opacity=".5" fill="none">
+            <path d="M-20 58 Q500 38 1020 60"/>
+            <path d="M-20 90 Q500 70 1020 92"/>
           </g>
 
           <!-- 麦垛 -->
           <g>
-            <ellipse cx="120" cy="150" rx="52" ry="34" fill="#e9c25a"/><path d="M70 150 q50 -30 100 0" fill="none" stroke="#c79a3a" stroke-width="2"/>
-            <ellipse cx="905" cy="150" rx="46" ry="30" fill="#e9c25a"/><path d="M861 150 q44 -26 88 0" fill="none" stroke="#c79a3a" stroke-width="2"/>
-            <ellipse cx="968" cy="182" rx="40" ry="26" fill="#f0cd6e"/>
+            <ellipse cx="150" cy="104" rx="58" ry="36" fill="#eeca5e"/><path d="M94 104 q56 -32 112 0" fill="none" stroke="#cfa63c" stroke-width="2.5"/>
+            <ellipse cx="884" cy="100" rx="52" ry="32" fill="#eeca5e"/><path d="M834 100 q50 -28 100 0" fill="none" stroke="#cfa63c" stroke-width="2.5"/>
+            <ellipse cx="46" cy="110" rx="40" ry="24" fill="#f3da80"/>
           </g>
 
-          <!-- 篱笆 -->
+          <!-- 白色矮栅栏 -->
           <g>
-            <path d="M0 108 H1000" stroke="#c08a3e" stroke-width="7" stroke-linecap="round"/>
-            <path d="M0 128 H1000" stroke="#a5701f" stroke-width="6" stroke-linecap="round"/>
-            <g stroke="#b67f30" stroke-width="9" stroke-linecap="round">
-              <path d="M18 92 V150"/><path d="M78 92 V150"/><path d="M138 92 V150"/><path d="M198 92 V150"/>
-              <path d="M258 92 V150"/><path d="M318 92 V150"/><path d="M378 92 V150"/><path d="M438 92 V150"/>
-              <path d="M498 92 V150"/><path d="M558 92 V150"/><path d="M618 92 V150"/><path d="M678 92 V150"/>
-              <path d="M738 92 V150"/><path d="M798 92 V150"/><path d="M858 92 V150"/><path d="M918 92 V150"/><path d="M978 92 V150"/>
+            <rect x="0" y="100" width="1000" height="9" fill="#f1e6c1"/>
+            <rect x="0" y="122" width="1000" height="8" fill="#e5d7a8"/>
+            <g fill="#f6ecd4">
+              <path d="M14 92 h14 v46 h-14z"/><path d="M74 92 h14 v46 h-14z"/><path d="M134 92 h14 v46 h-14z"/>
+              <path d="M194 92 h14 v46 h-14z"/><path d="M254 92 h14 v46 h-14z"/><path d="M314 92 h14 v46 h-14z"/>
+              <path d="M374 92 h14 v46 h-14z"/><path d="M434 92 h14 v46 h-14z"/><path d="M494 92 h14 v46 h-14z"/>
+              <path d="M554 92 h14 v46 h-14z"/><path d="M614 92 h14 v46 h-14z"/><path d="M674 92 h14 v46 h-14z"/>
+              <path d="M734 92 h14 v46 h-14z"/><path d="M794 92 h14 v46 h-14z"/><path d="M854 92 h14 v46 h-14z"/>
+              <path d="M914 92 h14 v46 h-14z"/><path d="M974 92 h14 v46 h-14z"/>
             </g>
           </g>
 
-          <!-- 草地前景 -->
-          <path d="M0 170 Q120 150 240 168 Q360 186 480 164 Q600 144 720 166 Q840 188 1000 160 V600 H0 Z" fill="url(#gGrass)"/>
-          <g opacity=".35" fill="#5f9c22">
-            <circle cx="60" cy="240" r="6"/><circle cx="120" cy="300" r="5"/><circle cx="900" cy="250" r="6"/><circle cx="840" cy="330" r="5"/>
-          </g>
+          <!-- 草地 -->
+          <path d="M0 158 Q160 138 320 156 Q480 174 640 152 Q800 130 1000 156 V600 H0 Z" fill="url(#gGrass)"/>
 
-          <!-- 土路 -->
+          <!-- 交叉土路 -->
           <g fill="url(#gPath)">
-            <path d="M-10 470 Q200 430 430 452 Q640 472 1010 430 L1010 522 Q640 560 430 540 Q200 520 -10 556 Z"/>
-            <path d="M430 250 Q470 330 440 452 L560 452 Q580 330 540 250 Z"/>
+            <path d="M-20 190 Q220 300 470 600 L640 600 Q360 300 120 176 Z"/>
+            <path d="M1020 178 Q760 300 540 600 L400 600 Q660 300 900 170 Z"/>
           </g>
-          <g fill="#c9a24a" opacity=".5">
-            <circle cx="180" cy="498" r="4"/><circle cx="300" cy="470" r="3"/><circle cx="700" cy="500" r="4"/><circle cx="820" cy="470" r="3"/>
+          <g fill="#d8c284" opacity=".55">
+            <circle cx="250" cy="300" r="4"/><circle cx="330" cy="382" r="3.5"/><circle cx="700" cy="332" r="4"/><circle cx="620" cy="420" r="3.5"/>
           </g>
 
-          <!-- 树木 -->
+          <!-- 中央菜畦 -->
+          <g transform="translate(560,432)">
+            <rect x="-70" y="-34" width="140" height="72" rx="6" fill="#c08a3e"/>
+            <rect x="-62" y="-26" width="124" height="56" rx="4" fill="#9c6b26"/>
+            <g fill="#e8801e">
+              <circle cx="-48" cy="-14" r="4"/><circle cx="-16" cy="-14" r="4"/><circle cx="16" cy="-14" r="4"/><circle cx="48" cy="-14" r="4"/>
+              <circle cx="-48" cy="11" r="4"/><circle cx="-16" cy="11" r="4"/><circle cx="16" cy="11" r="4"/><circle cx="48" cy="11" r="4"/>
+            </g>
+            <g stroke="#5f9c22" stroke-width="2.4" fill="none">
+              <path d="M-48 -14 l-5 -9 M-48 -14 l5 -9"/><path d="M-16 -14 l-5 -9 M-16 -14 l5 -9"/>
+              <path d="M16 -14 l-5 -9 M16 -14 l5 -9"/><path d="M48 -14 l-5 -9 M48 -14 l5 -9"/>
+              <path d="M-48 11 l-5 -9 M-48 11 l5 -9"/><path d="M-16 11 l-5 -9 M-16 11 l5 -9"/>
+              <path d="M16 11 l-5 -9 M16 11 l5 -9"/><path d="M48 11 l-5 -9 M48 11 l5 -9"/>
+            </g>
+          </g>
+
+          <!-- 倒木 -->
+          <g transform="translate(258,470) rotate(-4)">
+            <rect x="-46" y="-13" width="92" height="26" rx="13" fill="#b07f34"/>
+            <ellipse cx="46" cy="0" rx="10" ry="13" fill="#e0b072"/><ellipse cx="46" cy="0" rx="5" ry="7" fill="#c08a3e"/>
+            <path d="M-30 -13 q6 -8 16 -4" stroke="#8a5c17" stroke-width="2" fill="none"/>
+          </g>
+          <!-- 小花 -->
+          <g transform="translate(392,404)">
+            <circle cx="0" cy="0" r="7" fill="#ff9f2e"/><circle cx="0" cy="0" r="3" fill="#ffd23f"/>
+          </g>
+
+          <!-- 灌木树 -->
           <g>
-            <rect x="42" y="196" width="10" height="26" fill="#8a5c17"/>
-            <circle cx="47" cy="182" r="26" fill="#4f9d1e"/><circle cx="30" cy="196" r="18" fill="#5cb02a"/><circle cx="64" cy="196" r="18" fill="#3f8a18"/>
-            <rect x="980" y="210" width="9" height="22" fill="#8a5c17"/>
-            <circle cx="984" cy="198" r="22" fill="#4f9d1e"/><circle cx="968" cy="210" r="15" fill="#5cb02a"/>
-          </g>
-          <!-- 木桩 -->
-          <g transform="translate(300,392) rotate(-8)">
-            <rect x="-34" y="-13" width="68" height="26" rx="12" fill="#c08a3e"/><ellipse cx="34" cy="0" rx="8" ry="13" fill="#e0b072"/>
+            <rect x="30" y="196" width="12" height="30" fill="#8a5c17"/>
+            <circle cx="36" cy="176" r="30" fill="#4fa81e"/><circle cx="14" cy="194" r="20" fill="#5fbc2a"/><circle cx="58" cy="194" r="20" fill="#3f8f18"/>
+            <circle cx="116" cy="212" r="19" fill="#5fbc2a"/>
+            <rect x="968" y="212" width="10" height="24" fill="#8a5c17"/>
+            <circle cx="973" cy="198" r="24" fill="#4fa81e"/><circle cx="956" cy="212" r="16" fill="#5fbc2a"/>
           </g>
 
-          <!-- ============ 粮仓 3 ============ -->
-          <g class="bld locked" data-id="3" transform="translate(190,300)">
-            <ellipse class="glow" cx="0" cy="6" rx="120" ry="80" fill="url(#gGlow)"/>
+          <!-- ============ 粮仓 3：红顶向日葵屋 ============ -->
+          <g class="bld locked" data-id="3" transform="translate(196,300)">
+            <ellipse class="glow" cx="0" cy="8" rx="120" ry="84" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="0" cy="10" rx="86" ry="20" fill="rgba(70,100,30,.25)"/>
-              <rect x="-70" y="-16" width="140" height="26" rx="8" fill="#d9c9a0"/><rect x="-70" y="-16" width="140" height="8" rx="4" fill="#efe3c2"/>
-              <circle cx="-30" cy="-40" r="46" fill="#fff2d6"/><circle cx="26" cy="-24" r="34" fill="#ffe9bf"/>
-              <path d="M-74 -40 A46 46 0 0 1 14 -40 Z" fill="url(#gHive)"/>
-              <path d="M-6 -50 A34 34 0 0 1 58 -50 Z" fill="url(#gHive)"/>
-              <g fill="#e07a12" opacity=".55">
-                <circle cx="-34" cy="-58" r="4"/><circle cx="-20" cy="-66" r="4"/><circle cx="-46" cy="-46" r="4"/>
-                <circle cx="34" cy="-40" r="3"/><circle cx="44" cy="-30" r="3"/>
+              <ellipse cx="6" cy="22" rx="86" ry="16" fill="rgba(60,90,20,.25)"/>
+              <!-- 主屋墙体 -->
+              <path d="M-60 20 Q-68 -30 -50 -52 Q0 -66 50 -52 Q68 -30 60 20 Z" fill="#f7edd2"/>
+              <path d="M-60 20 Q-30 32 0 32 Q30 32 60 20 Q30 26 0 26 Q-30 26 -60 20 Z" fill="#e6d8b4"/>
+              <path d="M-64 2 Q-30 20 0 20 Q30 20 64 2 L60 20 Q30 30 0 30 Q-30 30 -60 20 Z" fill="#f2d84c"/>
+              <!-- 红橙穹顶 -->
+              <path d="M-72 -44 Q-72 -98 -6 -106 Q62 -112 72 -44 Q0 -22 -72 -44 Z" fill="#ee5a2c"/>
+              <path d="M-72 -44 Q-36 -30 0 -28 Q36 -26 72 -44 Q36 -40 0 -40 Q-36 -40 -72 -44 Z" fill="#c8431a" opacity=".5"/>
+              <path d="M-56 -58 Q0 -76 56 -58" fill="none" stroke="#f47a44" stroke-width="3" opacity=".7"/>
+              <path d="M-64 -82 Q0 -100 64 -82" fill="none" stroke="#f47a44" stroke-width="3" opacity=".5"/>
+              <path d="M-10 -106 Q0 -128 12 -126 Q8 -114 6 -106 Z" fill="#c8431a"/>
+              <circle cx="4" cy="-120" r="6" fill="#ee5a2c"/>
+              <!-- 金色向日葵装饰 -->
+              <g transform="translate(-4,-66)">
+                <g fill="#ffd23f" stroke="#e9a51f" stroke-width="1.5">
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(45)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(90)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(135)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(180)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(225)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(270)"/>
+                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(315)"/>
+                </g>
+                <circle r="12" fill="#f2a72c" stroke="#e0861a" stroke-width="2"/>
+                <path d="M-7 2 A8 8 0 1 1 4 -6 A5 5 0 1 0 -2 4" fill="none" stroke="#fff0b0" stroke-width="2"/>
               </g>
-              <rect x="-16" y="-30" width="30" height="40" rx="8" fill="#8a5c17"/><circle cx="-16" cy="-10" r="3" fill="#ffd23f"/>
-              <g transform="translate(-2,-96)">
-                <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#ffd23f"/><path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#f4c020" transform="rotate(60)"/>
-                <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#ffd23f" transform="rotate(120)"/><path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#f4c020" transform="rotate(180)"/>
-                <circle cx="0" cy="0" r="7" fill="#e07a12"/>
+              <!-- 门 -->
+              <path d="M-15 20 L-15 -12 Q0 -24 15 -12 L15 20 Z" fill="#9c6b26" stroke="#7a4c14" stroke-width="2"/>
+              <path d="M0 -18 V20" stroke="#7a4c14" stroke-width="1.6"/>
+              <!-- 左侧旋钮木架 -->
+              <g transform="translate(-62,-6)">
+                <rect x="-9" y="-16" width="18" height="34" rx="4" fill="#b07f34" stroke="#8a5c17" stroke-width="2"/>
+                <circle cx="0" cy="-7" r="5" fill="#f2d84c" stroke="#c8781a" stroke-width="1.5"/>
+                <circle cx="0" cy="8" r="5" fill="#ee5a2c" stroke="#c8431a" stroke-width="1.5"/>
               </g>
-            </g>
-            <g class="numbox" transform="translate(-92,12)">
-              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
-              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">3</text>
-            </g>
-          </g>
-
-          <!-- ============ 粮仓 4 ============ -->
-          <g class="bld locked" data-id="4" transform="translate(500,290)">
-            <ellipse class="glow" cx="0" cy="10" rx="140" ry="88" fill="url(#gGlow)"/>
-            <g class="art">
-              <ellipse cx="0" cy="14" rx="100" ry="22" fill="rgba(70,100,30,.25)"/>
-              <rect x="-86" y="-8" width="172" height="24" fill="#7a8c96"/><rect x="-86" y="-8" width="172" height="8" fill="#9fb0b8"/>
-              <path d="M-92 -8 L0 -104 L92 -8 Z" fill="#5aa0d8"/>
-              <path d="M-92 -8 L0 -104 L92 -8 L72 -8 L0 -92 L-72 -8 Z" fill="#eef6f8"/>
-              <rect x="-78" y="-4" width="156" height="10" fill="#e6eef2"/>
-              <!-- 奶牛头 -->
-              <ellipse cx="-4" cy="-36" rx="30" ry="26" fill="#f3ede0"/>
-              <ellipse cx="-20" cy="-52" rx="9" ry="11" fill="#f3ede0"/><ellipse cx="12" cy="-52" rx="9" ry="11" fill="#f3ede0"/>
-              <path d="M-30 -56 q-16 -12 -30 -6 q10 4 14 14z" fill="#c9a24a"/><path d="M22 -56 q16 -12 30 -6 q-10 4 -14 14z" fill="#c9a24a"/>
-              <path d="M-48 -22 q-26 -6 -30 8 q16 6 30 0z" fill="#c9a24a"/><path d="M40 -22 q26 -6 30 8 q-16 6 -30 0z" fill="#c9a24a"/>
-              <ellipse cx="-4" cy="-24" rx="18" ry="13" fill="#e8dcbf"/><circle cx="-10" cy="-26" r="3" fill="#8a5c17"/><circle cx="2" cy="-26" r="3" fill="#8a5c17"/>
-              <circle cx="-16" cy="-42" r="4" fill="#3a2a1a"/><circle cx="8" cy="-42" r="4" fill="#3a2a1a"/>
-              <rect x="-22" y="-8" width="44" height="16" rx="4" fill="#a5701f"/>
-              <!-- 奶瓶 -->
-              <g transform="translate(74,4)">
-                <rect x="-8" y="-30" width="16" height="30" rx="4" fill="#eef6f8" stroke="#9fb0b8" stroke-width="2"/>
-                <rect x="-5" y="-40" width="10" height="12" rx="3" fill="#cfe3ea"/>
-                <rect x="-8" y="-16" width="16" height="10" fill="#ffd23f"/>
+              <!-- 右侧小屋 -->
+              <g transform="translate(56,-6)">
+                <path d="M-24 0 Q-24 -32 0 -32 Q24 -32 24 0 Z" fill="#f7edd2"/>
+                <path d="M-30 -22 Q-30 -48 0 -52 Q30 -48 30 -22 Q0 -12 -30 -22 Z" fill="#ee5a2c"/>
+                <path d="M-30 -22 Q0 -12 30 -22 Q0 -17 -30 -22 Z" fill="#c8431a" opacity=".45"/>
+                <circle cx="2" cy="-6" r="7" fill="#f2d84c" stroke="#c8781a" stroke-width="2"/>
               </g>
             </g>
-            <g class="numbox" transform="translate(-84,16)">
-              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
-              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">4</text>
+            <g class="numbox" transform="translate(-86,24)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">3</text>
             </g>
           </g>
 
-          <!-- ============ 粮仓 5 ============ -->
-          <g class="bld locked" data-id="5" transform="translate(792,276)">
-            <ellipse class="glow" cx="0" cy="20" rx="150" ry="96" fill="url(#gGlow)"/>
+          <!-- ============ 粮仓 4：蓝顶奶牛谷仓 ============ -->
+          <g class="bld locked" data-id="4" transform="translate(478,286)">
+            <ellipse class="glow" cx="0" cy="12" rx="146" ry="92" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="0" cy="24" rx="108" ry="24" fill="rgba(70,100,30,.25)"/>
-              <rect x="-80" y="0" width="160" height="26" rx="8" fill="#b07f34"/><rect x="-80" y="0" width="160" height="8" fill="#d8a95c"/>
-              <circle cx="0" cy="-58" r="84" fill="#e07a12"/>
-              <g fill="#ffb43c">
-                <ellipse cx="0" cy="-58" rx="84" ry="84"/>
-                <ellipse cx="-58" cy="-58" rx="30" ry="80"/><ellipse cx="58" cy="-58" rx="30" ry="80"/>
+              <ellipse cx="0" cy="18" rx="104" ry="20" fill="rgba(60,90,20,.25)"/>
+              <rect x="-88" y="-70" width="176" height="90" rx="4" fill="url(#gBarnBlue)"/>
+              <g stroke="#2f86c8" stroke-width="2.4" opacity=".5"><path d="M-58 -70 V20"/><path d="M-28 -70 V20"/><path d="M28 -70 V20"/><path d="M58 -70 V20"/></g>
+              <!-- 屋顶（奶牛斑点纹） -->
+              <path d="M-102 -68 Q0 -132 102 -68 Z" fill="#7ec4ee"/>
+              <g fill="#b8e0f6">
+                <ellipse cx="-44" cy="-88" rx="24" ry="14" transform="rotate(-16 -44 -88)"/>
+                <ellipse cx="18" cy="-100" rx="28" ry="15" transform="rotate(10 18 -100)"/>
+                <ellipse cx="62" cy="-80" rx="20" ry="12" transform="rotate(20 62 -80)"/>
+                <ellipse cx="-6" cy="-78" rx="17" ry="9" transform="rotate(-8 -6 -78)"/>
               </g>
-              <g fill="none" stroke="#c25e08" stroke-width="3" opacity=".7">
-                <path d="M-40 -132 Q-46 -58 -40 16"/><path d="M40 -132 Q46 -58 40 16"/>
+              <path d="M-102 -68 Q0 -132 102 -68 L86 -68 Q0 -114 -86 -68 Z" fill="#2f86c8"/>
+              <!-- 木烟囱 -->
+              <g transform="translate(36,-98)">
+                <rect x="-6" y="-26" width="13" height="30" rx="3" fill="#e0b062" stroke="#8a5c17" stroke-width="2"/>
+                <rect x="-14" y="-30" width="30" height="10" rx="3" fill="#f0cf8a" stroke="#8a5c17" stroke-width="2"/>
               </g>
-              <rect x="-16" y="-150" width="32" height="30" rx="8" fill="#5f9c22"/>
-              <path d="M0 -150 q-24 -22 -44 -14 q20 10 24 26z" fill="#4f8a18"/>
-              <rect x="-30" y="-56" width="60" height="46" rx="10" fill="#8a5c17"/>
-              <circle cx="-30" cy="-30" r="4" fill="#ffd23f"/>
-              <!-- 企鹅 -->
-              <g transform="translate(0,26)">
-                <ellipse cx="0" cy="34" rx="30" ry="9" fill="rgba(60,90,20,.35)"/>
-                <ellipse cx="0" cy="2" rx="30" ry="34" fill="#23262e"/>
-                <ellipse cx="0" cy="6" rx="21" ry="27" fill="#fdfdff"/>
-                <ellipse cx="-30" cy="4" rx="9" ry="20" fill="#23262e" transform="rotate(18 -30 4)"/>
-                <ellipse cx="30" cy="4" rx="9" ry="20" fill="#23262e" transform="rotate(-18 30 4)"/>
-                <circle cx="-9" cy="-16" r="8" fill="#fff"/><circle cx="9" cy="-16" r="8" fill="#fff"/>
-                <circle cx="-8" cy="-16" r="4" fill="#1b1e24"/><circle cx="10" cy="-16" r="4" fill="#1b1e24"/>
+              <g transform="translate(0,-16)">
+                <ellipse cx="0" cy="0" rx="32" ry="26" fill="#a5701f"/>
+                <ellipse cx="-22" cy="-14" rx="10" ry="12" fill="#c98a3e" transform="rotate(-28 -22 -14)"/>
+                <ellipse cx="22" cy="-14" rx="10" ry="12" fill="#c98a3e" transform="rotate(28 22 -14)"/>
+                <path d="M-30 -22 q-18 -12 -34 -4 q12 4 16 16z" fill="#f2e6c4"/>
+                <path d="M30 -22 q18 -12 34 -4 q-12 4 -16 16z" fill="#f2e6c4"/>
+                <ellipse cx="0" cy="9" rx="18" ry="13" fill="#e8c9a0"/>
+                <circle cx="-9" cy="5" r="3" fill="#5a3d0a"/><circle cx="9" cy="5" r="3" fill="#5a3d0a"/>
+                <circle cx="-14" cy="-8" r="4.5" fill="#2a1a0a"/><circle cx="14" cy="-8" r="4.5" fill="#2a1a0a"/>
+              </g>
+              <rect x="-30" y="-8" width="60" height="32" rx="3" fill="#8a5c17"/>
+              <g stroke="#6b4510" stroke-width="2"><path d="M-18 -8 V24"/><path d="M-6 -8 V24"/><path d="M6 -8 V24"/><path d="M18 -8 V24"/></g>
+              <g transform="translate(86,18)">
+                <rect x="-11" y="-26" width="22" height="30" rx="5" fill="#eef4f8" stroke="#c2ced6" stroke-width="2.5"/>
+                <rect x="-6" y="-34" width="12" height="10" rx="3" fill="#dbe6ec"/>
+                <rect x="-11" y="-14" width="22" height="8" fill="#9fb0b8"/>
+              </g>
+              <g transform="translate(110,22)"><rect x="-9" y="-20" width="18" height="24" rx="4" fill="#eef4f8" stroke="#c2ced6" stroke-width="2.5"/></g>
+            </g>
+            <g class="numbox" transform="translate(-84,22)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">4</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 5：南瓜屋（带企鹅） ============ -->
+          <g class="bld locked" data-id="5" transform="translate(802,220)">
+            <ellipse class="glow" cx="0" cy="20" rx="156" ry="100" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="34" rx="116" ry="24" fill="rgba(60,90,20,.25)"/>
+              <rect x="-84" y="10" width="168" height="22" rx="4" fill="#b07f34"/>
+              <rect x="-76" y="30" width="14" height="30" fill="#8a5c17"/><rect x="62" y="30" width="14" height="30" fill="#8a5c17"/>
+              <ellipse cx="0" cy="-52" rx="94" ry="82" fill="url(#gPumpkin)"/>
+              <g fill="#f9a02a" opacity=".9"><ellipse cx="-54" cy="-52" rx="26" ry="76"/><ellipse cx="54" cy="-52" rx="26" ry="76"/></g>
+              <g fill="none" stroke="#c95e08" stroke-width="3" opacity=".6"><path d="M-34 -126 Q-40 -52 -34 22"/><path d="M34 -126 Q40 -52 34 22"/></g>
+              <!-- 十字窗 -->
+              <g fill="#7a4a12"><rect x="-40" y="-98" width="20" height="20" rx="4"/><rect x="20" y="-98" width="20" height="20" rx="4"/></g>
+              <g stroke="#5a3410" stroke-width="2"><path d="M-35 -93 H-25 M-30 -98 V-78"/><path d="M25 -93 H35 M30 -98 V-78"/></g>
+              <!-- 石箍带（原版奶油色石条） -->
+              <path d="M-90 -22 Q0 -6 90 -22" fill="none" stroke="#efe9d8" stroke-width="12" stroke-linecap="round"/>
+              <path d="M-84 -22 Q0 -6 84 -22" fill="none" stroke="#cfc6ad" stroke-width="2" opacity=".65"/>
+              <path d="M-72 16 Q0 30 72 16" fill="none" stroke="#efe9d8" stroke-width="10" stroke-linecap="round"/>
+              <g fill="#efe9d8"><circle cx="-72" cy="-26" r="7"/><circle cx="72" cy="-26" r="7"/></g>
+              <rect x="-15" y="-150" width="30" height="30" rx="9" fill="#5f9c22"/>
+              <path d="M0 -150 q-30 -24 -54 -12 q24 10 28 28z" fill="#4f8a18"/>
+              <path d="M0 -150 q30 -24 54 -12 q-24 10 -28 28z" fill="#5f9c22"/>
+              <path d="M0 -148 q-14 -30 -4 -46 q14 16 8 46z" fill="#6cb02a"/>
+              <rect x="-36" y="-58" width="34" height="34" rx="8" fill="#8a5c17"/>
+              <rect x="16" y="-34" width="30" height="28" rx="7" fill="#8a5c17"/>
+              <g transform="translate(-52,38)">
+                <ellipse cx="0" cy="30" rx="30" ry="9" fill="rgba(50,80,20,.4)"/>
+                <ellipse cx="0" cy="0" rx="28" ry="32" fill="#23262e"/>
+                <ellipse cx="0" cy="4" rx="20" ry="26" fill="#fdfdff"/>
+                <ellipse cx="-28" cy="2" rx="8" ry="18" fill="#23262e" transform="rotate(18 -28 2)"/>
+                <ellipse cx="28" cy="2" rx="8" ry="18" fill="#23262e" transform="rotate(-18 28 2)"/>
+                <circle cx="-8" cy="-15" r="8" fill="#fff"/><circle cx="8" cy="-15" r="8" fill="#fff"/>
+                <circle cx="-7" cy="-15" r="4" fill="#1b1e24"/><circle cx="9" cy="-15" r="4" fill="#1b1e24"/>
                 <path d="M-5 -4 L5 -4 L0 4 Z" fill="#f5a623"/>
-                <path d="M-19 22 q19 12 38 0 q-4 10 -19 10 q-15 0 -19 -10z" fill="#e0392b"/>
-                <path d="M14 24 l10 14 l8 -6 z" fill="#e0392b"/>
+                <path d="M-21 -22 q21 -15 42 0 q-21 -7 -42 0z" fill="#ffd23f"/>
+                <path d="M-26 22 q26 14 52 0 q-6 12 -26 12 q-20 0 -26 -12z" fill="#ffd23f"/>
+                <path d="M20 24 l12 12 l8 -6 z" fill="#ffd23f"/>
               </g>
             </g>
-            <g class="numbox" transform="translate(-96,26)">
-              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
-              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">5</text>
+            <g class="numbox" transform="translate(-100,30)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">5</text>
             </g>
           </g>
 
-          <!-- ============ 粮仓 1 ============ -->
-          <g class="bld avail sel" data-id="1" transform="translate(430,520)">
+          <!-- ============ 粮仓 1：绿纹瓜（小推车） ============ -->
+          <g class="bld avail sel" data-id="1" transform="translate(402,512)">
             <ellipse class="glow" cx="0" cy="0" rx="130" ry="86" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="0" cy="12" rx="78" ry="18" fill="rgba(70,100,30,.25)"/>
-              <rect x="-60" y="2" width="120" height="22" rx="6" fill="#c08a3e"/><rect x="-60" y="2" width="120" height="7" rx="3" fill="#d8a95c"/>
-              <ellipse cx="0" cy="-52" rx="72" ry="62" fill="url(#gGourd)"/>
-              <g fill="#4f8a18" opacity=".8">
-                <path d="M-46 -78 Q-2 -66 -46 -30" fill="none" stroke="#4f8a18" stroke-width="6"/>
-                <path d="M-16 -100 Q4 -80 -16 -60" fill="none" stroke="#4f8a18" stroke-width="6"/>
-                <path d="M20 -96 Q4 -80 20 -60" fill="none" stroke="#4f8a18" stroke-width="6"/>
-                <path d="M48 -76 Q4 -66 48 -30" fill="none" stroke="#4f8a18" stroke-width="6"/>
+              <ellipse cx="0" cy="30" rx="84" ry="15" fill="rgba(60,90,20,.25)"/>
+              <!-- 钢制小推车 -->
+              <rect x="-68" y="16" width="136" height="14" rx="5" fill="#c3ccd2" stroke="#8f9ba3" stroke-width="2.5"/>
+              <rect x="-68" y="16" width="136" height="5" rx="2.5" fill="#e6edf1"/>
+              <rect x="-68" y="28" width="136" height="7" rx="3" fill="#8f9ba3"/>
+              <circle cx="-42" cy="42" r="12" fill="#aab4bb" stroke="#7a868e" stroke-width="3"/><circle cx="-42" cy="42" r="3.5" fill="#e6edf1"/>
+              <circle cx="42" cy="42" r="12" fill="#aab4bb" stroke="#7a868e" stroke-width="3"/><circle cx="42" cy="42" r="3.5" fill="#e6edf1"/>
+              <rect x="62" y="-4" width="9" height="30" rx="4" fill="#9aa5ad"/>
+              <!-- 编织筐 -->
+              <path d="M-52 16 Q-46 -6 0 -6 Q46 -6 52 16 Z" fill="#c9973f"/>
+              <g stroke="#a5751f" stroke-width="2" opacity=".85" fill="none"><path d="M-46 4 Q0 14 46 4"/><path d="M-40 12 Q0 20 40 12"/></g>
+              <!-- 绿纹瓜身 -->
+              <path d="M-50 -6 Q-60 -62 0 -74 Q60 -62 50 -6 Q0 8 -50 -6 Z" fill="#8fc72c"/>
+              <g fill="#f2d84c">
+                <path d="M-30 -68 Q-40 -38 -32 -4 Q-24 -40 -18 -68 Z"/>
+                <path d="M-2 -74 Q-10 -38 -6 -2 Q4 -40 6 -74 Z"/>
+                <path d="M30 -68 Q40 -38 32 -4 Q24 -40 18 -68 Z"/>
               </g>
-              <g transform="translate(0,-104)">
-                <path d="M0 0 q-30 -16 -52 -6 q24 8 30 20z" fill="#5f9c22"/>
-                <path d="M0 0 q30 -16 52 -6 q-24 8 -30 20z" fill="#4f8a18"/>
-                <path d="M0 -4 q-6 -20 6 -34" stroke="#5f9c22" stroke-width="6" fill="none"/>
-              </g>
-              <path d="M-30 -20 q10 14 4 24" fill="none" stroke="#e0392b" stroke-width="4"/><circle cx="-26" cy="-24" r="7" fill="#ff8fb0"/>
-              <path d="M34 -34 q-8 12 -2 22" fill="none" stroke="#e0392b" stroke-width="4"/><circle cx="36" cy="-38" r="7" fill="#ff8fb0"/>
+              <path d="M-50 -6 Q0 8 50 -6" fill="none" stroke="#6ba81e" stroke-width="3" opacity=".55"/>
+              <!-- 瓜蒂与叶 -->
+              <rect x="-6" y="-86" width="12" height="16" rx="5" fill="#7a5a1e"/>
+              <path d="M0 -78 q-26 -20 -48 -10 q22 8 26 26z" fill="#4f8a18"/>
+              <path d="M0 -78 q26 -20 48 -10 q-22 8 -26 26z" fill="#5f9c22"/>
             </g>
-            <g class="numbox" transform="translate(-72,10)">
-              <path d="M-24 -34 L24 -34 L24 10 Q0 26 -24 10 Z" fill="#e9f0d2" stroke="#9aa87c" stroke-width="3"/>
-              <text x="0" y="4" font-size="40" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">1</text>
+            <g class="numbox" transform="translate(-90,28)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">1</text>
             </g>
           </g>
 
-          <!-- ============ 粮仓 2 ============ -->
-          <g class="bld locked" data-id="2" transform="translate(720,500)">
-            <ellipse class="glow" cx="0" cy="6" rx="130" ry="84" fill="url(#gGlow)"/>
+          <!-- ============ 粮仓 2：紫盆粉旋 ============ -->
+          <g class="bld locked" data-id="2" transform="translate(700,498)">
+            <ellipse class="glow" cx="0" cy="8" rx="132" ry="86" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="0" cy="14" rx="86" ry="20" fill="rgba(70,100,30,.25)"/>
-              <path d="M-78 12 Q-70 -20 0 -20 Q70 -20 78 12 Q40 26 -40 26 Q-74 22 -78 12 Z" fill="#574a8c"/>
-              <ellipse cx="0" cy="-30" rx="66" ry="44" fill="url(#gPurp)"/>
-              <ellipse cx="0" cy="-72" rx="46" ry="38" fill="#e6dcf8"/>
-              <ellipse cx="-16" cy="-88" rx="20" ry="16" fill="#f5a6c0"/>
-              <ellipse cx="18" cy="-86" rx="18" ry="15" fill="#ffd0e0"/>
-              <path d="M-6 -96 q30 -8 44 6 q-24 6 -40 4z" fill="#ffcf3f"/>
-              <ellipse cx="0" cy="-104" rx="22" ry="14" fill="#fff2d6"/>
-              <circle cx="-8" cy="-106" r="3" fill="#3a2a1a"/><circle cx="8" cy="-106" r="3" fill="#3a2a1a"/>
-              <path d="M-58 -34 q-14 14 -8 34" fill="none" stroke="#e9c25a" stroke-width="6"/>
-              <path d="M58 -34 q14 14 8 34" fill="none" stroke="#e9c25a" stroke-width="6"/>
+              <ellipse cx="0" cy="20" rx="86" ry="18" fill="rgba(60,90,20,.25)"/>
+              <path d="M-74 16 Q-66 -30 0 -30 Q66 -30 74 16 Q38 34 -38 34 Q-72 30 -74 16 Z" fill="url(#gPurple)"/>
+              <ellipse cx="0" cy="-28" rx="68" ry="22" fill="#b6a9f0"/>
+              <ellipse cx="0" cy="-44" rx="48" ry="34" fill="#fdeef4"/>
+              <path d="M-32 -44 q32 -32 64 0 q-32 24 -64 0z" fill="#f7bcd4"/>
+              <path d="M-20 -54 q20 -24 40 0 q-20 16 -40 0z" fill="#fff7fa"/>
+              <path d="M-8 -64 q8 -20 16 0 q-8 10 -16 0z" fill="#f7bcd4"/>
+              <g fill="#e0952e">
+                <path d="M-58 22 l-12 14 l12 2z"/><path d="M58 22 l12 14 l-12 2z"/><path d="M0 30 l-7 14 l14 0z"/>
+              </g>
             </g>
-            <g class="numbox" transform="translate(-76,12)">
-              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
-              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">2</text>
+            <g class="numbox" transform="translate(-86,20)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">2</text>
+            </g>
+          </g>
+
+          <!-- 右上角小按钮 -->
+          <g transform="translate(944,36)">
+            <circle r="19" fill="#ffd23f" stroke="#e0801a" stroke-width="3"/><circle r="13" fill="#ff86b4"/>
+            <path d="M0 -6 q6 -7 11 -1 q-4 9 -11 12 q-7 -3 -11 -12 q5 -6 11 1z" fill="#fff"/>
+          </g>
+          <g transform="translate(988,36)">
+            <circle r="19" fill="#ffd23f" stroke="#e0801a" stroke-width="3"/>
+            <circle r="9" fill="#f6c62c"/><circle r="4" fill="#e0801a"/>
+          </g>
+
+          <!-- Q宠农庄木牌（原版拱顶木牌 + 金色立体字） -->
+          <g transform="translate(158,486) rotate(-3)">
+            <rect x="-58" y="4" width="13" height="74" rx="4" fill="url(#gPost)" stroke="#7a4a12" stroke-width="2"/>
+            <rect x="46" y="2" width="13" height="76" rx="4" fill="url(#gPost)" stroke="#7a4a12" stroke-width="2"/>
+            <path d="M-82 24 L-82 -8 Q0 -46 82 -8 L82 24 Q0 48 -82 24 Z" fill="#d9b170" stroke="#8a5c17" stroke-width="6"/>
+            <path d="M-72 19 L-72 -4 Q0 -34 72 -4 L72 19 Q0 40 -72 19 Z" fill="none" stroke="#c39a52" stroke-width="3"/>
+            <circle cx="-70" cy="6" r="4" fill="#a5701f"/><circle cx="70" cy="6" r="4" fill="#a5701f"/>
+            <text x="18" y="-6" font-size="23" font-weight="900" text-anchor="middle" fill="#ffd23f" stroke="#b8791f" stroke-width="5" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial" transform="rotate(7 18 -6)">Q宠</text>
+            <text x="-16" y="20" font-size="28" font-weight="900" text-anchor="middle" fill="#ffd23f" stroke="#b8791f" stroke-width="5" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial" transform="rotate(4 -16 20)">农庄</text>
+          </g>
+
+          <!-- 右侧木牌菜单（原版：竖木柱 + 左右交替的箭形木牌 + 彩色星标） -->
+          <g>
+            <!-- 木柱 -->
+            <rect x="898" y="284" width="24" height="312" rx="12" fill="url(#gPost)" stroke="#7a4a12" stroke-width="3"/>
+            <path d="M898 294 Q910 268 922 294" fill="none" stroke="#8a5c17" stroke-width="4" stroke-linecap="round"/>
+
+            <!-- 守卫农庄（木牌朝右，红星在右端） -->
+            <g class="msign" data-act="guard">
+              <g transform="translate(860,312) rotate(-3)">
+                <path d="M-120 -26 H96 L120 0 L96 26 H-120 Q-132 26 -132 0 Q-132 -26 -120 -26 Z" fill="#b3792e" stroke="#7a4a12" stroke-width="3"/>
+                <path d="M-116 -19 H94 L112 0 L94 19 H-116 Q-124 19 -124 0 Q-124 -19 -116 -19 Z" fill="#e0b062"/>
+                <path d="M-116 -19 H94 L112 0 L94 19 H-116 Q-124 19 -124 0 Q-124 -19 -116 -19 Z" fill="none" stroke="#f6e2b0" stroke-width="2" opacity=".75"/>
+                <path d="M80 -15 L83.5 -4.6 L94.3 -4.6 L85.6 2.5 L88.8 13 L80 6 L71.2 13 L74.4 2.5 L65.7 -4.6 L76.5 -4.6 Z" fill="#c0392b" stroke="#7a1f14" stroke-width="2"/>
+                <text x="-30" y="9" font-size="26" font-weight="900" text-anchor="middle" fill="#7c2d12" stroke="#ffe9a8" stroke-width="4" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial">守卫农庄</text>
+              </g>
+            </g>
+
+            <!-- 游戏规则（木牌朝左，金星在左端） -->
+            <g class="msign" data-act="rules">
+              <g transform="translate(860,376) rotate(2)">
+                <path d="M120 -26 H-96 L-120 0 L-96 26 H120 Q132 26 132 0 Q132 -26 120 -26 Z" fill="#b3792e" stroke="#7a4a12" stroke-width="3"/>
+                <path d="M116 -19 H-94 L-112 0 L-94 19 H116 Q124 19 124 0 Q124 -19 116 -19 Z" fill="#e0b062"/>
+                <path d="M116 -19 H-94 L-112 0 L-94 19 H116 Q124 19 124 0 Q124 -19 116 -19 Z" fill="none" stroke="#f6e2b0" stroke-width="2" opacity=".75"/>
+                <path d="M-80 -15 L-76.5 -4.6 L-65.7 -4.6 L-74.4 2.5 L-71.2 13 L-80 6 L-88.8 13 L-85.6 2.5 L-94.3 -4.6 L-83.5 -4.6 Z" fill="#f5c531" stroke="#a5731f" stroke-width="2"/>
+                <text x="26" y="9" font-size="26" font-weight="900" text-anchor="middle" fill="#fdf3d0" stroke="#9c6b26" stroke-width="4" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial">游戏规则</text>
+              </g>
+            </g>
+
+            <!-- 排行奖励（木牌朝右，紫星在右端） -->
+            <g class="msign" data-act="rank">
+              <g transform="translate(860,440) rotate(-2)">
+                <path d="M-120 -26 H96 L120 0 L96 26 H-120 Q-132 26 -132 0 Q-132 -26 -120 -26 Z" fill="#b3792e" stroke="#7a4a12" stroke-width="3"/>
+                <path d="M-116 -19 H94 L112 0 L94 19 H-116 Q-124 19 -124 0 Q-124 -19 -116 -19 Z" fill="#e0b062"/>
+                <path d="M-116 -19 H94 L112 0 L94 19 H-116 Q-124 19 -124 0 Q-124 -19 -116 -19 Z" fill="none" stroke="#f6e2b0" stroke-width="2" opacity=".75"/>
+                <path d="M80 -15 L83.5 -4.6 L94.3 -4.6 L85.6 2.5 L88.8 13 L80 6 L71.2 13 L74.4 2.5 L65.7 -4.6 L76.5 -4.6 Z" fill="#9b6fe0" stroke="#6b3fae" stroke-width="2"/>
+                <text x="-30" y="9" font-size="26" font-weight="900" text-anchor="middle" fill="#7a4fc9" stroke="#fff3ff" stroke-width="4" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial">排行奖励</text>
+              </g>
+            </g>
+
+            <!-- 返回首页（木牌朝左，蓝星在左端） -->
+            <g class="msign" data-act="home">
+              <g transform="translate(860,504) rotate(2)">
+                <path d="M120 -26 H-96 L-120 0 L-96 26 H120 Q132 26 132 0 Q132 -26 120 -26 Z" fill="#b3792e" stroke="#7a4a12" stroke-width="3"/>
+                <path d="M116 -19 H-94 L-112 0 L-94 19 H116 Q124 19 124 0 Q124 -19 116 -19 Z" fill="#e0b062"/>
+                <path d="M116 -19 H-94 L-112 0 L-94 19 H116 Q124 19 124 0 Q124 -19 116 -19 Z" fill="none" stroke="#f6e2b0" stroke-width="2" opacity=".75"/>
+                <path d="M-80 -15 L-76.5 -4.6 L-65.7 -4.6 L-74.4 2.5 L-71.2 13 L-80 6 L-88.8 13 L-85.6 2.5 L-94.3 -4.6 L-83.5 -4.6 Z" fill="#3f97e0" stroke="#1f6bb0" stroke-width="2"/>
+                <text x="26" y="9" font-size="26" font-weight="900" text-anchor="middle" fill="#2f7dc0" stroke="#eaf6ff" stroke-width="4" style="paint-order:stroke;stroke-linejoin:round" font-family="Microsoft YaHei,Arial">返回首页</text>
+              </g>
             </g>
           </g>
         </svg>
 
         <div class="bubble" id="bubble"></div>
-        <div class="fsign"><div class="t1">Q宠</div><div class="t2">农庄</div></div>
-
-        <div class="menu">
-          <button class="mbtn hot" data-act="guard"><span>守卫农庄</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
-          <button class="mbtn" data-act="rules"><span>游戏规则</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
-          <button class="mbtn" data-act="rank"><span>排行奖励</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
-          <button class="mbtn" data-act="home"><span>返回首页</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
-        </div>
       </div>
     </div>
   </div>
@@ -668,7 +784,7 @@ function renderScene(){
   b.classList.add('on');
 }
 /* 气泡锚点（与 SVG 中粮仓位置一致） */
-var bldPos = { 1:{x:430,y:400}, 2:{x:720,y:380}, 3:{x:190,y:190}, 4:{x:500,y:175}, 5:{x:792,y:160} };
+var bldPos = { 1:{x:402,y:404}, 2:{x:700,y:410}, 3:{x:196,y:158}, 4:{x:478,y:140}, 5:{x:800,y:64} };
 
 document.getElementById('scene-svg').addEventListener('click', function(e){
   var el = e.target.closest ? e.target.closest('.bld') : null;
@@ -777,7 +893,7 @@ document.getElementById('btn-next').addEventListener('click', function(){
 /* ============================================================
    右侧木牌菜单
    ============================================================ */
-document.querySelectorAll('.menu .mbtn').forEach(function(b){
+document.querySelectorAll('.msign').forEach(function(b){
   b.addEventListener('click', function(){
     var act=b.getAttribute('data-act');
     if(act==='guard') openGuard();
