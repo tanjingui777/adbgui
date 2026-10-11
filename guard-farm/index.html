@@ -208,6 +208,9 @@
       <div class="scene" id="scene">
         <svg id="scene-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
           <defs>
+            <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffe75a"/><stop offset="1" stop-color="#fdd11a"/>
+            </linearGradient>
             <linearGradient id="gStraw" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#f7e391"/><stop offset="1" stop-color="#e7c95d"/>
             </linearGradient>
@@ -216,15 +219,6 @@
             </linearGradient>
             <linearGradient id="gPath" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#f3e4ad"/><stop offset="1" stop-color="#e2cf88"/>
-            </linearGradient>
-            <linearGradient id="gBarnBlue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#5cb3e8"/><stop offset="1" stop-color="#2f86c8"/>
-            </linearGradient>
-            <linearGradient id="gPumpkin" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ffab34"/><stop offset="1" stop-color="#ef7a10"/>
-            </linearGradient>
-            <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#a99ce8"/><stop offset="1" stop-color="#7f6fd0"/>
             </linearGradient>
             <linearGradient id="gPost" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stop-color="#b07f34"/><stop offset=".5" stop-color="#d8a95c"/><stop offset="1" stop-color="#96681f"/>
@@ -235,48 +229,52 @@
             </radialGradient>
           </defs>
 
-          <!-- 金色麦田远景 -->
-          <rect x="0" y="0" width="1000" height="600" fill="url(#gStraw)"/>
-          <g stroke="#d9b74e" stroke-width="2.5" opacity=".5" fill="none">
-            <path d="M-20 58 Q500 38 1020 60"/>
-            <path d="M-20 90 Q500 70 1020 92"/>
+          <!-- 金色天空（官方活动页同款黄底） -->
+          <rect x="0" y="0" width="1000" height="600" fill="url(#gSky)"/>
+          <g fill="#fff7c8" opacity=".55">
+            <ellipse cx="118" cy="66" rx="72" ry="22"/><ellipse cx="162" cy="54" rx="46" ry="17"/>
+            <ellipse cx="700" cy="52" rx="64" ry="20"/><ellipse cx="742" cy="42" rx="40" ry="14"/>
+            <ellipse cx="428" cy="84" rx="54" ry="16"/>
+          </g>
+          <g fill="#ffffff" opacity=".26">
+            <ellipse cx="300" cy="38" rx="42" ry="12"/><ellipse cx="846" cy="90" rx="48" ry="14"/>
           </g>
 
-          <!-- 麦垛 -->
-          <g>
-            <ellipse cx="150" cy="104" rx="58" ry="36" fill="#eeca5e"/><path d="M94 104 q56 -32 112 0" fill="none" stroke="#cfa63c" stroke-width="2.5"/>
-            <ellipse cx="884" cy="100" rx="52" ry="32" fill="#eeca5e"/><path d="M834 100 q50 -28 100 0" fill="none" stroke="#cfa63c" stroke-width="2.5"/>
-            <ellipse cx="46" cy="110" rx="40" ry="24" fill="#f3da80"/>
+          <!-- 麦垛远景 -->
+          <g opacity=".85">
+            <ellipse cx="118" cy="120" rx="56" ry="30" fill="#eaca5c"/><path d="M64 120 q54 -28 108 0" fill="none" stroke="#cfa63c" stroke-width="2.5"/>
+            <ellipse cx="86" cy="122" rx="40" ry="22" fill="#f0d678"/>
+            <ellipse cx="900" cy="120" rx="50" ry="28" fill="#eaca5c"/>
           </g>
 
           <!-- 白色矮栅栏 -->
           <g>
-            <rect x="0" y="100" width="1000" height="9" fill="#f1e6c1"/>
-            <rect x="0" y="122" width="1000" height="8" fill="#e5d7a8"/>
-            <g fill="#f6ecd4">
-              <path d="M14 92 h14 v46 h-14z"/><path d="M74 92 h14 v46 h-14z"/><path d="M134 92 h14 v46 h-14z"/>
-              <path d="M194 92 h14 v46 h-14z"/><path d="M254 92 h14 v46 h-14z"/><path d="M314 92 h14 v46 h-14z"/>
-              <path d="M374 92 h14 v46 h-14z"/><path d="M434 92 h14 v46 h-14z"/><path d="M494 92 h14 v46 h-14z"/>
-              <path d="M554 92 h14 v46 h-14z"/><path d="M614 92 h14 v46 h-14z"/><path d="M674 92 h14 v46 h-14z"/>
-              <path d="M734 92 h14 v46 h-14z"/><path d="M794 92 h14 v46 h-14z"/><path d="M854 92 h14 v46 h-14z"/>
-              <path d="M914 92 h14 v46 h-14z"/><path d="M974 92 h14 v46 h-14z"/>
+            <rect x="0" y="136" width="1000" height="9" fill="#f3e9c8"/>
+            <rect x="0" y="156" width="1000" height="8" fill="#e7d9ab"/>
+            <g fill="#f8efd8">
+              <path d="M14 128 h14 v44 h-14z"/><path d="M74 128 h14 v44 h-14z"/><path d="M134 128 h14 v44 h-14z"/>
+              <path d="M194 128 h14 v44 h-14z"/><path d="M254 128 h14 v44 h-14z"/><path d="M314 128 h14 v44 h-14z"/>
+              <path d="M374 128 h14 v44 h-14z"/><path d="M434 128 h14 v44 h-14z"/><path d="M494 128 h14 v44 h-14z"/>
+              <path d="M554 128 h14 v44 h-14z"/><path d="M614 128 h14 v44 h-14z"/><path d="M674 128 h14 v44 h-14z"/>
+              <path d="M734 128 h14 v44 h-14z"/><path d="M794 128 h14 v44 h-14z"/><path d="M854 128 h14 v44 h-14z"/>
+              <path d="M914 128 h14 v44 h-14z"/><path d="M974 128 h14 v44 h-14z"/>
             </g>
           </g>
 
           <!-- 草地 -->
-          <path d="M0 158 Q160 138 320 156 Q480 174 640 152 Q800 130 1000 156 V600 H0 Z" fill="url(#gGrass)"/>
+          <path d="M0 176 Q170 152 340 172 Q510 192 670 168 Q830 146 1000 172 V600 H0 Z" fill="url(#gGrass)"/>
 
           <!-- 交叉土路 -->
           <g fill="url(#gPath)">
-            <path d="M-20 190 Q220 300 470 600 L640 600 Q360 300 120 176 Z"/>
-            <path d="M1020 178 Q760 300 540 600 L400 600 Q660 300 900 170 Z"/>
+            <path d="M-20 208 Q220 320 470 600 L640 600 Q360 320 120 194 Z"/>
+            <path d="M1020 196 Q760 320 540 600 L400 600 Q660 320 900 188 Z"/>
           </g>
           <g fill="#d8c284" opacity=".55">
-            <circle cx="250" cy="300" r="4"/><circle cx="330" cy="382" r="3.5"/><circle cx="700" cy="332" r="4"/><circle cx="620" cy="420" r="3.5"/>
+            <circle cx="250" cy="318" r="4"/><circle cx="330" cy="400" r="3.5"/><circle cx="700" cy="350" r="4"/><circle cx="620" cy="438" r="3.5"/>
           </g>
 
           <!-- 中央菜畦 -->
-          <g transform="translate(560,432)">
+          <g transform="translate(872,470)">
             <rect x="-70" y="-34" width="140" height="72" rx="6" fill="#c08a3e"/>
             <rect x="-62" y="-26" width="124" height="56" rx="4" fill="#9c6b26"/>
             <g fill="#e8801e">
@@ -292,204 +290,34 @@
           </g>
 
           <!-- 倒木 -->
-          <g transform="translate(258,470) rotate(-4)">
-            <rect x="-46" y="-13" width="92" height="26" rx="13" fill="#b07f34"/>
-            <ellipse cx="46" cy="0" rx="10" ry="13" fill="#e0b072"/><ellipse cx="46" cy="0" rx="5" ry="7" fill="#c08a3e"/>
-            <path d="M-30 -13 q6 -8 16 -4" stroke="#8a5c17" stroke-width="2" fill="none"/>
+          <g transform="translate(830,556) rotate(-4)">
+            <rect x="-40" y="-11" width="80" height="22" rx="11" fill="#b07f34"/>
+            <ellipse cx="40" cy="0" rx="9" ry="11" fill="#e0b072"/><ellipse cx="40" cy="0" rx="4.5" ry="6" fill="#c08a3e"/>
           </g>
           <!-- 小花 -->
-          <g transform="translate(392,404)">
+          <g transform="translate(70,470)">
             <circle cx="0" cy="0" r="7" fill="#ff9f2e"/><circle cx="0" cy="0" r="3" fill="#ffd23f"/>
+          </g>
+          <g transform="translate(760,300)">
+            <circle cx="0" cy="0" r="6" fill="#ff9f2e"/><circle cx="0" cy="0" r="2.6" fill="#ffd23f"/>
           </g>
 
           <!-- 灌木树 -->
           <g>
-            <rect x="30" y="196" width="12" height="30" fill="#8a5c17"/>
-            <circle cx="36" cy="176" r="30" fill="#4fa81e"/><circle cx="14" cy="194" r="20" fill="#5fbc2a"/><circle cx="58" cy="194" r="20" fill="#3f8f18"/>
-            <circle cx="116" cy="212" r="19" fill="#5fbc2a"/>
-            <rect x="968" y="212" width="10" height="24" fill="#8a5c17"/>
-            <circle cx="973" cy="198" r="24" fill="#4fa81e"/><circle cx="956" cy="212" r="16" fill="#5fbc2a"/>
+            <rect x="44" y="212" width="12" height="30" fill="#8a5c17"/>
+            <circle cx="50" cy="192" r="30" fill="#4fa81e"/><circle cx="28" cy="210" r="20" fill="#5fbc2a"/><circle cx="72" cy="210" r="20" fill="#3f8f18"/>
+            <rect x="956" y="216" width="10" height="26" fill="#8a5c17"/>
+            <circle cx="961" cy="200" r="24" fill="#4fa81e"/><circle cx="944" cy="216" r="16" fill="#5fbc2a"/>
           </g>
 
-          <!-- ============ 粮仓 3：红顶向日葵屋 ============ -->
-          <g class="bld locked" data-id="3" transform="translate(196,300)">
-            <ellipse class="glow" cx="0" cy="8" rx="120" ry="84" fill="url(#gGlow)"/>
+          <!-- ============ 粮仓 1（最小 · 官方茅草粮仓素材） ============ -->
+          <g class="bld avail sel" data-id="1" transform="translate(180,252)">
+            <ellipse class="glow" cx="0" cy="-48" rx="76" ry="62" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="6" cy="22" rx="86" ry="16" fill="rgba(60,90,20,.25)"/>
-              <!-- 主屋墙体 -->
-              <path d="M-60 20 Q-68 -30 -50 -52 Q0 -66 50 -52 Q68 -30 60 20 Z" fill="#f7edd2"/>
-              <path d="M-60 20 Q-30 32 0 32 Q30 32 60 20 Q30 26 0 26 Q-30 26 -60 20 Z" fill="#e6d8b4"/>
-              <path d="M-64 2 Q-30 20 0 20 Q30 20 64 2 L60 20 Q30 30 0 30 Q-30 30 -60 20 Z" fill="#f2d84c"/>
-              <!-- 红橙穹顶 -->
-              <path d="M-72 -44 Q-72 -98 -6 -106 Q62 -112 72 -44 Q0 -22 -72 -44 Z" fill="#ee5a2c"/>
-              <path d="M-72 -44 Q-36 -30 0 -28 Q36 -26 72 -44 Q36 -40 0 -40 Q-36 -40 -72 -44 Z" fill="#c8431a" opacity=".5"/>
-              <path d="M-56 -58 Q0 -76 56 -58" fill="none" stroke="#f47a44" stroke-width="3" opacity=".7"/>
-              <path d="M-64 -82 Q0 -100 64 -82" fill="none" stroke="#f47a44" stroke-width="3" opacity=".5"/>
-              <path d="M-10 -106 Q0 -128 12 -126 Q8 -114 6 -106 Z" fill="#c8431a"/>
-              <circle cx="4" cy="-120" r="6" fill="#ee5a2c"/>
-              <!-- 金色向日葵装饰 -->
-              <g transform="translate(-4,-66)">
-                <g fill="#ffd23f" stroke="#e9a51f" stroke-width="1.5">
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(45)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(90)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(135)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(180)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(225)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(270)"/>
-                  <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" transform="rotate(315)"/>
-                </g>
-                <circle r="12" fill="#f2a72c" stroke="#e0861a" stroke-width="2"/>
-                <path d="M-7 2 A8 8 0 1 1 4 -6 A5 5 0 1 0 -2 4" fill="none" stroke="#fff0b0" stroke-width="2"/>
-              </g>
-              <!-- 门 -->
-              <path d="M-15 20 L-15 -12 Q0 -24 15 -12 L15 20 Z" fill="#9c6b26" stroke="#7a4c14" stroke-width="2"/>
-              <path d="M0 -18 V20" stroke="#7a4c14" stroke-width="1.6"/>
-              <!-- 左侧旋钮木架 -->
-              <g transform="translate(-62,-6)">
-                <rect x="-9" y="-16" width="18" height="34" rx="4" fill="#b07f34" stroke="#8a5c17" stroke-width="2"/>
-                <circle cx="0" cy="-7" r="5" fill="#f2d84c" stroke="#c8781a" stroke-width="1.5"/>
-                <circle cx="0" cy="8" r="5" fill="#ee5a2c" stroke="#c8431a" stroke-width="1.5"/>
-              </g>
-              <!-- 右侧小屋 -->
-              <g transform="translate(56,-6)">
-                <path d="M-24 0 Q-24 -32 0 -32 Q24 -32 24 0 Z" fill="#f7edd2"/>
-                <path d="M-30 -22 Q-30 -48 0 -52 Q30 -48 30 -22 Q0 -12 -30 -22 Z" fill="#ee5a2c"/>
-                <path d="M-30 -22 Q0 -12 30 -22 Q0 -17 -30 -22 Z" fill="#c8431a" opacity=".45"/>
-                <circle cx="2" cy="-6" r="7" fill="#f2d84c" stroke="#c8781a" stroke-width="2"/>
-              </g>
+              <ellipse cx="0" cy="2" rx="50" ry="11" fill="rgba(70,54,14,.30)"/>
+              <image href="assets/sprites/granary_green.png" x="-59" y="-118" width="118" height="118" preserveAspectRatio="xMidYMid meet"/>
             </g>
-            <g class="numbox" transform="translate(-86,24)">
-              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
-              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
-              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
-              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">3</text>
-            </g>
-          </g>
-
-          <!-- ============ 粮仓 4：蓝顶奶牛谷仓 ============ -->
-          <g class="bld locked" data-id="4" transform="translate(478,286)">
-            <ellipse class="glow" cx="0" cy="12" rx="146" ry="92" fill="url(#gGlow)"/>
-            <g class="art">
-              <ellipse cx="0" cy="18" rx="104" ry="20" fill="rgba(60,90,20,.25)"/>
-              <rect x="-88" y="-70" width="176" height="90" rx="4" fill="url(#gBarnBlue)"/>
-              <g stroke="#2f86c8" stroke-width="2.4" opacity=".5"><path d="M-58 -70 V20"/><path d="M-28 -70 V20"/><path d="M28 -70 V20"/><path d="M58 -70 V20"/></g>
-              <!-- 屋顶（奶牛斑点纹） -->
-              <path d="M-102 -68 Q0 -132 102 -68 Z" fill="#7ec4ee"/>
-              <g fill="#b8e0f6">
-                <ellipse cx="-44" cy="-88" rx="24" ry="14" transform="rotate(-16 -44 -88)"/>
-                <ellipse cx="18" cy="-100" rx="28" ry="15" transform="rotate(10 18 -100)"/>
-                <ellipse cx="62" cy="-80" rx="20" ry="12" transform="rotate(20 62 -80)"/>
-                <ellipse cx="-6" cy="-78" rx="17" ry="9" transform="rotate(-8 -6 -78)"/>
-              </g>
-              <path d="M-102 -68 Q0 -132 102 -68 L86 -68 Q0 -114 -86 -68 Z" fill="#2f86c8"/>
-              <!-- 木烟囱 -->
-              <g transform="translate(36,-98)">
-                <rect x="-6" y="-26" width="13" height="30" rx="3" fill="#e0b062" stroke="#8a5c17" stroke-width="2"/>
-                <rect x="-14" y="-30" width="30" height="10" rx="3" fill="#f0cf8a" stroke="#8a5c17" stroke-width="2"/>
-              </g>
-              <g transform="translate(0,-16)">
-                <ellipse cx="0" cy="0" rx="32" ry="26" fill="#a5701f"/>
-                <ellipse cx="-22" cy="-14" rx="10" ry="12" fill="#c98a3e" transform="rotate(-28 -22 -14)"/>
-                <ellipse cx="22" cy="-14" rx="10" ry="12" fill="#c98a3e" transform="rotate(28 22 -14)"/>
-                <path d="M-30 -22 q-18 -12 -34 -4 q12 4 16 16z" fill="#f2e6c4"/>
-                <path d="M30 -22 q18 -12 34 -4 q-12 4 -16 16z" fill="#f2e6c4"/>
-                <ellipse cx="0" cy="9" rx="18" ry="13" fill="#e8c9a0"/>
-                <circle cx="-9" cy="5" r="3" fill="#5a3d0a"/><circle cx="9" cy="5" r="3" fill="#5a3d0a"/>
-                <circle cx="-14" cy="-8" r="4.5" fill="#2a1a0a"/><circle cx="14" cy="-8" r="4.5" fill="#2a1a0a"/>
-              </g>
-              <rect x="-30" y="-8" width="60" height="32" rx="3" fill="#8a5c17"/>
-              <g stroke="#6b4510" stroke-width="2"><path d="M-18 -8 V24"/><path d="M-6 -8 V24"/><path d="M6 -8 V24"/><path d="M18 -8 V24"/></g>
-              <g transform="translate(86,18)">
-                <rect x="-11" y="-26" width="22" height="30" rx="5" fill="#eef4f8" stroke="#c2ced6" stroke-width="2.5"/>
-                <rect x="-6" y="-34" width="12" height="10" rx="3" fill="#dbe6ec"/>
-                <rect x="-11" y="-14" width="22" height="8" fill="#9fb0b8"/>
-              </g>
-              <g transform="translate(110,22)"><rect x="-9" y="-20" width="18" height="24" rx="4" fill="#eef4f8" stroke="#c2ced6" stroke-width="2.5"/></g>
-            </g>
-            <g class="numbox" transform="translate(-84,22)">
-              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
-              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
-              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
-              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">4</text>
-            </g>
-          </g>
-
-          <!-- ============ 粮仓 5：南瓜屋（带企鹅） ============ -->
-          <g class="bld locked" data-id="5" transform="translate(802,220)">
-            <ellipse class="glow" cx="0" cy="20" rx="156" ry="100" fill="url(#gGlow)"/>
-            <g class="art">
-              <ellipse cx="0" cy="34" rx="116" ry="24" fill="rgba(60,90,20,.25)"/>
-              <rect x="-84" y="10" width="168" height="22" rx="4" fill="#b07f34"/>
-              <rect x="-76" y="30" width="14" height="30" fill="#8a5c17"/><rect x="62" y="30" width="14" height="30" fill="#8a5c17"/>
-              <ellipse cx="0" cy="-52" rx="94" ry="82" fill="url(#gPumpkin)"/>
-              <g fill="#f9a02a" opacity=".9"><ellipse cx="-54" cy="-52" rx="26" ry="76"/><ellipse cx="54" cy="-52" rx="26" ry="76"/></g>
-              <g fill="none" stroke="#c95e08" stroke-width="3" opacity=".6"><path d="M-34 -126 Q-40 -52 -34 22"/><path d="M34 -126 Q40 -52 34 22"/></g>
-              <!-- 十字窗 -->
-              <g fill="#7a4a12"><rect x="-40" y="-98" width="20" height="20" rx="4"/><rect x="20" y="-98" width="20" height="20" rx="4"/></g>
-              <g stroke="#5a3410" stroke-width="2"><path d="M-35 -93 H-25 M-30 -98 V-78"/><path d="M25 -93 H35 M30 -98 V-78"/></g>
-              <!-- 石箍带（原版奶油色石条） -->
-              <path d="M-90 -22 Q0 -6 90 -22" fill="none" stroke="#efe9d8" stroke-width="12" stroke-linecap="round"/>
-              <path d="M-84 -22 Q0 -6 84 -22" fill="none" stroke="#cfc6ad" stroke-width="2" opacity=".65"/>
-              <path d="M-72 16 Q0 30 72 16" fill="none" stroke="#efe9d8" stroke-width="10" stroke-linecap="round"/>
-              <g fill="#efe9d8"><circle cx="-72" cy="-26" r="7"/><circle cx="72" cy="-26" r="7"/></g>
-              <rect x="-15" y="-150" width="30" height="30" rx="9" fill="#5f9c22"/>
-              <path d="M0 -150 q-30 -24 -54 -12 q24 10 28 28z" fill="#4f8a18"/>
-              <path d="M0 -150 q30 -24 54 -12 q-24 10 -28 28z" fill="#5f9c22"/>
-              <path d="M0 -148 q-14 -30 -4 -46 q14 16 8 46z" fill="#6cb02a"/>
-              <rect x="-36" y="-58" width="34" height="34" rx="8" fill="#8a5c17"/>
-              <rect x="16" y="-34" width="30" height="28" rx="7" fill="#8a5c17"/>
-              <g transform="translate(-52,38)">
-                <ellipse cx="0" cy="30" rx="30" ry="9" fill="rgba(50,80,20,.4)"/>
-                <ellipse cx="0" cy="0" rx="28" ry="32" fill="#23262e"/>
-                <ellipse cx="0" cy="4" rx="20" ry="26" fill="#fdfdff"/>
-                <ellipse cx="-28" cy="2" rx="8" ry="18" fill="#23262e" transform="rotate(18 -28 2)"/>
-                <ellipse cx="28" cy="2" rx="8" ry="18" fill="#23262e" transform="rotate(-18 28 2)"/>
-                <circle cx="-8" cy="-15" r="8" fill="#fff"/><circle cx="8" cy="-15" r="8" fill="#fff"/>
-                <circle cx="-7" cy="-15" r="4" fill="#1b1e24"/><circle cx="9" cy="-15" r="4" fill="#1b1e24"/>
-                <path d="M-5 -4 L5 -4 L0 4 Z" fill="#f5a623"/>
-                <path d="M-21 -22 q21 -15 42 0 q-21 -7 -42 0z" fill="#ffd23f"/>
-                <path d="M-26 22 q26 14 52 0 q-6 12 -26 12 q-20 0 -26 -12z" fill="#ffd23f"/>
-                <path d="M20 24 l12 12 l8 -6 z" fill="#ffd23f"/>
-              </g>
-            </g>
-            <g class="numbox" transform="translate(-100,30)">
-              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
-              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
-              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
-              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">5</text>
-            </g>
-          </g>
-
-          <!-- ============ 粮仓 1：绿纹瓜（小推车） ============ -->
-          <g class="bld avail sel" data-id="1" transform="translate(402,512)">
-            <ellipse class="glow" cx="0" cy="0" rx="130" ry="86" fill="url(#gGlow)"/>
-            <g class="art">
-              <ellipse cx="0" cy="30" rx="84" ry="15" fill="rgba(60,90,20,.25)"/>
-              <!-- 钢制小推车 -->
-              <rect x="-68" y="16" width="136" height="14" rx="5" fill="#c3ccd2" stroke="#8f9ba3" stroke-width="2.5"/>
-              <rect x="-68" y="16" width="136" height="5" rx="2.5" fill="#e6edf1"/>
-              <rect x="-68" y="28" width="136" height="7" rx="3" fill="#8f9ba3"/>
-              <circle cx="-42" cy="42" r="12" fill="#aab4bb" stroke="#7a868e" stroke-width="3"/><circle cx="-42" cy="42" r="3.5" fill="#e6edf1"/>
-              <circle cx="42" cy="42" r="12" fill="#aab4bb" stroke="#7a868e" stroke-width="3"/><circle cx="42" cy="42" r="3.5" fill="#e6edf1"/>
-              <rect x="62" y="-4" width="9" height="30" rx="4" fill="#9aa5ad"/>
-              <!-- 编织筐 -->
-              <path d="M-52 16 Q-46 -6 0 -6 Q46 -6 52 16 Z" fill="#c9973f"/>
-              <g stroke="#a5751f" stroke-width="2" opacity=".85" fill="none"><path d="M-46 4 Q0 14 46 4"/><path d="M-40 12 Q0 20 40 12"/></g>
-              <!-- 绿纹瓜身 -->
-              <path d="M-50 -6 Q-60 -62 0 -74 Q60 -62 50 -6 Q0 8 -50 -6 Z" fill="#8fc72c"/>
-              <g fill="#f2d84c">
-                <path d="M-30 -68 Q-40 -38 -32 -4 Q-24 -40 -18 -68 Z"/>
-                <path d="M-2 -74 Q-10 -38 -6 -2 Q4 -40 6 -74 Z"/>
-                <path d="M30 -68 Q40 -38 32 -4 Q24 -40 18 -68 Z"/>
-              </g>
-              <path d="M-50 -6 Q0 8 50 -6" fill="none" stroke="#6ba81e" stroke-width="3" opacity=".55"/>
-              <!-- 瓜蒂与叶 -->
-              <rect x="-6" y="-86" width="12" height="16" rx="5" fill="#7a5a1e"/>
-              <path d="M0 -78 q-26 -20 -48 -10 q22 8 26 26z" fill="#4f8a18"/>
-              <path d="M0 -78 q26 -20 48 -10 q-22 8 -26 26z" fill="#5f9c22"/>
-            </g>
-            <g class="numbox" transform="translate(-90,28)">
+            <g class="numbox" transform="translate(0,2)">
               <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
               <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
               <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
@@ -497,26 +325,63 @@
             </g>
           </g>
 
-          <!-- ============ 粮仓 2：紫盆粉旋 ============ -->
-          <g class="bld locked" data-id="2" transform="translate(700,498)">
-            <ellipse class="glow" cx="0" cy="8" rx="132" ry="86" fill="url(#gGlow)"/>
+          <!-- ============ 粮仓 2 ============ -->
+          <g class="bld locked" data-id="2" transform="translate(395,286)">
+            <ellipse class="glow" cx="0" cy="-62" rx="96" ry="78" fill="url(#gGlow)"/>
             <g class="art">
-              <ellipse cx="0" cy="20" rx="86" ry="18" fill="rgba(60,90,20,.25)"/>
-              <path d="M-74 16 Q-66 -30 0 -30 Q66 -30 74 16 Q38 34 -38 34 Q-72 30 -74 16 Z" fill="url(#gPurple)"/>
-              <ellipse cx="0" cy="-28" rx="68" ry="22" fill="#b6a9f0"/>
-              <ellipse cx="0" cy="-44" rx="48" ry="34" fill="#fdeef4"/>
-              <path d="M-32 -44 q32 -32 64 0 q-32 24 -64 0z" fill="#f7bcd4"/>
-              <path d="M-20 -54 q20 -24 40 0 q-20 16 -40 0z" fill="#fff7fa"/>
-              <path d="M-8 -64 q8 -20 16 0 q-8 10 -16 0z" fill="#f7bcd4"/>
-              <g fill="#e0952e">
-                <path d="M-58 22 l-12 14 l12 2z"/><path d="M58 22 l12 14 l-12 2z"/><path d="M0 30 l-7 14 l14 0z"/>
-              </g>
+              <ellipse cx="0" cy="2" rx="64" ry="14" fill="rgba(70,54,14,.30)"/>
+              <image href="assets/sprites/granary_blue.png" x="-76" y="-152" width="152" height="152" preserveAspectRatio="xMidYMid meet"/>
             </g>
-            <g class="numbox" transform="translate(-86,20)">
+            <g class="numbox" transform="translate(0,2)">
               <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
               <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
               <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
               <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">2</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 3 ============ -->
+          <g class="bld locked" data-id="3" transform="translate(632,320)">
+            <ellipse class="glow" cx="0" cy="-74" rx="116" ry="94" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="2" rx="76" ry="16" fill="rgba(70,54,14,.30)"/>
+              <image href="assets/sprites/granary_green.png" x="-90" y="-180" width="180" height="180" preserveAspectRatio="xMidYMid meet"/>
+            </g>
+            <g class="numbox" transform="translate(0,2)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">3</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 4 ============ -->
+          <g class="bld locked" data-id="4" transform="translate(130,512)">
+            <ellipse class="glow" cx="0" cy="-94" rx="140" ry="116" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="3" rx="95" ry="20" fill="rgba(70,54,14,.30)"/>
+              <image href="assets/sprites/granary_blue.png" x="-113" y="-225" width="225" height="225" preserveAspectRatio="xMidYMid meet"/>
+            </g>
+            <g class="numbox" transform="translate(0,2)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">4</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 5（最大） ============ -->
+          <g class="bld locked" data-id="5" transform="translate(455,575)">
+            <ellipse class="glow" cx="0" cy="-110" rx="164" ry="134" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="3" rx="110" ry="23" fill="rgba(70,54,14,.30)"/>
+              <image href="assets/sprites/granary_green.png" x="-131" y="-262" width="262" height="262" preserveAspectRatio="xMidYMid meet"/>
+            </g>
+            <g class="numbox" transform="translate(0,-22)">
+              <rect x="-5" y="8" width="10" height="30" rx="2" fill="#9aa6ad"/>
+              <path d="M-27 -34 H27 Q31 -34 31 -30 V-2 L0 22 L-31 -2 V-30 Q-31 -34 -27 -34 Z" fill="#f3f4f2" stroke="#b9c2c7" stroke-width="3"/>
+              <path d="M-21 -29 H21" stroke="#fff" stroke-width="3" opacity=".8"/>
+              <text x="0" y="2" font-size="34" font-weight="bold" text-anchor="middle" fill="#e8622a" font-family="Arial">5</text>
             </g>
           </g>
 
@@ -531,7 +396,7 @@
           </g>
 
           <!-- Q宠农庄木牌（原版拱顶木牌 + 金色立体字） -->
-          <g transform="translate(158,486) rotate(-3)">
+          <g transform="translate(650,522) scale(.82) rotate(-3)">
             <rect x="-58" y="4" width="13" height="74" rx="4" fill="url(#gPost)" stroke="#7a4a12" stroke-width="2"/>
             <rect x="46" y="2" width="13" height="76" rx="4" fill="url(#gPost)" stroke="#7a4a12" stroke-width="2"/>
             <path d="M-82 24 L-82 -8 Q0 -46 82 -8 L82 24 Q0 48 -82 24 Z" fill="#d9b170" stroke="#8a5c17" stroke-width="6"/>
@@ -784,7 +649,7 @@ function renderScene(){
   b.classList.add('on');
 }
 /* 气泡锚点（与 SVG 中粮仓位置一致） */
-var bldPos = { 1:{x:402,y:404}, 2:{x:700,y:410}, 3:{x:196,y:158}, 4:{x:478,y:140}, 5:{x:800,y:64} };
+var bldPos = { 1:{x:180,y:142}, 2:{x:395,y:142}, 3:{x:632,y:148}, 4:{x:130,y:295}, 5:{x:455,y:321} };
 
 document.getElementById('scene-svg').addEventListener('click', function(e){
   var el = e.target.closest ? e.target.closest('.bld') : null;
