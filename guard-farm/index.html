@@ -3,601 +3,1118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>守卫农庄 · QQ宠物经典游戏复原</title>
+<title>守卫农庄赢大奖 · QQ宠物 2007 经典活动复原</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body {
-    width: 100%; height: 100%; overflow: hidden;
-    background: #1a1a2e;
-    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
-    user-select: none;
-  }
-
-  #stage {
-    position: fixed; inset: 0;
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body{ width:100%; height:100%; overflow:hidden; user-select:none;
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+    color:#5a3d16;
     background:
-      radial-gradient(ellipse at 50% 30%, rgba(255,200,100,0.08) 0%, transparent 60%),
-      linear-gradient(180deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-    display: flex; align-items: center; justify-content: center;
+      radial-gradient(circle at 12% 12%, rgba(255,255,255,.55) 0%, transparent 22%),
+      radial-gradient(circle at 88% 8%, rgba(255,255,255,.4) 0%, transparent 20%),
+      linear-gradient(180deg,#ffe79a 0%,#ffd964 45%,#f7c948 100%);
   }
+  #app{ position:fixed; inset:0; }
 
-  #game-container {
-    position: relative;
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
+  /* ---------- 通用面板 ---------- */
+  .screen{ position:absolute; inset:0; display:none; overflow:auto; }
+  .screen.active{ display:block; }
+  .wrap{ max-width:960px; margin:0 auto; padding:18px 16px 40px; }
 
-  .flash-window {
-    position: absolute;
-    background: transparent;
-    border: none;
-    overflow: hidden;
-  }
-  .flash-window ruffle-player {
-    width: 100%; height: 100%;
-  }
+  .panel{ background:linear-gradient(180deg,#a8d94e 0%,#8ec93f 100%);
+    border:3px solid #d9f0a3; border-radius:16px;
+    box-shadow:0 6px 0 #6fa02c, 0 12px 26px rgba(90,61,22,.25);
+    padding:14px 16px; margin-bottom:14px; position:relative; }
+  .panel::before{ content:""; position:absolute; inset:5px; border:2px dashed rgba(255,255,255,.55);
+    border-radius:11px; pointer-events:none; }
 
-  #main-game {
-    position: relative;
-    width: min(90vw, 900px);
-    aspect-ratio: 4/3;
-    max-height: 85vh;
-    box-shadow: 0 0 60px rgba(255,180,50,0.15), 0 20px 60px rgba(0,0,0,0.6);
-    border-radius: 8px;
-    overflow: hidden;
-    background: #2d1b0e;
-  }
+  .ribbon{ display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(180deg,#fff3b0,#ffd24a);
+    border:2px solid #e6a916; border-radius:999px;
+    padding:5px 18px 5px 12px; margin:-26px 0 10px 6px;
+    box-shadow:0 3px 0 #c98a10; position:relative; z-index:2; }
+  .ribbon .cn{ font-size:19px; font-weight:bold; color:#6b4a0e;
+    text-shadow:0 1px 0 #fff; letter-spacing:1px; }
+  .ribbon .en{ font-size:10px; color:#a07d33; letter-spacing:1px; }
 
-  #title-bar {
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 36px;
-    background: linear-gradient(180deg, rgba(45,27,14,0.95), rgba(45,27,14,0.85));
-    border-bottom: 1px solid rgba(255,180,50,0.2);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 12px;
-    z-index: 100;
-    backdrop-filter: blur(4px);
-  }
-  #title-bar .title {
-    color: #ffd479; font-size: 14px; font-weight: bold;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-    letter-spacing: 2px;
-  }
-  #title-bar .controls { display: flex; gap: 8px; align-items: center; }
-  #title-bar button {
-    background: rgba(255,180,50,0.15);
-    border: 1px solid rgba(255,180,50,0.3);
-    color: #ffd479;
-    padding: 4px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: all 0.2s;
-  }
-  #title-bar button:hover { background: rgba(255,180,50,0.3); }
+  .body-text{ font-size:13.5px; line-height:1.9; color:#3f5c12; text-shadow:0 1px 0 rgba(255,255,255,.45); }
+  .body-text p{ margin:2px 0; }
+  ol.rules{ margin:8px 2px 0; padding-left:22px; }
+  ol.rules li{ font-size:13.5px; line-height:1.95; color:#3f5c12; margin-bottom:2px; }
+  ol.rules li b{ color:#c0392b; }
 
-  #version-select {
-    background: rgba(45,27,14,0.9);
-    border: 1px solid rgba(255,180,50,0.3);
-    color: #ffd479;
-    padding: 3px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-    cursor: pointer;
-  }
+  /* ---------- 木质招牌 ---------- */
+  .sign{ display:inline-block; background:linear-gradient(180deg,#c58a3d,#9c661f);
+    border:4px solid #7d4c22; border-radius:14px; padding:10px 26px;
+    box-shadow:0 6px 0 #6b3f1c, 0 12px 22px rgba(0,0,0,.22); text-align:center; }
+  .sign .big{ font-size:34px; font-weight:900; letter-spacing:3px;
+    background:linear-gradient(180deg,#fff6c2,#ffd23f);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    -webkit-text-stroke:2px #6b3f1c; text-shadow:0 3px 0 rgba(107,63,28,.35); }
+  .sign .sub{ font-size:12px; color:#ffe9a8; margin-top:4px; letter-spacing:2px; }
 
-  #status-bar {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 32px;
-    background: linear-gradient(0deg, rgba(45,27,14,0.95), rgba(45,27,14,0.7));
-    border-top: 1px solid rgba(255,180,50,0.2);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 12px;
-    z-index: 100;
-    font-size: 12px; color: #b8a070;
-  }
-  #status-bar .stat { display: flex; gap: 16px; }
-  #status-bar .stat span b { color: #ffd479; font-weight: normal; }
+  /* ---------- 按钮 ---------- */
+  .btn{ display:inline-block; cursor:pointer; border:none; outline:none;
+    font-family:inherit; font-size:16px; font-weight:bold; color:#6b4a0e;
+    background:linear-gradient(180deg,#ffe98a,#ffc21f);
+    border-radius:999px; padding:11px 34px;
+    box-shadow:0 5px 0 #c98a10, 0 9px 16px rgba(120,80,10,.28), inset 0 2px 0 rgba(255,255,255,.7);
+    transition:transform .08s, box-shadow .08s; letter-spacing:2px; }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn:active{ transform:translateY(4px); box-shadow:0 1px 0 #c98a10, inset 0 2px 0 rgba(255,255,255,.7); }
+  .btn.sec{ background:linear-gradient(180deg,#c7ee7b,#8ec93f); color:#3f5c12;
+    box-shadow:0 5px 0 #6fa02c, 0 9px 16px rgba(90,120,10,.3), inset 0 2px 0 rgba(255,255,255,.6); }
+  .btn.sec:active{ box-shadow:0 1px 0 #6fa02c, inset 0 2px 0 rgba(255,255,255,.6); }
+  .btn[disabled]{ filter:grayscale(.75) opacity(.6); cursor:not-allowed; transform:none; }
+  .btn.sm{ font-size:13px; padding:7px 18px; }
 
-  #loading {
-    position: fixed; inset: 0;
-    background: #1a1a2e;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.5s;
-  }
-  #loading.hidden { opacity: 0; pointer-events: none; }
-  #loading .logo {
-    font-size: 32px; color: #ffd479;
-    margin-bottom: 16px;
-    text-shadow: 0 0 20px rgba(255,180,50,0.5);
-    letter-spacing: 8px;
-  }
-  #loading .sub { color: #8a7a5a; font-size: 14px; margin-bottom: 24px; }
-  .spinner {
-    width: 40px; height: 40px;
-    border: 3px solid rgba(255,180,50,0.2);
-    border-top-color: #ffd479;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* ---------- HUD ---------- */
+  #hud{ position:fixed; top:12px; right:14px; z-index:60; display:flex; gap:8px; align-items:center; }
+  .chip{ display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.9);
+    border:2px solid #e6a916; border-radius:999px; padding:5px 14px 5px 8px;
+    font-size:13px; font-weight:bold; color:#6b4a0e; box-shadow:0 3px 0 #d8a63a; }
+  .chip .ico{ width:20px; height:20px; display:inline-block; }
+  .chip.free-on{ border-color:#4caf50; box-shadow:0 3px 0 #3d8b40; }
+  .chip.free-off{ border-color:#bbb; box-shadow:0 3px 0 #999; color:#888; }
+  .chip small{ font-weight:normal; color:#9a7b3c; }
 
-  #log-panel {
-    position: fixed; bottom: 40px; right: 12px;
-    width: 320px; max-height: 240px;
-    background: rgba(0,0,0,0.75);
-    border: 1px solid rgba(255,180,50,0.2);
-    border-radius: 6px;
-    padding: 8px;
-    font-size: 11px; color: #8a7a5a;
-    overflow-y: auto;
-    z-index: 200;
-    display: none;
-    font-family: "Consolas", monospace;
-  }
-  #log-panel.show { display: block; }
-  #log-panel .line { padding: 1px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-  #log-panel .line.api { color: #7ec8e3; }
-  #log-panel .line.event { color: #ff9f43; }
-  #log-panel .line.window { color: #a8e6cf; }
+  /* ---------- 开场 ---------- */
+  #s-title .hero{ display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap; margin:10px 0 22px; }
+  #s-title .hero canvas{ image-rendering:auto; filter:drop-shadow(0 10px 14px rgba(120,80,10,.25)); }
+  .tag{ position:absolute; }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,180,50,0.3); border-radius: 3px; }
+  /* ---------- 选仓 ---------- */
+  .granary-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+  .gcard{ position:relative; background:linear-gradient(180deg,#fffdf0,#ffefc0);
+    border:3px solid #e0c274; border-radius:14px; padding:8px 6px 10px; text-align:center;
+    cursor:pointer; transition:transform .1s, box-shadow .1s, border-color .1s; }
+  .gcard:hover{ transform:translateY(-3px); }
+  .gcard.sel{ border-color:#ff9800; box-shadow:0 0 0 3px rgba(255,152,0,.35), 0 8px 16px rgba(150,90,10,.25); }
+  .gcard.locked{ filter:grayscale(.85); opacity:.62; cursor:not-allowed; }
+  .gcard.locked:hover{ transform:none; }
+  .gcard.cleared{ border-color:#4caf50; }
+  .gcard canvas{ display:block; margin:0 auto; }
+  .gcard .gname{ font-size:14px; font-weight:bold; color:#6b4a0e; margin-top:2px; }
+  .gcard .gold{ font-size:12px; color:#c0392b; font-weight:bold; }
+  .gcard .nuomi{ font-size:11px; color:#3f5c12; }
+  .gcard .badge{ position:absolute; top:-9px; right:-6px; font-size:11px; font-weight:bold;
+    color:#fff; background:#4caf50; border-radius:999px; padding:2px 8px; box-shadow:0 2px 0 #3d8b40; }
+  .gcard .badge.lock{ background:#9e9e9e; box-shadow:0 2px 0 #757575; }
+  .gcard .badge.choose{ background:#ff9800; box-shadow:0 2px 0 #e07b00; }
+
+  .tool-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .tcard{ background:linear-gradient(180deg,#fffdf0,#ffefc0); border:3px solid #e0c274;
+    border-radius:14px; padding:10px; cursor:pointer; transition:transform .1s, border-color .1s; }
+  .tcard:hover{ transform:translateY(-3px); }
+  .tcard.sel{ border-color:#ff9800; box-shadow:0 0 0 3px rgba(255,152,0,.35); }
+  .tcard.no{ filter:grayscale(.8); opacity:.6; cursor:not-allowed; }
+  .tcard.no:hover{ transform:none; }
+  .tcard .tname{ font-size:14px; font-weight:bold; color:#6b4a0e; display:flex; align-items:center; gap:6px; }
+  .tcard .tstat{ font-size:12px; color:#8a6a2a; margin-top:5px; line-height:1.6; }
+  .tcard .tstat b{ color:#c0392b; }
+  .tcard .cost{ margin-top:6px; font-size:12px; color:#c0392b; font-weight:bold; }
+  .tcard .tagline{ font-size:11px; color:#8a6a2a; margin-top:4px; line-height:1.5; }
+
+  .sel-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; flex-wrap:wrap; }
+  .sel-info{ font-size:13px; color:#3f5c12; line-height:1.7; }
+  .sel-info b{ color:#c0392b; }
+
+  /* ---------- 游戏 ---------- */
+  #s-play{ display:none; }
+  #s-play.active{ display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .play-frame{ position:relative; }
+  #field{ display:block; border-radius:14px; border:4px solid #7d4c22;
+    box-shadow:0 8px 0 #6b3f1c, 0 18px 36px rgba(90,61,22,.35); background:#bfe06a;
+    max-width:96vw; max-height:70vh; cursor:crosshair; }
+  .playbar{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+  .pstat{ background:rgba(255,255,255,.92); border:2px solid #e6a916; border-radius:999px;
+    padding:6px 16px; font-size:14px; font-weight:bold; color:#6b4a0e; box-shadow:0 3px 0 #d8a63a; }
+  .pstat b{ color:#c0392b; font-size:16px; }
+  .pstat.tip{ background:rgba(255,255,255,.7); font-weight:normal; color:#8a6a2a; }
+  #play-hint{ position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
+    background:rgba(107,63,28,.86); color:#ffe9a8; padding:16px 26px; border-radius:14px;
+    text-align:center; font-size:15px; line-height:1.8; pointer-events:none;
+    box-shadow:0 8px 20px rgba(0,0,0,.3); transition:opacity .4s; }
+  #play-hint.hide{ opacity:0; }
+  #play-hint .k{ color:#ffd23f; font-weight:bold; }
+
+  /* ---------- 结算 ---------- */
+  .res-box{ background:linear-gradient(180deg,#fffdf0,#ffe9b8); border:4px solid #e0c274;
+    border-radius:18px; padding:26px 30px; text-align:center; max-width:460px; margin:0 auto;
+    box-shadow:0 8px 0 #c9a94e, 0 18px 40px rgba(90,61,22,.3); }
+  .res-box .rtitle{ font-size:30px; font-weight:900; letter-spacing:3px; margin-bottom:4px; }
+  .res-box .rtitle.win{ color:#e0761a; text-shadow:0 2px 0 #fff, 0 4px 0 rgba(200,120,10,.25); }
+  .res-box .rtitle.lose{ color:#8d887e; text-shadow:0 2px 0 #fff; }
+  .res-box .rsub{ font-size:13px; color:#8a6a2a; margin-bottom:16px; }
+  .res-line{ display:flex; justify-content:space-between; font-size:15px; padding:9px 4px;
+    border-bottom:1px dashed #dcc389; color:#6b4a0e; }
+  .res-line b{ color:#c0392b; }
+  .res-line.nuomi b{ color:#2e7d32; }
+  .res-actions{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
+
+  .center{ text-align:center; }
+  .mt{ margin-top:16px; }
+  .hidden{ display:none !important; }
+
+  /* 云朵/装饰 */
+  .cloud{ position:absolute; background:#fff; border-radius:50%; opacity:.85; pointer-events:none; }
 </style>
 </head>
 <body>
+<div id="app">
 
-<div id="loading">
-  <div class="logo">守卫农庄</div>
-  <div class="sub">QQ宠物经典游戏 · 原版复原</div>
-  <div class="spinner"></div>
-</div>
+  <!-- ================= HUD ================= -->
+  <div id="hud">
+    <div class="chip" title="元宝">
+      <svg class="ico" viewBox="0 0 24 24"><ellipse cx="12" cy="8" rx="9" ry="5" fill="#f6c445" stroke="#b8860b" stroke-width="1.6"/><path d="M3 8v6c0 2.8 4 5 9 5s9-2.2 9-5V8" fill="#ffd964" stroke="#b8860b" stroke-width="1.6"/><ellipse cx="12" cy="8" rx="4" ry="2" fill="#fff3b0"/></svg>
+      <span id="hud-money">0</span>
+    </div>
+    <div class="chip" title="糯米（端午包粽子材料）">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 3c3 2 6 5 6 9a6 6 0 0 1-12 0c0-4 3-7 6-9z" fill="#fff8e1" stroke="#c9a94e" stroke-width="1.5"/><path d="M12 4l-4 8h8z" fill="#e8f5c8" stroke="#8ec93f" stroke-width="1.2"/></svg>
+      <span id="hud-nuomi">0</span>
+    </div>
+    <div class="chip" id="hud-free" title="每天首次进入农庄的6级以上Q宠宝贝可使用免费捕鼠夹">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="5" rx="1.5" fill="#a1662f" stroke="#7d4c22" stroke-width="1.4"/><path d="M6 14V8h12v6" fill="none" stroke="#9aa0a6" stroke-width="2.2"/><circle cx="12" cy="8" r="1.6" fill="#9aa0a6"/></svg>
+      <span id="hud-free-txt">免费捕鼠夹</span>
+    </div>
+    <button class="btn sm sec" id="btn-reset" title="重置本地存档">重置</button>
+  </div>
 
-<div id="stage">
-  <div id="game-container">
-    <div id="main-game">
-      <div id="title-bar">
-        <span class="title">🌾 守卫农庄 · 点击宠物跳起躲避老鼠</span>
-        <div class="controls">
-          <select id="version-select" title="选择版本">
-            <option value="main_123.swf">v1.2.3 (最新)</option>
-            <option value="main_122.swf">v1.2.2</option>
-            <option value="main_113.swf">v1.1.3</option>
-            <option value="main_112.swf">v1.1.2</option>
-            <option value="main_103.swf">v1.0.3</option>
-            <option value="main_102.swf">v1.0.2</option>
-          </select>
-          <button id="btn-restart">重新开始</button>
-          <button id="btn-log">日志</button>
+  <!-- ================= 开场 ================= -->
+  <section id="s-title" class="screen active">
+    <div class="wrap">
+      <div class="center" style="margin-top:76px">
+        <div class="sign">
+          <div class="big">守 卫 农 庄 赢 大 奖</div>
+          <div class="sub">活动时间：2007-6-7 起</div>
         </div>
       </div>
-      <div id="flash-area" style="position:absolute; top:36px; bottom:32px; left:0; right:0;">
-        <div id="main-flash" class="flash-window" style="position:relative; width:100%; height:100%;"></div>
+
+      <div class="hero">
+        <canvas id="hero-canvas" width="760" height="230"></canvas>
       </div>
-      <div id="status-bar">
-        <div class="stat">
-          <span>躲过老鼠: <b id="s-count">0</b></span>
-          <span>心情: <b id="s-mood">--</b></span>
+
+      <div class="center" style="margin-bottom:22px">
+        <button class="btn" id="btn-enter">进 入 农 庄</button>
+      </div>
+
+      <div class="panel">
+        <div class="ribbon"><span class="cn">活动内容</span><span class="en">ACTIVITY CONTENT</span></div>
+        <div class="body-text">
+          <p>Q宠农庄坐落在一片小树林里。一到晚上，饥饿辘辘的小田鼠们就开始偷吃粮食。善良的农夫对它们足又气又怕。如果尽责的守护者能够保证粮仓的安全，就会得到很多丰厚的奖励哦！</p>
+          <p>守护的粮仓越大，奖金就会越高哦。除此之外，守护者还有机会获得端午节包粽子用的材料——糯米哦！透露一下：<b>糯米能够做出增加很多属性值的粽子哦！</b></p>
         </div>
-        <span id="s-info">准备中...</span>
+      </div>
+
+      <div class="panel">
+        <div class="ribbon"><span class="cn">活动规则</span><span class="en">ACTIVITY RULE</span></div>
+        <ol class="rules">
+          <li>守护粮仓必须选用一种<b>专用捕鼠工具</b>；每个捕鼠工具仅可使用一次；</li>
+          <li>每天首次进入农庄的 6 级以上的 Q 宠宝贝可使用<b>免费捕鼠夹</b>；</li>
+          <li>农庄里有 <b>5 个粮仓</b>，守护者必须从最小的粮仓开始值守，成功过关者才能晋级守护更大的粮仓，高级守护者有权选择值守更小的粮仓；</li>
+          <li>守护的粮仓越大，可获得的奖金越多，还有机会获得糯米哦；</li>
+          <li>糯米能够做出增加很多属性值的粽子，只能在端午节活动中使用；</li>
+          <li>本活动最终解释权归腾讯公司所有。</li>
+        </ol>
+        <div class="body-text" style="margin-top:8px;color:#a1372b">
+          <p>※ 注意：每失败一次，本次可奖励的元宝就会少一些，请谨慎布夹！</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ================= 选仓 / 选具 ================= -->
+  <section id="s-select" class="screen">
+    <div class="wrap">
+      <div class="panel">
+        <div class="ribbon"><span class="cn">选择要守护的粮仓</span><span class="en">CHOOSE A GRANARY</span></div>
+        <div class="body-text" style="margin-bottom:10px">粮仓从最小的「粮仓一」开始值守，过关后才能晋级守护更大的粮仓。守护的粮仓越大，奖金越多，获得糯米的几率也越高。</div>
+        <div class="granary-grid" id="granary-list"></div>
+      </div>
+
+      <div class="panel">
+        <div class="ribbon"><span class="cn">选用专用捕鼠工具</span><span class="en">CHOOSE A TRAP</span></div>
+        <div class="body-text" style="margin-bottom:10px">每种捕鼠工具仅可使用一次。工具越好，可布置的捕鼠夹越多、触发范围越大。</div>
+        <div class="tool-grid" id="tool-list"></div>
+        <div class="sel-bar">
+          <div class="sel-info" id="sel-info"></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn sec sm" id="btn-back-title">返 回</button>
+            <button class="btn" id="btn-start-play">开始守卫</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 游戏 ================= -->
+  <section id="s-play" class="screen">
+    <div class="play-frame">
+      <canvas id="field" width="800" height="480"></canvas>
+      <div id="play-hint">
+        <div><span class="k">点击草地</span> 布置捕鼠夹，老鼠踩到即被捕获</div>
+        <div>别让老鼠碰到粮仓，<span class="k">抓光所有老鼠</span>即可过关</div>
+      </div>
+    </div>
+    <div class="playbar">
+      <div class="pstat">守护：<b id="play-level">粮仓一</b></div>
+      <div class="pstat">剩余老鼠：<b id="play-mouse">0</b></div>
+      <div class="pstat">剩余捕鼠夹：<b id="play-traps">0</b></div>
+      <div class="pstat tip" id="play-tool">工具：--</div>
+      <button class="btn sm sec" id="btn-quit-play">放弃值守</button>
+    </div>
+  </section>
+
+  <!-- ================= 结算 ================= -->
+  <section id="s-result" class="screen">
+    <div class="wrap" style="padding-top:60px">
+      <div class="res-box">
+        <div class="rtitle win" id="res-title">守卫成功</div>
+        <div class="rsub" id="res-sub">粮仓安然无恙！</div>
+        <div class="res-line"><span>守护粮仓</span><b id="res-lv">粮仓一</b></div>
+        <div class="res-line"><span>获得元宝</span><b id="res-money">+0</b></div>
+        <div class="res-line nuomi"><span>获得糯米</span><b id="res-nuomi">0</b></div>
+        <div class="res-line" id="res-pen-row"><span>失败折损</span><b id="res-pen">-0%</b></div>
+        <div class="res-actions">
+          <button class="btn sec" id="btn-res-back">返回选仓</button>
+          <button class="btn" id="btn-res-again">再来一次</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
-<div id="log-panel"></div>
-
-<script src="ruffle/ruffle.js"></script>
 <script>
-// ============ Ruffle 配置 ============
-window.RufflePlayer.config = {
-  allowScriptAccess: true,
-  autoplay: "on",
-  backgroundColor: "#2d1b0e",
-  letterbox: "off",
-  scale: "showAll",
-  quality: "high",
-  wmode: "opaque",
-  logLevel: "warn",
-  contextMenu: "off",
-  openUrlMode: "allow",
-  playerVersion: 32,
-  base: "",
-  menu: false
-};
-const ruffle = window.RufflePlayer.newest();
+(function(){
+"use strict";
 
-// ============ 日志 ============
-const logPanel = document.getElementById('log-panel');
-function log(msg, type='') {
-  const line = document.createElement('div');
-  line.className = 'line ' + type;
-  const t = new Date().toLocaleTimeString();
-  line.textContent = `[${t}] ${msg}`;
-  logPanel.appendChild(line);
-  logPanel.scrollTop = logPanel.scrollHeight;
-  while (logPanel.children.length > 100) logPanel.removeChild(logPanel.firstChild);
+/* ============================================================
+   数据配置
+   ============================================================ */
+var GRANARIES = [
+  { lv:1, name:'粮仓一', mice:4,  speed:66,  spawn:1.50, reward:20,  nuomi:0.05 },
+  { lv:2, name:'粮仓二', mice:5,  speed:79,  spawn:1.38, reward:50,  nuomi:0.10 },
+  { lv:3, name:'粮仓三', mice:6,  speed:92,  spawn:1.26, reward:120, nuomi:0.20 },
+  { lv:4, name:'粮仓四', mice:7,  speed:105, spawn:1.14, reward:250, nuomi:0.35 },
+  { lv:5, name:'粮仓五', mice:8,  speed:118, spawn:1.02, reward:500, nuomi:0.55 }
+];
+var TOOLS = [
+  { id:'free', name:'免费捕鼠夹', traps:5,  radius:32, cost:0,  free:true,
+    tag:'每天首次进入农庄、且 6 级以上的 Q 宠宝贝免费领取' },
+  { id:'wood', name:'木制捕鼠夹', traps:7,  radius:34, cost:10,
+    tag:'结实耐用，可布置更多捕鼠夹' },
+  { id:'iron', name:'铁制捕鼠夹', traps:9,  radius:38, cost:30,
+    tag:'强力弹簧，触发范围更大' },
+  { id:'pro',  name:'加固捕鼠夹', traps:11, radius:42, cost:60,
+    tag:'农庄顶级配置，范围最广、夹数最多' }
+];
+
+/* ============================================================
+   本地存档
+   ============================================================ */
+var KEY = 'guard_farm_2007_save_v1';
+var save = load();
+function load(){
+  var def = { unlocked:1, cleared:[], money:300, nuomi:0, freeDate:'' };
+  try{
+    var s = JSON.parse(localStorage.getItem(KEY));
+    if (s && typeof s === 'object'){
+      def.unlocked = s.unlocked||1;
+      def.cleared  = s.cleared||[];
+      def.money    = (typeof s.money==='number')?s.money:300;
+      def.nuomi    = (typeof s.nuomi==='number')?s.nuomi:0;
+      def.freeDate = s.freeDate||'';
+    }
+  }catch(e){}
+  return def;
 }
-document.getElementById('btn-log').onclick = () => logPanel.classList.toggle('show');
+function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(save)); }catch(e){} }
+function todayKey(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function freeAvailable(){ return save.freeDate !== todayKey(); }
+function useFree(){ save.freeDate = todayKey(); persist(); }
 
-// ============ 游戏状态 ============
-const gameState = {
-  count: 0, mood: 0,
-  windows: {},
-  mainPlayer: null,
-  registeredFunctions: {},
-  scale: 1,
-  windowX: 0, windowY: 0
+/* ============================================================
+   绘制工具
+   ============================================================ */
+var C = {
+  sky1:'#fff3bf', sky2:'#ffdf6e',
+  hill:'#c8e36a', hill2:'#b3d956',
+  grass1:'#a4d755', grass2:'#95cc46', grass3:'#86bf3c',
+  roof:'#d9b56a', roofD:'#bd9548', wall:'#fbeec4', wallD:'#e6d29a',
+  wood:'#a1662f', woodD:'#7d4c22', woodL:'#c58a3d',
+  mouse:'#bdb6ab', mouseD:'#928a7e', mouseP:'#f2b8b8',
+  metal:'#9aa0a6', metalD:'#6f757a'
 };
+function rr(ctx,x,y,w,h,r){
+  if(r>w/2) r=w/2; if(r>h/2) r=h/2;
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
 
-function callRegistered(name, ...args) {
-  const fn = gameState.registeredFunctions[name];
-  if (typeof fn === 'function') {
-    try { return fn(...args); } catch(e) { log(`callRegistered ${name} error: ${e}`, 'api'); }
+/* --- 粮仓 --- */
+function drawGranary(ctx, cx, baseY, w, h){
+  var bw = w*0.82;
+  // 落地阴影
+  ctx.save();
+  ctx.fillStyle = 'rgba(80,110,40,.22)';
+  ctx.beginPath(); ctx.ellipse(cx, baseY+4, bw*0.62, 11, 0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  var topY = baseY - h;
+  // 仓体
+  var g = ctx.createLinearGradient(cx-bw/2,0,cx+bw/2,0);
+  g.addColorStop(0, C.wallD); g.addColorStop(.35, C.wall); g.addColorStop(1, C.wallD);
+  ctx.fillStyle = g;
+  rr(ctx, cx-bw/2, topY, bw, h, 8); ctx.fill();
+  ctx.strokeStyle = 'rgba(160,130,70,.5)'; ctx.lineWidth = 2; ctx.stroke();
+  // 木板竖纹
+  ctx.save();
+  ctx.globalAlpha = .28; ctx.strokeStyle = '#a58a4e'; ctx.lineWidth = 1.5;
+  for (var i=1;i<4;i++){
+    var lx = cx-bw/2 + bw*i/4;
+    ctx.beginPath(); ctx.moveTo(lx, topY+8); ctx.lineTo(lx, baseY-6); ctx.stroke();
   }
-  return null;
-}
+  ctx.restore();
+  // 仓门
+  ctx.save();
+  ctx.fillStyle = C.woodD;
+  var dw = bw*0.42, dh = h*0.5;
+  ctx.beginPath();
+  ctx.moveTo(cx-dw/2, baseY);
+  ctx.lineTo(cx-dw/2, baseY-dh*0.72);
+  ctx.quadraticCurveTo(cx, baseY-dh*1.18, cx+dw/2, baseY-dh*0.72);
+  ctx.lineTo(cx+dw/2, baseY);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
 
-function updateStatus() {
-  document.getElementById('s-count').textContent = gameState.count;
-  document.getElementById('s-mood').textContent = gameState.mood;
-}
-
-// ============ API 桥接 ============
-function handleAPICall(name, ...args) {
-  if (name.startsWith('API.')) {
-    const func = name.substring(4);
-    if (window.API[func]) return window.API[func](...args);
-  } else if (name.startsWith('APIEvent.')) {
-    const evt = name.substring(9);
-    if (window.APIEvent[evt]) return window.APIEvent[evt](...args);
+  // 茅草顶（圆锥）
+  ctx.save();
+  var apexY = topY - h*0.46;
+  ctx.fillStyle = C.roof;
+  ctx.beginPath();
+  ctx.moveTo(cx, apexY);
+  ctx.lineTo(cx - bw*0.72, topY + h*0.10);
+  ctx.quadraticCurveTo(cx, topY + h*0.20, cx + bw*0.72, topY + h*0.10);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = C.roofD; ctx.lineWidth = 2.4; ctx.stroke();
+  // 茅草纹
+  ctx.save();
+  ctx.globalAlpha = .35; ctx.strokeStyle = '#8a6a2a'; ctx.lineWidth = 1.4;
+  for (var k=-2;k<=2;k++){
+    ctx.beginPath();
+    ctx.moveTo(cx + k*bw*0.16, apexY + 4);
+    ctx.lineTo(cx + k*bw*0.30, topY + h*0.11);
+    ctx.stroke();
   }
-  log(`未知调用: ${name}(${args.join(',')})`, 'api');
-  return null;
+  ctx.restore();
+  // 顶上小尖
+  ctx.fillStyle = C.roofD;
+  ctx.beginPath(); ctx.arc(cx, apexY, 4, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+
+  // 仓前谷堆
+  ctx.save();
+  ctx.fillStyle = '#f6d86a';
+  ctx.beginPath();
+  ctx.moveTo(cx - bw*0.5, baseY);
+  ctx.quadraticCurveTo(cx - bw*0.28, baseY-16, cx - bw*0.05, baseY);
+  ctx.closePath(); ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(cx + bw*0.02, baseY);
+  ctx.quadraticCurveTo(cx + bw*0.24, baseY-14, cx + bw*0.5, baseY);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
 }
 
-// 窗口名常量（与 SWF 内部一致）
-const WN = {
-  RAT: 'WND_NAME_RAT',
-  STATUS_COUNT: 'WND_NAME_STATUS_COUNT',
-  STATUS_MOOD: 'WND_NAME_STATUS_MOOD',
-  PROMPT_MOOD: 'WND_NAME_PROMPT_MOOD',
-  PROMPT_MONEY: 'WND_NAME_PROMPT_MOENY'  // 注意：原版拼写就是 MOENY
-};
-
-window.API = {
-  CreateWindow(name, x, y, w, h, param6, swfName) {
-    log(`CreateWindow: ${name} <- ${swfName} at (${x},${y}) ${w}x${h}`, 'window');
-    createSubWindow(name, swfName, x, y, w, h);
-    return name;
-  },
-  DestroyWindow(name) {
-    if (name == null || name === '' || name === 'undefined') {
-      // 无参数时销毁所有子窗口
-      log('DestroyWindow: 销毁所有子窗口', 'window');
-      Object.keys(gameState.windows).forEach(destroySubWindow);
-      return 1;
-    }
-    log(`DestroyWindow: ${name}`, 'window');
-    destroySubWindow(name);
-    return 1;
-  },
-  MoveTo(x, y, name) {
-    // 注意：SWF 调用 API.moveTo(x, y) 或 API.moveTo(x, y, name)
-    if (typeof y === 'string') { name = y; y = x; x = arguments[0]; }
-    const w = gameState.windows[name];
-    if (w) { w.element.style.left = x + 'px'; w.element.style.top = y + 'px'; }
-    return 1;
-  },
-  MoveBy(dx, dy, name) {
-    // SWF 调用 API.moveBy(dx, dy) 或 API.moveBy(dx, dy, name)
-    if (name == null) {
-      // 无窗口名时，移动所有子窗口（原版 onWindowMove 行为）
-      for (const n in gameState.windows) {
-        const w = gameState.windows[n];
-        w.element.style.left = (parseFloat(w.element.style.left) + (dx||0)) + 'px';
-        w.element.style.top = (parseFloat(w.element.style.top) + (dy||0)) + 'px';
-      }
-      return 1;
-    }
-    const w = gameState.windows[name];
-    if (w) {
-      w.element.style.left = (parseFloat(w.element.style.left) + (dx||0)) + 'px';
-      w.element.style.top = (parseFloat(w.element.style.top) + (dy||0)) + 'px';
-    }
-    return 1;
-  },
-  ResizeWindow(w, h, name) {
-    const win = gameState.windows[name];
-    if (win) { win.element.style.width = w + 'px'; win.element.style.height = h + 'px'; }
-    return 1;
-  },
-  SetWindow(name, param2, param3) {
-    // 简化处理
-    return 0;
-  },
-  Show(visible, name) {
-    if (name == null) {
-      // 无窗口名时设置主窗口
-      return 1;
-    }
-    const w = gameState.windows[name];
-    if (w) w.element.style.display = visible ? 'block' : 'none';
-    return 1;
-  },
-  GetWindowRect(name) {
-    const w = gameState.windows[name];
-    if (w) {
-      const area = document.getElementById('flash-area');
-      const areaRect = area.getBoundingClientRect();
-      const r = w.element.getBoundingClientRect();
-      return `${r.left - areaRect.left},${r.top - areaRect.top},${r.width},${r.height}`;
-    }
-    return '0,0,0,0';
-  },
-  GetWindowPosition(flag) {
-    // 返回主窗口相对于桌面的位置
-    const area = document.getElementById('flash-area');
-    const r = area.getBoundingClientRect();
-    return `${Math.round(r.left)},${Math.round(r.top)}`;
-  },
-  GetWindowName(option) {
-    // option: 0=parent, 1=children
-    if (option === 1 || option === 'CHILDREN') {
-      return Object.keys(gameState.windows);
-    }
-    return 'main';
-  },
-  GetCursorPosition(flag) {
-    const area = document.getElementById('flash-area');
-    if (area) {
-      const r = area.getBoundingClientRect();
-      return `${Math.round(cursorPos.x - r.left)},${Math.round(cursorPos.y - r.top)}`;
-    }
-    return `${cursorPos.x},${cursorPos.y}`;
-  },
-  GetFlashFileSize(name) {
-    return '140,140';
-  },
-  GetScalable() { return gameState.scale; },
-  SetScalable(scale, name) {
-    gameState.scale = scale;
-    return 1;
-  },
-  EnableDrag(enable, name) { return 1; },
-  IsEnableDrag(name) { return 0; },
-  IsVisible(name) {
-    if (name == null) return 1;
-    const w = gameState.windows[name];
-    return w ? (w.element.style.display !== 'none' ? 1 : 0) : 1;
-  },
-  RemoteCall(name, func, ...args) {
-    log(`RemoteCall: ${name}.${func}(${args.join(',')})`, 'api');
-
-    // 处理计数更新
-    if (func === 'CountStatus.onCountUpdate') {
-      gameState.count = args[0] || 0;
-      updateStatus();
-    }
-    // 处理心情更新
-    if (func === 'MoodStatus.onMoodUpdate') {
-      gameState.mood = args[0];
-      updateStatus();
-    }
-
-    const w = gameState.windows[name];
-    if (w && w.player) {
-      // 等待回调注册后调用
-      let attempts = 0;
-      const tryCall = () => {
-        attempts++;
-        if (typeof w.player[func] === 'function') {
-          try { return w.player[func](...args); } catch(e) {}
-        } else if (attempts < 30) {
-          setTimeout(tryCall, 100);
-        }
-      };
-      tryCall();
-    }
-    return null;
-  },
-  registerFunction(name, handler) {
-    log(`registerFunction: ${name}`, 'api');
-    gameState.registeredFunctions[name] = handler;
-    return 0;
-  }
-};
-
-// 全局鼠标位置
-let cursorPos = { x: 0, y: 0 };
-document.addEventListener('mousemove', e => {
-  cursorPos.x = e.clientX;
-  cursorPos.y = e.clientY;
-});
-
-// ============ 事件分发 ============
-window.APIEvent = {
-  OnHitScreen(x, y) {},
-  OnHitWindow(name, x, y) {},
-  OnMouseMove(x, y) {},
-  OnWindowMove(name, x, y) {},
-  OnPlay() {
-    log('OnPlay: 游戏开始播放', 'event');
-    document.getElementById('s-info').textContent = '点击宠物开始游戏！';
-  }
-};
-
-// 将 API 注册到 window 上供 ExternalInterface 查找
-function registerWindowAPIs() {
-  ['CreateWindow','DestroyWindow','MoveTo','MoveBy','ResizeWindow','SetWindow','Show',
-   'GetWindowRect','GetWindowPosition','GetWindowName','GetCursorPosition',
-   'GetFlashFileSize','GetScalable','SetScalable','EnableDrag','IsEnableDrag','IsVisible',
-   'RemoteCall','registerFunction']
-  .forEach(fn => {
-    const orig = window.API[fn];
-    window['API.' + fn] = function(...args) {
-      try { return orig.apply(this, args); } catch(e) { throw e; }
-    };
-  });
-  ['OnHitScreen','OnHitWindow','OnMouseMove','OnWindowMove','OnPlay']
-  .forEach(fn => {
-    const orig = window.APIEvent[fn];
-    window['APIEvent.' + fn] = function(...args) {
-      try { return orig.apply(this, args); } catch(e) { throw e; }
-    };
-  });
-}
-registerWindowAPIs();
-
-// ============ TICKLE 相关 API ============
-// TICKLE_GetFeeling 返回宠物心情值
-window.TICKLE_GetFeeling = function() {
-  log('TICKLE_GetFeeling called', 'api');
-  // 返回 { feelTotal, feelNow }
-  return { feelTotal: 1000, feelNow: 500 };
-};
-window.TICKLE_SendAction = function(actionType, value) {
-  log(`TICKLE_SendAction: type=${actionType} value=${value}`, 'api');
-  return 0;
-};
-
-// ============ 子窗口管理 ============
-function createSubWindow(name, swfName, x, y, w, h) {
-  if (gameState.windows[name]) {
-    destroySubWindow(name);
-  }
-
-  const area = document.getElementById('flash-area');
-  const areaRect = area.getBoundingClientRect();
-
-  const div = document.createElement('div');
-  div.className = 'flash-window';
-  div.style.cssText = `position:absolute; left:${x}px; top:${y}px; width:${w||200}px; height:${h||200}px; z-index:50;`;
-  div.dataset.name = name;
-
-  const player = ruffle.createPlayer();
-  player.style.width = '100%';
-  player.style.height = '100%';
-  player.callExternalInterface = function(cbName, args) {
-    return handleAPICall(cbName, ...(args || []));
-  };
-  player.onFSCommand = function(cmd, args) {
-    console.log('[sub-FSCommand][' + name + ']', cmd, args);
-  };
-  div.appendChild(player);
-
-  area.appendChild(div);
-  gameState.windows[name] = { element: div, player };
-
-  player.load(swfName).then(() => {
-    log(`子窗口 ${name} 加载完成: ${swfName}`, 'window');
-    // 通知主窗口子窗口已创建
-    if (gameState.mainPlayer && gameState.mainPlayer['Main.onWindowCreate']) {
-      gameState.mainPlayer['Main.onWindowCreate'](name);
-    }
-  }).catch(err => {
-    log(`子窗口加载失败 ${name}: ${err}`, 'window');
-  });
-
-  return div;
+/* --- 老鼠 --- */
+function drawMouse(ctx, x, y, facing, t){
+  ctx.save();
+  ctx.translate(x,y);
+  var bob = Math.sin(t*11)*1.4;
+  ctx.translate(0,bob);
+  ctx.scale(facing,1);
+  // 尾巴
+  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 3; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(-13,1);
+  ctx.quadraticCurveTo(-28,-8+Math.sin(t*11)*5, -34,4);
+  ctx.stroke();
+  // 腿
+  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 3;
+  var legA = Math.sin(t*16)*5;
+  ctx.beginPath(); ctx.moveTo(-4,8); ctx.lineTo(-4+legA,14); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(6,8);  ctx.lineTo(6-legA,14);  ctx.stroke();
+  // 身体
+  ctx.fillStyle = C.mouse;
+  ctx.beginPath(); ctx.ellipse(0,0,15,11,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 1.4; ctx.stroke();
+  // 后耳
+  ctx.fillStyle = C.mouseD;
+  ctx.beginPath(); ctx.arc(3,-10,6,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = C.mouseP;
+  ctx.beginPath(); ctx.arc(3,-10,3.2,0,Math.PI*2); ctx.fill();
+  // 头
+  ctx.fillStyle = C.mouse;
+  ctx.beginPath(); ctx.ellipse(12,1,9,8,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 1.3; ctx.stroke();
+  // 前耳
+  ctx.fillStyle = C.mouseD;
+  ctx.beginPath(); ctx.arc(9,-8,5,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = C.mouseP;
+  ctx.beginPath(); ctx.arc(9,-8,2.6,0,Math.PI*2); ctx.fill();
+  // 眼
+  ctx.fillStyle = '#2b2b2b';
+  ctx.beginPath(); ctx.arc(15,-2,2.2,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff';
+  ctx.beginPath(); ctx.arc(15.8,-2.7,0.8,0,Math.PI*2); ctx.fill();
+  // 鼻
+  ctx.fillStyle = C.mouseP;
+  ctx.beginPath(); ctx.arc(21,2,1.9,0,Math.PI*2); ctx.fill();
+  // 胡须
+  ctx.strokeStyle = 'rgba(120,110,100,.8)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(20,3); ctx.lineTo(28,0); ctx.moveTo(20,4); ctx.lineTo(28,5); ctx.stroke();
+  ctx.restore();
 }
 
-function destroySubWindow(name) {
-  const w = gameState.windows[name];
-  if (w) {
-    w.element.remove();
-    delete gameState.windows[name];
-  }
-}
-
-// ============ 主游戏加载 ============
-function loadMainGame(swfName) {
-  const mainFlash = document.getElementById('main-flash');
-  mainFlash.innerHTML = '';
-  Object.keys(gameState.windows).forEach(destroySubWindow);
-  gameState.count = 0; gameState.mood = 0;
-  updateStatus();
-  document.getElementById('s-info').textContent = '加载中...';
-
-  const player = ruffle.createPlayer();
-  player.style.width = '100%';
-  player.style.height = '100%';
-  player.callExternalInterface = function(cbName, args) {
-    return handleAPICall(cbName, ...(args || []));
-  };
-
-  // 拦截 SWF 注册的回调
-  if (player.onCallbackAvailable) {
-    const origOnCallback = player.onCallbackAvailable.bind(player);
-    player.onCallbackAvailable = function(name) {
-      log(`SWF注册回调: ${name}`, 'api');
-      const ret = origOnCallback(name);
-      // 当 TICKLE_OnResult 注册后，调用它启动游戏
-      if (name === 'TICKLE_OnResult') {
-        setTimeout(() => {
-          try {
-            player['TICKLE_OnResult'](0, 500);
-            log('已调用 TICKLE_OnResult(0, 500)', 'api');
-          } catch(e) { log('TICKLE_OnResult error: ' + e, 'api'); }
-        }, 300);
-      }
-      return ret;
-    };
+/* --- 捕鼠夹 --- */
+function drawTrap(ctx, x, y, armed){
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.fillStyle = 'rgba(80,110,40,.20)';
+  ctx.beginPath(); ctx.ellipse(2,7,22,7,0,0,Math.PI*2); ctx.fill();
+  // 木底座
+  var g = ctx.createLinearGradient(0,-14,0,14);
+  g.addColorStop(0,C.woodL); g.addColorStop(1,C.wood);
+  ctx.fillStyle = g;
+  rr(ctx,-22,-13,44,26,6); ctx.fill();
+  ctx.strokeStyle = C.woodD; ctx.lineWidth = 2.5; ctx.stroke();
+  // 弹簧
+  ctx.strokeStyle = C.metalD; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.arc(-10,0,4,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(10,0,4,0,Math.PI*2); ctx.stroke();
+  if (armed){
+    // 竖起的弹簧夹
+    ctx.strokeStyle = C.metal; ctx.lineWidth = 3.4; ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(-14,6);
+    ctx.quadraticCurveTo(0,-24,14,6);
+    ctx.stroke();
+    // 诱饵
+    ctx.fillStyle = '#f6d86a';
+    ctx.beginPath(); ctx.arc(0,4,4,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#c9a94e'; ctx.lineWidth=1.2; ctx.stroke();
   } else {
-    setTimeout(() => {
-      if (player['TICKLE_OnResult']) {
-        try {
-          player['TICKLE_OnResult'](0, 500);
-          log('已调用 TICKLE_OnResult(0, 500)', 'api');
-        } catch(e) {}
-      }
-    }, 2000);
+    // 已合上的夹子
+    ctx.strokeStyle = C.metal; ctx.lineWidth = 3.4; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(-14,4); ctx.lineTo(14,4); ctx.stroke();
   }
+  ctx.restore();
+}
 
-  // FSCommand 处理 - 游戏结束时自动重启
-  player.onFSCommand = function(cmd, args) {
-    log(`FSCommand: ${cmd} ${args||''}`, 'event');
-    if (cmd === 'quit') {
-      log('游戏结束，自动重启...', 'event');
-      document.getElementById('s-info').textContent = '游戏结束，重新开始...';
-      setTimeout(() => loadMainGame(document.getElementById('version-select').value), 1500);
+/* --- 小农夫 --- */
+function drawFarmer(ctx, x, y, s, t){
+  ctx.save();
+  ctx.translate(x,y); ctx.scale(s,s);
+  var bob = Math.sin(t*3)*2;
+  ctx.translate(0,bob);
+  // 阴影
+  ctx.fillStyle='rgba(80,110,40,.20)';
+  ctx.beginPath(); ctx.ellipse(0,62,30,8,0,0,Math.PI*2); ctx.fill();
+  // 腿
+  ctx.fillStyle='#2f6fb0';
+  rr(ctx,-13,26,11,30,4); ctx.fill();
+  rr(ctx,2,26,11,30,4); ctx.fill();
+  ctx.fillStyle='#7d4c22';
+  rr(ctx,-16,52,17,9,3); ctx.fill();
+  rr(ctx,-1,52,17,9,3); ctx.fill();
+  // 上身（背带裤）
+  ctx.fillStyle='#ffffff';
+  rr(ctx,-20,-8,40,38,10); ctx.fill();
+  ctx.fillStyle='#2f6fb0';
+  rr(ctx,-20,4,40,26,9); ctx.fill();
+  rr(ctx,-13,-8,7,18,3); ctx.fill();
+  rr(ctx,6,-8,7,18,3); ctx.fill();
+  // 手臂
+  ctx.strokeStyle='#f6c9a0'; ctx.lineWidth=7; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(-18,2); ctx.lineTo(-27,20); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(18,2);  ctx.lineTo(27,18);  ctx.stroke();
+  // 头
+  ctx.fillStyle='#fbd8b0';
+  ctx.beginPath(); ctx.arc(0,-26,17,0,Math.PI*2); ctx.fill();
+  // 耳朵
+  ctx.beginPath(); ctx.arc(-17,-26,4,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(17,-26,4,0,Math.PI*2); ctx.fill();
+  // 眼睛
+  ctx.fillStyle='#3a2a1a';
+  ctx.beginPath(); ctx.arc(-6,-27,2.6,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(6,-27,2.6,0,Math.PI*2); ctx.fill();
+  // 腮红
+  ctx.fillStyle='rgba(240,150,140,.6)';
+  ctx.beginPath(); ctx.arc(-10,-20,3.4,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(10,-20,3.4,0,Math.PI*2); ctx.fill();
+  // 笑
+  ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.8; ctx.lineCap='round';
+  ctx.beginPath(); ctx.arc(0,-22,5,0.15*Math.PI,0.85*Math.PI); ctx.stroke();
+  // 草帽
+  ctx.fillStyle='#e6c86a';
+  ctx.beginPath(); ctx.ellipse(0,-40,25,8,0,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#bd9548'; ctx.lineWidth=2; ctx.stroke();
+  ctx.fillStyle='#d9b56a';
+  ctx.beginPath(); ctx.arc(0,-44,14,Math.PI,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#bd9548'; ctx.stroke();
+  // 帽带
+  ctx.fillStyle='#c0392b';
+  ctx.beginPath(); ctx.ellipse(0,-40,14,3.4,0,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+/* --- 玉米 --- */
+function drawCorn(ctx, x, y, s, t){
+  ctx.save();
+  ctx.translate(x,y); ctx.scale(s,s);
+  var sway = Math.sin(t*2+x*0.05)*0.06;
+  ctx.rotate(sway);
+  // 秆
+  ctx.strokeStyle='#6fa02c'; ctx.lineWidth=4; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-46); ctx.stroke();
+  // 叶
+  ctx.fillStyle='#8ec93f';
+  ctx.beginPath(); ctx.moveTo(0,-18); ctx.quadraticCurveTo(-22,-26,-26,-46);
+  ctx.quadraticCurveTo(-8,-34,0,-24); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(0,-22); ctx.quadraticCurveTo(22,-30,26,-50);
+  ctx.quadraticCurveTo(8,-38,0,-28); ctx.closePath(); ctx.fill();
+  // 玉米
+  ctx.fillStyle='#fdd835';
+  ctx.beginPath(); ctx.ellipse(2,-44,7,12,0.2,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#e0a800'; ctx.lineWidth=1;
+  for (var i=-1;i<=1;i++){ ctx.beginPath(); ctx.moveTo(2+i*3,-54); ctx.lineTo(2+i*3,-34); ctx.stroke(); }
+  ctx.fillStyle='#8ec93f';
+  ctx.beginPath(); ctx.ellipse(-2,-38,4,9,-0.5,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+/* --- 场景背景 --- */
+function drawField(ctx, W, H, t){
+  // 天空
+  var g = ctx.createLinearGradient(0,0,0,H*0.55);
+  g.addColorStop(0,'#fff7cf'); g.addColorStop(1,'#ffe075');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  // 太阳
+  ctx.save();
+  ctx.fillStyle='rgba(255,236,150,.9)';
+  ctx.beginPath(); ctx.arc(W-96,66,34,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle='rgba(255,214,90,.55)';
+  ctx.beginPath(); ctx.arc(W-96,66,48,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+  // 云
+  function cloud(cx,cy,s){
+    ctx.fillStyle='rgba(255,255,255,.9)';
+    ctx.beginPath();
+    ctx.arc(cx,cy,16*s,0,Math.PI*2);
+    ctx.arc(cx+18*s,cy+4*s,20*s,0,Math.PI*2);
+    ctx.arc(cx+40*s,cy,14*s,0,Math.PI*2);
+    ctx.fill();
+  }
+  var drift = (t*12)%(W+260)-130;
+  cloud(drift, 60, 1);
+  cloud((drift*0.62+300)%(W+260)-130, 96, 0.75);
+  // 远山
+  ctx.fillStyle=C.hill2;
+  ctx.beginPath(); ctx.moveTo(0,H*0.50);
+  ctx.quadraticCurveTo(W*0.18,H*0.34,W*0.38,H*0.50);
+  ctx.quadraticCurveTo(W*0.58,H*0.33,W*0.80,H*0.50);
+  ctx.quadraticCurveTo(W*0.92,H*0.42,W,H*0.50);
+  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+  // 近坡
+  ctx.fillStyle=C.hill;
+  ctx.beginPath(); ctx.moveTo(0,H*0.60);
+  ctx.quadraticCurveTo(W*0.30,H*0.48,W*0.60,H*0.60);
+  ctx.quadraticCurveTo(W*0.82,H*0.68,W,H*0.58);
+  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+  // 草地
+  var gg = ctx.createLinearGradient(0,H*0.58,0,H);
+  gg.addColorStop(0,C.grass1); gg.addColorStop(1,C.grass2);
+  ctx.fillStyle=gg; ctx.fillRect(0,H*0.60,W,H*0.40);
+  // 草地条纹
+  ctx.save();
+  ctx.globalAlpha=.16; ctx.fillStyle='#5d8f24';
+  for (var x=-40;x<W;x+=80){
+    ctx.beginPath(); ctx.moveTo(x,H*0.60); ctx.lineTo(x+34,H*0.60); ctx.lineTo(x+70,H); ctx.lineTo(x+20,H); ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+  // 栅栏
+  ctx.save();
+  ctx.strokeStyle=C.woodL; ctx.lineWidth=6; ctx.lineCap='round';
+  var fy=H*0.615;
+  ctx.beginPath(); ctx.moveTo(0,fy); ctx.lineTo(W,fy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0,fy+14); ctx.lineTo(W,fy+14); ctx.stroke();
+  ctx.strokeStyle=C.wood; ctx.lineWidth=8;
+  for (var px=18;px<W;px+=54){ ctx.beginPath(); ctx.moveTo(px,fy-10); ctx.lineTo(px,fy+24); ctx.stroke(); }
+  ctx.restore();
+  // 玉米
+  drawCorn(ctx, 40, H*0.72, 1.25, t);
+  drawCorn(ctx, W-40, H*0.72, 1.25, t+1.5);
+}
+
+/* ============================================================
+   开场插图
+   ============================================================ */
+function drawHero(){
+  var cv = document.getElementById('hero-canvas');
+  var ctx = cv.getContext('2d');
+  var W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+  // 地面
+  ctx.fillStyle='#bfe06a';
+  ctx.beginPath(); ctx.ellipse(W/2, H-24, W*0.46, 40, 0,0,Math.PI*2); ctx.fill();
+  // 三个粮仓（小中大）
+  drawGranary(ctx, 150, H-34, 96, 88);
+  drawGranary(ctx, 620, H-34, 108, 98);
+  drawGranary(ctx, 390, H-42, 132, 124);
+  // 农夫
+  drawFarmer(ctx, 275, H-46, 1.0, 0);
+  // 玉米
+  drawCorn(ctx, 510, H-30, 1.35, 0.4);
+  drawCorn(ctx, 70, H-30, 1.2, 1.1);
+  // 老鼠（装饰）
+  drawMouse(ctx, 470, H-30, -1, 0.5);
+  drawMouse(ctx, 205, H-26, 1, 2.0);
+}
+
+/* ============================================================
+   屏幕切换
+   ============================================================ */
+function show(id){
+  var list = document.querySelectorAll('.screen');
+  for (var i=0;i<list.length;i++) list[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ============================================================
+   HUD
+   ============================================================ */
+function updateHUD(){
+  document.getElementById('hud-money').textContent = save.money;
+  document.getElementById('hud-nuomi').textContent = save.nuomi;
+  var chip = document.getElementById('hud-free');
+  var txt  = document.getElementById('hud-free-txt');
+  if (freeAvailable()){
+    chip.className = 'chip free-on';
+    txt.textContent = '免费捕鼠夹 可用';
+  } else {
+    chip.className = 'chip free-off';
+    txt.textContent = '免费捕鼠夹 今日已领';
+  }
+}
+
+/* ============================================================
+   选仓 / 选具
+   ============================================================ */
+var sel = { lv:1, tool:'free' };
+
+function renderGranaries(){
+  var box = document.getElementById('granary-list');
+  box.innerHTML = '';
+  GRANARIES.forEach(function(g){
+    var locked = g.lv > save.unlocked;
+    var cleared = save.cleared.indexOf(g.lv) >= 0;
+    var card = document.createElement('div');
+    card.className = 'gcard' + (locked?' locked':'') + (cleared?' cleared':'') + (sel.lv===g.lv?' sel':'');
+    // 缩略粮仓
+    var cv = document.createElement('canvas');
+    cv.width = 110; cv.height = 122;
+    var ctx = cv.getContext('2d');
+    var size = 30 + g.lv*9;
+    drawGranary(ctx, 55, 110, size, size*0.92);
+    card.appendChild(cv);
+    var badge = '';
+    if (locked) badge = '<span class="badge lock">🔒 未解锁</span>';
+    else if (cleared) badge = '<span class="badge">✔ 已守护</span>';
+    else if (sel.lv===g.lv) badge = '<span class="badge choose">值守中</span>';
+    card.insertAdjacentHTML('beforeend',
+      badge +
+      '<div class="gname">'+g.name+'</div>' +
+      '<div class="gold">奖金 '+g.reward+' 元宝</div>' +
+      '<div class="nuomi">糯米 '+Math.round(g.nuomi*100)+'%</div>'
+    );
+    if (!locked){
+      card.addEventListener('click', function(){
+        sel.lv = g.lv;
+        renderGranaries();
+        renderInfo();
+      });
     }
-  };
-
-  mainFlash.appendChild(player);
-  gameState.mainPlayer = player;
-
-  player.load(swfName).then(() => {
-    log(`主游戏加载完成: ${swfName}`);
-    document.getElementById('s-info').textContent = '点击宠物开始游戏！';
-    setTimeout(() => {
-      document.getElementById('loading').classList.add('hidden');
-    }, 500);
-  }).catch(err => {
-    log(`主游戏加载失败: ${err}`);
-    document.getElementById('s-info').textContent = '加载失败: ' + err;
-    document.getElementById('loading').classList.add('hidden');
+    box.appendChild(card);
   });
 }
 
-// ============ 控制按钮 ============
-document.getElementById('version-select').addEventListener('change', e => {
-  loadMainGame(e.target.value);
-});
-document.getElementById('btn-restart').addEventListener('click', () => {
-  loadMainGame(document.getElementById('version-select').value);
+function renderTools(){
+  var box = document.getElementById('tool-list');
+  box.innerHTML = '';
+  TOOLS.forEach(function(tool){
+    var isFree = !!tool.free;
+    var affordable = save.money >= tool.cost;
+    var usable = isFree ? freeAvailable() : affordable;
+    var card = document.createElement('div');
+    card.className = 'tcard' + (usable?'':' no') + (sel.tool===tool.id?' sel':'');
+    var costTxt = isFree ? (freeAvailable() ? '<span style="color:#2e7d32">今日免费</span>' : '今日已领取') 
+                         : (tool.cost + ' 元宝');
+    card.innerHTML =
+      '<div class="tname">'+tool.name+'</div>' +
+      '<div class="tstat">可布置 <b>'+tool.traps+'</b> 个捕鼠夹<br>触发范围 <b>'+tool.radius+'</b> 像素</div>' +
+      '<div class="cost">'+costTxt+'</div>' +
+      '<div class="tagline">'+tool.tag+'</div>';
+    card.addEventListener('click', function(){
+      if (!usable) return;
+      sel.tool = tool.id;
+      renderTools();
+      renderInfo();
+    });
+    box.appendChild(card);
+  });
+}
+
+function currentGranary(){ return GRANARIES[sel.lv-1]; }
+function currentTool(){
+  for (var i=0;i<TOOLS.length;i++) if (TOOLS[i].id===sel.tool) return TOOLS[i];
+  return TOOLS[0];
+}
+
+function renderInfo(){
+  var g = currentGranary();
+  var t = currentTool();
+  var el = document.getElementById('sel-info');
+  var cost = t.free ? (freeAvailable() ? '免费' : '今日已领取') : (t.cost + ' 元宝');
+  el.innerHTML =
+    '将值守：<b>'+g.name+'</b>（老鼠 '+g.mice+' 只，移动速度 '+g.speed+'）<br>' +
+    '选用工具：<b>'+t.name+'</b>（'+t.traps+' 个夹，花费 '+cost+'）';
+  var budget = document.getElementById('btn-start-play');
+  var ok = (t.free ? freeAvailable() : (save.money >= t.cost));
+  budget.disabled = !ok;
+  budget.textContent = ok ? '开始守卫' : '元宝/工具不足';
+}
+
+/* ============================================================
+   游戏核心
+   ============================================================ */
+var GAME = {
+  running:false, raf:0, last:0, t:0,
+  lv:1, g:null, tool:null,
+  mice:[], traps:[],
+  spawned:0, caught:0,
+  trapsLeft:0,
+  nextSpawn:0,
+  W:800, H:480,
+  gx:400, gy:330, gr:70,
+  shake:0, flash:0
+};
+var field = document.getElementById('field');
+var fctx = field.getContext('2d');
+
+function resetGame(){
+  var g = currentGranary();
+  var tool = currentTool();
+  GAME.lv = g.lv; GAME.g = g; GAME.tool = tool;
+  GAME.mice = []; GAME.traps = [];
+  GAME.spawned = 0; GAME.caught = 0;
+  GAME.trapsLeft = tool.traps;
+  GAME.nextSpawn = 0.7;
+  GAME.t = 0; GAME.shake = 0; GAME.flash = 0;
+  GAME.gr = 40 + g.lv*10;
+  GAME.gy = 340;
+  updatePlayHUD();
+}
+
+function updatePlayHUD(){
+  document.getElementById('play-level').textContent = GAME.g.name;
+  document.getElementById('play-mouse').textContent = (GAME.g.mice - GAME.caught);
+  document.getElementById('play-traps').textContent = GAME.trapsLeft;
+  document.getElementById('play-tool').textContent = '工具：' + GAME.tool.name;
+}
+
+function spawnMouse(){
+  var gx = GAME.gx, gy = GAME.gy;
+  // 从场地边缘进入（上方/左右），保证与粮仓有足够距离
+  var x, y, tries = 0;
+  do {
+    var edge = Math.random();
+    if (edge < 0.6){          // 上方
+      x = 44 + Math.random()*(GAME.W-88); y = 34 + Math.random()*20;
+    } else if (edge < 0.8){   // 左侧
+      x = 34 + Math.random()*20;          y = 44 + Math.random()*(GAME.H*0.6);
+    } else {                  // 右侧
+      x = GAME.W-34 - Math.random()*20;   y = 44 + Math.random()*(GAME.H*0.6);
+    }
+    tries++;
+  } while (Math.hypot(x-gx, y-gy) < 200 && tries < 12);
+  var sp = GAME.g.speed * (0.88 + Math.random()*0.28);
+  GAME.mice.push({ x:x, y:y, speed:sp, facing:1, alive:true, caught:false, ct:0 });
+  GAME.spawned++;
+}
+
+function updateGame(dt){
+  GAME.t += dt;
+  var g = GAME.g;
+  // 生成
+  if (GAME.spawned < g.mice){
+    GAME.nextSpawn -= dt;
+    if (GAME.nextSpawn <= 0){
+      spawnMouse();
+      GAME.nextSpawn = g.spawn * (0.9 + Math.random()*0.3);
+    }
+  }
+  // 移动
+  for (var i=0;i<GAME.mice.length;i++){
+    var m = GAME.mice[i];
+    if (m.caught){ m.ct += dt; continue; }
+    var dx = GAME.gx - m.x, dy = GAME.gy - m.y;
+    var d = Math.hypot(dx,dy) || 1;
+    m.facing = dx < 0 ? -1 : 1;
+    m.x += (dx/d)*m.speed*dt;
+    m.y += (dy/d)*m.speed*dt;
+    // 撞粮仓 -> 失败
+    if (d < GAME.gr*0.72){ loseGame(); return; }
+    // 撞捕鼠夹
+    for (var j=0;j<GAME.traps.length;j++){
+      var tp = GAME.traps[j];
+      if (!tp.armed) continue;
+      if (Math.hypot(m.x-tp.x, m.y-tp.y) < GAME.tool.radius){
+        tp.armed = false; tp.t = 0;
+        m.caught = true; m.ct = 0;
+        GAME.caught++;
+        GAME.flash = 0.25;
+        updatePlayHUD();
+        break;
+      }
+    }
+  }
+  // 清理
+  for (var k=GAME.traps.length-1;k>=0;k--){
+    if (!GAME.traps[k].armed){ GAME.traps[k].t += dt; if (GAME.traps[k].t > 1.1) GAME.traps.splice(k,1); }
+  }
+  for (var q=GAME.mice.length-1;q>=0;q--){
+    if (GAME.mice[q].caught && GAME.mice[q].ct > 0.7) GAME.mice.splice(q,1);
+  }
+  if (GAME.shake > 0) GAME.shake -= dt;
+  if (GAME.flash > 0) GAME.flash -= dt;
+  // 胜利
+  if (GAME.caught >= g.mice && GAME.mice.length === 0){ winGame(); return; }
+}
+
+function renderGame(){
+  var W = GAME.W, H = GAME.H, ctx = fctx;
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,W,H);
+  ctx.save();
+  if (GAME.shake > 0){
+    var s = GAME.shake*10;
+    ctx.translate((Math.random()-0.5)*s, (Math.random()-0.5)*s);
+  }
+  drawField(ctx, W, H, GAME.t);
+  // 粮仓
+  var size = 66 + GAME.lv*16;
+  drawGranary(ctx, GAME.gx, GAME.gy + 26, size, size*0.94);
+  // 捕鼠夹
+  for (var j=0;j<GAME.traps.length;j++){
+    var tp = GAME.traps[j];
+    var a = tp.armed ? 1 : Math.max(0, 1 - tp.t/1.1);
+    ctx.save(); ctx.globalAlpha = a;
+    drawTrap(ctx, tp.x, tp.y, tp.armed);
+    ctx.restore();
+  }
+  // 老鼠
+  for (var i=0;i<GAME.mice.length;i++){
+    var m = GAME.mice[i];
+    if (m.caught){
+      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - m.ct/0.7);
+      drawMouse(ctx, m.x, m.y, m.facing, GAME.t);
+      // 捕获星星
+      ctx.fillStyle='#ffd23f'; ctx.font='bold 18px sans-serif'; ctx.textAlign='center';
+      ctx.fillText('+1', m.x, m.y-20);
+      ctx.restore();
+    } else {
+      drawMouse(ctx, m.x, m.y, m.facing, GAME.t);
+    }
+  }
+  // 捕获闪光
+  if (GAME.flash > 0){
+    ctx.fillStyle = 'rgba(255,255,255,'+(GAME.flash*0.8)+')';
+    ctx.fillRect(0,0,W,H);
+  }
+  ctx.restore();
+}
+
+function loop(ts){
+  if (!GAME.running) return;
+  if (!GAME.last) GAME.last = ts;
+  var dt = Math.min(0.05, (ts - GAME.last)/1000);
+  GAME.last = ts;
+  updateGame(dt);
+  if (GAME.running) renderGame();
+  GAME.raf = requestAnimationFrame(loop);
+}
+
+/* --- 点击布夹 --- */
+field.addEventListener('click', function(e){
+  if (!GAME.running) return;
+  var r = field.getBoundingClientRect();
+  var x = (e.clientX - r.left) * (GAME.W / r.width);
+  var y = (e.clientY - r.top)  * (GAME.H / r.height);
+  // 不能在粮仓上布夹
+  if (Math.hypot(x-GAME.gx, y-GAME.gy) < GAME.gr) return;
+  if (GAME.trapsLeft <= 0) return;
+  GAME.trapsLeft--;
+  GAME.traps.push({ x:x, y:y, armed:true, t:0 });
+  updatePlayHUD();
 });
 
-// ============ 启动 ============
-window.addEventListener('load', () => {
-  if (window.RufflePlayer) {
-    loadMainGame('main_123.swf');
+/* ============================================================
+   开始 / 结束
+   ============================================================ */
+var fatal = false;
+
+function beginPlay(){
+  // 购买/消耗工具：每个捕鼠工具仅可使用一次
+  var t = currentTool();
+  if (t.free){
+    if (!freeAvailable()) fatal = true;
+    else useFree();
   } else {
-    window.addEventListener('ruffle-ready', () => loadMainGame('main_123.swf'));
+    if (save.money < t.cost) fatal = true;
+    else { save.money -= t.cost; persist(); }
   }
-});
+  if (fatal){
+    fatal = false;
+    renderGranaries(); renderTools(); renderInfo(); updateHUD();
+    show('s-select');
+    return;
+  }
+  updateHUD();
+
+  resetGame();
+  show('s-play');
+  var hint = document.getElementById('play-hint');
+  hint.classList.remove('hide');
+  GAME.running = true;
+  GAME.last = 0;
+  GAME.raf = requestAnimationFrame(loop);
+  setTimeout(function(){ hint.classList.add('hide'); }, 2600);
+  updateHUD();
+}
+
+function stopLoop(){
+  GAME.running = false;
+  if (GAME.raf) cancelAnimationFrame(GAME.raf);
+  GAME.raf = 0;
+}
+
+function winGame(){
+  stopLoop();
+  var g = GAME.g;
+  var reward = g.reward;
+  var gainNuomi = Math.random() < g.nuomi;
+  save.money += reward;
+  if (gainNuomi) save.nuomi += 1;
+  if (save.cleared.indexOf(g.lv) < 0) save.cleared.push(g.lv);
+  if (g.lv === save.unlocked && save.unlocked < 5) save.unlocked = g.lv + 1;
+  FAILS = 0;
+  persist();
+  updateHUD();
+  showResult(true, reward, gainNuomi ? 1 : 0, g);
+}
+
+function loseGame(){
+  stopLoop();
+  GAME.shake = 0.5;
+  renderGame();
+  var g = GAME.g;
+  // 每失败一次，本次奖励元宝就会少一些
+  FAILS += 1;
+  var cut = Math.min(0.8, 0.15 * FAILS);
+  var reward = Math.max(0, Math.round(g.reward * (1 - cut)));
+  save.money += reward;
+  if (save.money < 0) save.money = 0;
+  persist();
+  updateHUD();
+  showResult(false, reward, 0, g, Math.round(cut*100));
+}
+var FAILS = 0;
+
+function showResult(win, reward, nuomi, g, cutPct){
+  var tEl = document.getElementById('res-title');
+  var sEl = document.getElementById('res-sub');
+  tEl.textContent = win ? '守卫成功' : '守卫失败';
+  tEl.className = 'rtitle ' + (win ? 'win' : 'lose');
+  sEl.textContent = win ? '粮仓安然无恙，老鼠全数落网！'
+                        : '老鼠钻进了粮仓，粮食被偷吃了…';
+  document.getElementById('res-lv').textContent = g.name;
+  document.getElementById('res-money').textContent = '+' + reward;
+  document.getElementById('res-nuomi').textContent = nuomi > 0 ? '糯米 ×'+nuomi : '未获得';
+  var penRow = document.getElementById('res-pen-row');
+  if (!win && cutPct){
+    penRow.style.display = 'flex';
+    document.getElementById('res-pen').textContent = '-' + cutPct + '%';
+    document.getElementById('res-money').textContent = '+' + reward;
+  } else {
+    penRow.style.display = 'none';
+  }
+  document.getElementById('btn-res-again').style.display = win ? 'none' : '';
+  document.getElementById('btn-res-again').textContent = '再来一次';
+  show('s-result');
+}
+
+/* ============================================================
+   按钮绑定
+   ============================================================ */
+document.getElementById('btn-enter').onclick = function(){
+  renderGranaries(); renderTools(); renderInfo();
+  updateHUD();
+  show('s-select');
+};
+document.getElementById('btn-back-title').onclick = function(){ show('s-title'); };
+document.getElementById('btn-start-play').onclick = function(){ beginPlay(); };
+
+document.getElementById('btn-quit-play').onclick = function(){
+  stopLoop();
+  renderGranaries(); renderTools(); renderInfo(); updateHUD();
+  show('s-select');
+};
+document.getElementById('btn-res-back').onclick = function(){
+  renderGranaries(); renderTools(); renderInfo(); updateHUD();
+  show('s-select');
+};
+document.getElementById('btn-res-again').onclick = function(){
+  beginPlay();
+};
+document.getElementById('btn-reset').onclick = function(){
+  if (confirm('确定重置本地存档吗？（元宝、糯米、通关进度都会清空）')){
+    save = { unlocked:1, cleared:[], money:300, nuomi:0, freeDate:'' };
+    persist(); FAILS = 0;
+    updateHUD();
+    renderGranaries(); renderTools(); renderInfo();
+  }
+};
+
+/* ============================================================
+   初始化
+   ============================================================ */
+updateHUD();
+drawHero();
+// 开场动画：定时重绘 hero（农夫/玉米轻微摆动）
+(function heroLoop(){
+  if (document.getElementById('s-title').classList.contains('active')){
+    drawHero();
+  }
+  setTimeout(heroLoop, 120);
+})();
+
+})();
 </script>
 </body>
 </html>
