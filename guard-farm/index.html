@@ -3,285 +3,566 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>守卫农庄赢大奖 · QQ宠物 2007 经典活动复原</title>
+<title>守卫农庄 · Q宠农庄（QQ宠物 2007 官方活动复原）</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html,body{ width:100%; height:100%; overflow:hidden; user-select:none;
-    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
-    color:#5a3d16;
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{width:100%;min-height:100%;user-select:none;
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;color:#3B3B3B;
+    background:#ffe36a;
+    background-image:radial-gradient(circle at 10% 8%,rgba(255,255,255,.5) 0,transparent 20%),
+                     radial-gradient(circle at 90% 6%,rgba(255,255,255,.35) 0,transparent 18%),
+                     linear-gradient(180deg,#ffe98a,#ffd23f);}
+  .screen{display:none}
+  .screen.active{display:block}
+
+  /* ======================= 官方活动页 ======================= */
+  #s-home{min-height:100vh;padding-bottom:30px}
+  .ohome{width:1000px;max-width:100%;margin:0 auto}
+  .ohome .banner{display:block;width:1000px;max-width:100%;height:auto}
+  .o-topbar{height:29px;background:#fff;display:flex;align-items:center;
+    font-size:12px;color:#3B3B3B;padding:0 12px;justify-content:space-between}
+  .o-topbar .links a{color:#3B3B3B;text-decoration:none;margin-left:14px}
+  .o-topbar .links a:hover{color:#e0761a}
+  .o-content{width:760px;max-width:100%;margin:0 auto;background:#ffe36a}
+  .o-bar{display:block;width:722px;max-width:100%;height:auto;margin:0 auto}
+  .o-txt{width:715px;max-width:100%;margin:0 auto;font-size:13.5px;line-height:2.05;color:#3B3B3B;padding:6px 0 14px}
+  .o-txt p{margin:0 0 2px}
+  .o-txt .ind{display:inline-block;width:26px}
+  ol.orules{width:715px;max-width:100%;margin:6px auto 14px;padding-left:30px}
+  ol.orules li{font-size:13.5px;line-height:2.05;color:#3B3B3B;margin-bottom:1px}
+  ol.orules li b{color:#c0392b}
+  .o-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:8px 0 6px}
+  .o-actions img{height:45px}
+  .o-note{width:722px;max-width:100%;margin:8px auto 0;text-align:center;font-size:12px;color:#8a6a2a}
+  .o-footer{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+    margin-top:16px;padding-top:12px;border-top:1px solid rgba(120,80,10,.25);font-size:12px;color:#3B3B3B}
+
+  /* ======================= 通用按钮 ======================= */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border:none;outline:none;
+    font-family:inherit;font-size:16px;font-weight:bold;color:#5a3d0a;
+    background:linear-gradient(180deg,#ffe98a,#ffc21f);border-radius:999px;padding:11px 30px;
+    box-shadow:0 5px 0 #c98a10,0 9px 16px rgba(120,80,10,.25),inset 0 2px 0 rgba(255,255,255,.7);
+    transition:transform .08s,box-shadow .08s;letter-spacing:1px}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 #c98a10,inset 0 2px 0 rgba(255,255,255,.7)}
+  .btn.sec{background:linear-gradient(180deg,#c7ee7b,#8ec93f);color:#3f5c12;
+    box-shadow:0 5px 0 #6fa02c,0 9px 16px rgba(90,120,10,.28),inset 0 2px 0 rgba(255,255,255,.6)}
+  .btn.sec:active{box-shadow:0 1px 0 #6fa02c,inset 0 2px 0 rgba(255,255,255,.6)}
+  .btn[disabled]{filter:grayscale(.7) opacity(.62);cursor:not-allowed;transform:none}
+  .btn.big{font-size:22px;padding:16px 54px;letter-spacing:3px}
+
+  /* ======================= 农庄游戏窗口 ======================= */
+  #s-farm{padding:14px 12px 34px;display:flex;justify-content:center}
+  .gwin{width:1000px;max-width:100%}
+  .gbar{position:relative;height:34px;border-radius:10px 10px 0 0;overflow:hidden;
     background:
-      radial-gradient(circle at 12% 12%, rgba(255,255,255,.55) 0%, transparent 22%),
-      radial-gradient(circle at 88% 8%, rgba(255,255,255,.4) 0%, transparent 20%),
-      linear-gradient(180deg,#ffe79a 0%,#ffd964 45%,#f7c948 100%);
+      repeating-linear-gradient(90deg,rgba(150,105,35,.18) 0 2px,transparent 2px 5px),
+      linear-gradient(180deg,#f0d488,#dcb352);
+    border:3px solid #9c6f22;border-bottom:none;
+    display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:12.5px;color:#6b4915;font-weight:bold}
+  .gbar .left,.gbar .right{display:flex;align-items:center;gap:6px}
+  .gbar .right{color:#8a5d18}
+  .gbar .dot{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9ee25a,#4f9d1e);border:2px solid #fff;box-shadow:0 0 0 1px #4f9d1e}
+  .gbar .q{width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd9e6,#ff6f9c);border:2px solid #fff;box-shadow:0 0 0 1px #e0507c}
+
+  .gwrap{position:relative;border:3px solid #9c6f22;border-radius:0 0 12px 12px;overflow:hidden;background:#c99f45;
+    box-shadow:0 12px 26px rgba(90,61,22,.30)}
+  .scene{position:relative;width:100%;aspect-ratio:1000 / 600}
+  #scene-svg{display:block;width:100%;height:100%}
+
+  /* 粮仓可选态 */
+  .bld{cursor:pointer}
+  .bld .glow{opacity:0;transition:opacity .18s}
+  .bld.avail:hover .glow{opacity:.85}
+  .bld.sel .glow{opacity:1}
+  .bld.locked{cursor:not-allowed}
+  .bld.locked .art{filter:grayscale(.28) opacity(.84)}
+  .bld .art{transition:transform .12s}
+  .bld.avail:hover .art{transform:translateY(-3px)}
+  .numbox ellipse{stroke:#fff;stroke-width:2}
+
+  /* 奖励气泡 */
+  .bubble{position:absolute;transform:translate(-50%,-100%);pointer-events:none;opacity:0;transition:opacity .15s;
+    background:rgba(255,252,232,.96);border:3px solid #d9a52a;border-radius:14px;padding:5px 12px;
+    font-size:13px;font-weight:bold;color:#c0392b;white-space:nowrap;box-shadow:0 4px 10px rgba(90,61,22,.3)}
+  .bubble::after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);
+    border:9px solid transparent;border-top-color:#d9a52a}
+  .bubble.on{opacity:1}
+
+  /* Q宠农庄木牌 */
+  .fsign{position:absolute;left:6.5%;bottom:7%;transform:translateY(0) rotate(-3deg);pointer-events:none;
+    background:linear-gradient(180deg,#f3d98f,#dcb459);border:4px solid #a5701f;border-radius:12px;
+    padding:6px 16px;box-shadow:0 6px 0 #8a5c17,inset 0 2px 0 rgba(255,255,255,.6)}
+  .fsign .t1{font-size:20px;font-weight:900;color:#c0392b;letter-spacing:2px;text-align:center;line-height:1;
+    text-shadow:0 2px 0 #fff3c4}
+  .fsign .t2{font-size:15px;font-weight:900;color:#c0392b;letter-spacing:6px;text-align:center;line-height:1.2;
+    text-shadow:0 2px 0 #fff3c4}
+
+  /* 右侧木牌菜单 */
+  .menu{position:absolute;right:1.2%;top:30%;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+  .mbtn{position:relative;display:flex;align-items:center;gap:8px;cursor:pointer;border:none;outline:none;
+    font-family:inherit;font-size:16px;font-weight:900;letter-spacing:1px;
+    padding:9px 16px 9px 26px;border-radius:10px 4px 4px 10px;color:#6b3f0d;
+    background:linear-gradient(180deg,#f6df9c,#dcb95c);
+    border:3px solid #9c6f22;box-shadow:0 5px 0 #8a5c17,inset 0 2px 0 rgba(255,255,255,.65);
+    text-shadow:0 1px 0 rgba(255,255,255,.6);transition:transform .08s,filter .08s}
+  .mbtn::before{content:"";position:absolute;left:8px;top:50%;transform:translateY(-50%);
+    border:7px solid transparent;border-right-color:#c98a26}
+  .mbtn:hover{transform:translateX(-3px);filter:brightness(1.05)}
+  .mbtn:active{transform:translateX(0) translateY(3px);box-shadow:0 2px 0 #8a5c17}
+  .mbtn .star{width:16px;height:16px;flex:0 0 16px}
+  .mbtn.hot{background:linear-gradient(180deg,#ffe08a,#f4b62c)}
+  .mbtn.hot .star path{fill:#ff5f9e}
+
+  /* HUD */
+  .hudslot{display:flex;gap:7px;align-items:center;font-size:12px;font-weight:bold;color:#5a3d0a}
+  .chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.9);border:2px solid #d8a63a;
+    border-radius:999px;padding:2px 10px 2px 7px;box-shadow:0 2px 0 #c98a10}
+  .chip .ico{width:16px;height:16px}
+
+  /* ======================= 弹窗 ======================= */
+  .mask{position:fixed;inset:0;background:rgba(20,12,4,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:14px}
+  .mask.on{display:flex}
+  .dlg{display:none;position:relative;width:640px;max-width:96vw;
+    background:linear-gradient(180deg,#a98cf0,#8c6ce0);
+    border:6px solid #d9ab48;border-radius:20px;
+    box-shadow:0 0 0 4px #8a5c17,0 18px 40px rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,255,255,.25)}
+  .dlg.on{display:block}
+  .dlg::before,.dlg::after{content:"";position:absolute;top:8px;bottom:8px;width:26px;pointer-events:none;opacity:.95;
+    background-repeat:no-repeat;background-size:contain;background-position:center}
+  .dlg::before{left:-2px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 120'><path d='M14 6 C13 30 13 70 12 114' stroke='%23c79a3a' stroke-width='3' fill='none'/><g fill='%23e9c25a'><path d='M12 24 q-9 3 -12 10 q8 2 12 -2z'/><path d='M13 38 q9 3 12 10 q-8 2 -12 -2z'/><path d='M12 52 q-9 3 -12 10 q8 2 12 -2z'/><path d='M13 66 q9 3 12 10 q-8 2 -12 -2z'/><path d='M12 80 q-9 3 -12 10 q8 2 12 -2z'/></g></svg>")}
+  .dlg::after{right:-2px;transform:scaleX(-1);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 120'><path d='M14 6 C13 30 13 70 12 114' stroke='%23c79a3a' stroke-width='3' fill='none'/><g fill='%23e9c25a'><path d='M12 24 q-9 3 -12 10 q8 2 12 -2z'/><path d='M13 38 q9 3 12 10 q-8 2 -12 -2z'/><path d='M12 52 q-9 3 -12 10 q8 2 12 -2z'/><path d='M13 66 q9 3 12 10 q-8 2 -12 -2z'/><path d='M12 80 q-9 3 -12 10 q8 2 12 -2z'/></g></svg>")}
+  .dtitle{position:relative;margin:-6px auto 4px;width:240px;text-align:center;
+    font-size:24px;font-weight:900;letter-spacing:4px;color:#fff;
+    background:linear-gradient(180deg,#5db6f0,#2f86d6);border:4px solid #d9ab48;border-radius:14px;
+    padding:6px 0;text-shadow:0 2px 0 #1c63a0;box-shadow:0 4px 0 #1c63a0,inset 0 2px 0 rgba(255,255,255,.5)}
+  .dtitle::before,.dtitle::after{content:"";position:absolute;top:-12px;width:44px;height:22px;
+    background-size:contain;background-repeat:no-repeat}
+  .dtitle::before{left:-30px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 22'><g fill='%23e6482f'><circle cx='10' cy='12' r='5'/><circle cx='22' cy='8' r='5'/><circle cx='34' cy='13' r='5'/></g><path d='M22 4 q6 -6 12 -2' stroke='%233f8c22' stroke-width='3' fill='none'/></svg>")}
+  .dtitle::after{right:-30px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 22'><g fill='%23e6482f'><circle cx='10' cy='12' r='5'/><circle cx='22' cy='8' r='5'/><circle cx='34' cy='13' r='5'/></g><path d='M22 4 q6 -6 12 -2' stroke='%233f8c22' stroke-width='3' fill='none'/></svg>")}
+  .dclose{position:absolute;right:8px;top:6px;width:30px;height:30px;border-radius:50%;cursor:pointer;
+    background:radial-gradient(circle at 35% 30%,#c0f06a,#57a01c);border:3px solid #fff;color:#2f5c0d;
+    font-weight:900;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 0 #3f7514}
+  .dbody{margin:8px 26px 16px;background:rgba(255,255,255,.16);border-radius:12px;padding:16px 18px;color:#fff;
+    font-size:15px;line-height:1.85;text-shadow:0 1px 1px rgba(60,30,120,.5)}
+  .dbody b{color:#ffe36a}
+
+  .toolrow{display:flex;gap:16px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+  .topt{position:relative;width:210px;cursor:pointer;border-radius:12px;padding:10px 10px 12px;text-align:center;
+    background:linear-gradient(180deg,#fff8dd,#ffe9a8);border:4px solid #d9ab48;box-shadow:0 5px 0 #b4832c}
+  .topt::after{content:"";position:absolute;right:8px;bottom:8px;width:22px;height:22px;border-radius:50%;
+    background:#fff;border:3px solid #c98a26}
+  .topt.pick{filter:brightness(1.03)}
+  .topt.pick::after{background:radial-gradient(circle at 40% 35%,#c0f06a,#57a01c);border-color:#3f7514;
+    box-shadow:inset 0 0 0 3px #fff}
+  .topt .tn{font-size:16px;font-weight:900;color:#7a4c0e;letter-spacing:1px}
+  .topt .ticon{width:88px;height:70px;margin:6px auto;display:block}
+  .topt .tp{font-size:14px;font-weight:900;color:#c0392b}
+  .topt .td{font-size:11.5px;color:#8a6a2a;line-height:1.5;margin-top:4px}
+  .topt.dis{filter:grayscale(.7) opacity(.65);cursor:not-allowed}
+
+  .dfoot{display:flex;justify-content:center;padding:0 26px 20px}
+  .rewardlist{margin:6px 0 2px}
+  .rewardlist .r{display:flex;justify-content:space-between;padding:5px 2px;border-bottom:1px dashed rgba(255,255,255,.3)}
+  .rewardlist .r b{color:#ffe36a}
+  .winbig{color:#ffe36a;font-weight:900;font-size:18px}
+  .losebig{color:#ffd0c6;font-weight:900;font-size:18px}
+  .hint{font-size:12.5px;color:#e9dcff;margin-top:8px}
+
+  @media (max-width:640px){
+    .menu{top:24%;gap:8px}
+    .mbtn{font-size:13px;padding:7px 10px 7px 20px}
+    .fsign .t1{font-size:15px}.fsign .t2{font-size:12px}
   }
-  #app{ position:fixed; inset:0; }
-
-  /* ---------- 通用面板 ---------- */
-  .screen{ position:absolute; inset:0; display:none; overflow:auto; }
-  .screen.active{ display:block; }
-  .wrap{ max-width:960px; margin:0 auto; padding:18px 16px 40px; }
-
-  .panel{ background:linear-gradient(180deg,#a8d94e 0%,#8ec93f 100%);
-    border:3px solid #d9f0a3; border-radius:16px;
-    box-shadow:0 6px 0 #6fa02c, 0 12px 26px rgba(90,61,22,.25);
-    padding:14px 16px; margin-bottom:14px; position:relative; }
-  .panel::before{ content:""; position:absolute; inset:5px; border:2px dashed rgba(255,255,255,.55);
-    border-radius:11px; pointer-events:none; }
-
-  .ribbon{ display:inline-flex; align-items:center; gap:8px;
-    background:linear-gradient(180deg,#fff3b0,#ffd24a);
-    border:2px solid #e6a916; border-radius:999px;
-    padding:5px 18px 5px 12px; margin:-26px 0 10px 6px;
-    box-shadow:0 3px 0 #c98a10; position:relative; z-index:2; }
-  .ribbon .cn{ font-size:19px; font-weight:bold; color:#6b4a0e;
-    text-shadow:0 1px 0 #fff; letter-spacing:1px; }
-  .ribbon .en{ font-size:10px; color:#a07d33; letter-spacing:1px; }
-
-  .body-text{ font-size:13.5px; line-height:1.9; color:#3f5c12; text-shadow:0 1px 0 rgba(255,255,255,.45); }
-  .body-text p{ margin:2px 0; }
-  ol.rules{ margin:8px 2px 0; padding-left:22px; }
-  ol.rules li{ font-size:13.5px; line-height:1.95; color:#3f5c12; margin-bottom:2px; }
-  ol.rules li b{ color:#c0392b; }
-
-  /* ---------- 木质招牌 ---------- */
-  .sign{ display:inline-block; background:linear-gradient(180deg,#c58a3d,#9c661f);
-    border:4px solid #7d4c22; border-radius:14px; padding:10px 26px;
-    box-shadow:0 6px 0 #6b3f1c, 0 12px 22px rgba(0,0,0,.22); text-align:center; }
-  .sign .big{ font-size:34px; font-weight:900; letter-spacing:3px;
-    background:linear-gradient(180deg,#fff6c2,#ffd23f);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-    -webkit-text-stroke:2px #6b3f1c; text-shadow:0 3px 0 rgba(107,63,28,.35); }
-  .sign .sub{ font-size:12px; color:#ffe9a8; margin-top:4px; letter-spacing:2px; }
-
-  /* ---------- 按钮 ---------- */
-  .btn{ display:inline-block; cursor:pointer; border:none; outline:none;
-    font-family:inherit; font-size:16px; font-weight:bold; color:#6b4a0e;
-    background:linear-gradient(180deg,#ffe98a,#ffc21f);
-    border-radius:999px; padding:11px 34px;
-    box-shadow:0 5px 0 #c98a10, 0 9px 16px rgba(120,80,10,.28), inset 0 2px 0 rgba(255,255,255,.7);
-    transition:transform .08s, box-shadow .08s; letter-spacing:2px; }
-  .btn:hover{ transform:translateY(-1px); }
-  .btn:active{ transform:translateY(4px); box-shadow:0 1px 0 #c98a10, inset 0 2px 0 rgba(255,255,255,.7); }
-  .btn.sec{ background:linear-gradient(180deg,#c7ee7b,#8ec93f); color:#3f5c12;
-    box-shadow:0 5px 0 #6fa02c, 0 9px 16px rgba(90,120,10,.3), inset 0 2px 0 rgba(255,255,255,.6); }
-  .btn.sec:active{ box-shadow:0 1px 0 #6fa02c, inset 0 2px 0 rgba(255,255,255,.6); }
-  .btn[disabled]{ filter:grayscale(.75) opacity(.6); cursor:not-allowed; transform:none; }
-  .btn.sm{ font-size:13px; padding:7px 18px; }
-
-  /* ---------- HUD ---------- */
-  #hud{ position:fixed; top:12px; right:14px; z-index:60; display:flex; gap:8px; align-items:center; }
-  .chip{ display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.9);
-    border:2px solid #e6a916; border-radius:999px; padding:5px 14px 5px 8px;
-    font-size:13px; font-weight:bold; color:#6b4a0e; box-shadow:0 3px 0 #d8a63a; }
-  .chip .ico{ width:20px; height:20px; display:inline-block; }
-  .chip.free-on{ border-color:#4caf50; box-shadow:0 3px 0 #3d8b40; }
-  .chip.free-off{ border-color:#bbb; box-shadow:0 3px 0 #999; color:#888; }
-  .chip small{ font-weight:normal; color:#9a7b3c; }
-
-  /* ---------- 开场 ---------- */
-  #s-title .hero{ display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap; margin:10px 0 22px; }
-  #s-title .hero canvas{ image-rendering:auto; filter:drop-shadow(0 10px 14px rgba(120,80,10,.25)); }
-  .tag{ position:absolute; }
-
-  /* ---------- 选仓 ---------- */
-  .granary-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
-  .gcard{ position:relative; background:linear-gradient(180deg,#fffdf0,#ffefc0);
-    border:3px solid #e0c274; border-radius:14px; padding:8px 6px 10px; text-align:center;
-    cursor:pointer; transition:transform .1s, box-shadow .1s, border-color .1s; }
-  .gcard:hover{ transform:translateY(-3px); }
-  .gcard.sel{ border-color:#ff9800; box-shadow:0 0 0 3px rgba(255,152,0,.35), 0 8px 16px rgba(150,90,10,.25); }
-  .gcard.locked{ filter:grayscale(.85); opacity:.62; cursor:not-allowed; }
-  .gcard.locked:hover{ transform:none; }
-  .gcard.cleared{ border-color:#4caf50; }
-  .gcard canvas{ display:block; margin:0 auto; }
-  .gcard .gname{ font-size:14px; font-weight:bold; color:#6b4a0e; margin-top:2px; }
-  .gcard .gold{ font-size:12px; color:#c0392b; font-weight:bold; }
-  .gcard .nuomi{ font-size:11px; color:#3f5c12; }
-  .gcard .badge{ position:absolute; top:-9px; right:-6px; font-size:11px; font-weight:bold;
-    color:#fff; background:#4caf50; border-radius:999px; padding:2px 8px; box-shadow:0 2px 0 #3d8b40; }
-  .gcard .badge.lock{ background:#9e9e9e; box-shadow:0 2px 0 #757575; }
-  .gcard .badge.choose{ background:#ff9800; box-shadow:0 2px 0 #e07b00; }
-
-  .tool-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-  .tcard{ background:linear-gradient(180deg,#fffdf0,#ffefc0); border:3px solid #e0c274;
-    border-radius:14px; padding:10px; cursor:pointer; transition:transform .1s, border-color .1s; }
-  .tcard:hover{ transform:translateY(-3px); }
-  .tcard.sel{ border-color:#ff9800; box-shadow:0 0 0 3px rgba(255,152,0,.35); }
-  .tcard.no{ filter:grayscale(.8); opacity:.6; cursor:not-allowed; }
-  .tcard.no:hover{ transform:none; }
-  .tcard .tname{ font-size:14px; font-weight:bold; color:#6b4a0e; display:flex; align-items:center; gap:6px; }
-  .tcard .tstat{ font-size:12px; color:#8a6a2a; margin-top:5px; line-height:1.6; }
-  .tcard .tstat b{ color:#c0392b; }
-  .tcard .cost{ margin-top:6px; font-size:12px; color:#c0392b; font-weight:bold; }
-  .tcard .tagline{ font-size:11px; color:#8a6a2a; margin-top:4px; line-height:1.5; }
-
-  .sel-bar{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; flex-wrap:wrap; }
-  .sel-info{ font-size:13px; color:#3f5c12; line-height:1.7; }
-  .sel-info b{ color:#c0392b; }
-
-  /* ---------- 游戏 ---------- */
-  #s-play{ display:none; }
-  #s-play.active{ display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .play-frame{ position:relative; }
-  #field{ display:block; border-radius:14px; border:4px solid #7d4c22;
-    box-shadow:0 8px 0 #6b3f1c, 0 18px 36px rgba(90,61,22,.35); background:#bfe06a;
-    max-width:96vw; max-height:70vh; cursor:crosshair; }
-  .playbar{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:12px; flex-wrap:wrap; }
-  .pstat{ background:rgba(255,255,255,.92); border:2px solid #e6a916; border-radius:999px;
-    padding:6px 16px; font-size:14px; font-weight:bold; color:#6b4a0e; box-shadow:0 3px 0 #d8a63a; }
-  .pstat b{ color:#c0392b; font-size:16px; }
-  .pstat.tip{ background:rgba(255,255,255,.7); font-weight:normal; color:#8a6a2a; }
-  #play-hint{ position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
-    background:rgba(107,63,28,.86); color:#ffe9a8; padding:16px 26px; border-radius:14px;
-    text-align:center; font-size:15px; line-height:1.8; pointer-events:none;
-    box-shadow:0 8px 20px rgba(0,0,0,.3); transition:opacity .4s; }
-  #play-hint.hide{ opacity:0; }
-  #play-hint .k{ color:#ffd23f; font-weight:bold; }
-
-  /* ---------- 结算 ---------- */
-  .res-box{ background:linear-gradient(180deg,#fffdf0,#ffe9b8); border:4px solid #e0c274;
-    border-radius:18px; padding:26px 30px; text-align:center; max-width:460px; margin:0 auto;
-    box-shadow:0 8px 0 #c9a94e, 0 18px 40px rgba(90,61,22,.3); }
-  .res-box .rtitle{ font-size:30px; font-weight:900; letter-spacing:3px; margin-bottom:4px; }
-  .res-box .rtitle.win{ color:#e0761a; text-shadow:0 2px 0 #fff, 0 4px 0 rgba(200,120,10,.25); }
-  .res-box .rtitle.lose{ color:#8d887e; text-shadow:0 2px 0 #fff; }
-  .res-box .rsub{ font-size:13px; color:#8a6a2a; margin-bottom:16px; }
-  .res-line{ display:flex; justify-content:space-between; font-size:15px; padding:9px 4px;
-    border-bottom:1px dashed #dcc389; color:#6b4a0e; }
-  .res-line b{ color:#c0392b; }
-  .res-line.nuomi b{ color:#2e7d32; }
-  .res-actions{ display:flex; gap:12px; justify-content:center; margin-top:22px; flex-wrap:wrap; }
-
-  .center{ text-align:center; }
-  .mt{ margin-top:16px; }
-  .hidden{ display:none !important; }
-
-  /* 云朵/装饰 */
-  .cloud{ position:absolute; background:#fff; border-radius:50%; opacity:.85; pointer-events:none; }
 </style>
 </head>
 <body>
-<div id="app">
 
-  <!-- ================= HUD ================= -->
-  <div id="hud">
-    <div class="chip" title="元宝">
-      <svg class="ico" viewBox="0 0 24 24"><ellipse cx="12" cy="8" rx="9" ry="5" fill="#f6c445" stroke="#b8860b" stroke-width="1.6"/><path d="M3 8v6c0 2.8 4 5 9 5s9-2.2 9-5V8" fill="#ffd964" stroke="#b8860b" stroke-width="1.6"/><ellipse cx="12" cy="8" rx="4" ry="2" fill="#fff3b0"/></svg>
-      <span id="hud-money">0</span>
+<!-- ======================= 官方活动页 ======================= -->
+<section id="s-home" class="screen active">
+  <div class="ohome">
+    <div class="o-topbar">
+      <span>QQ宠物 · 守卫农庄赢大奖</span>
+      <span class="links"><a href="#">官网首页</a><a href="#">粉钻贵族</a><a href="#">领养宠物</a><a href="#">游戏论坛</a></span>
     </div>
-    <div class="chip" title="糯米（端午包粽子材料）">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M12 3c3 2 6 5 6 9a6 6 0 0 1-12 0c0-4 3-7 6-9z" fill="#fff8e1" stroke="#c9a94e" stroke-width="1.5"/><path d="M12 4l-4 8h8z" fill="#e8f5c8" stroke="#8ec93f" stroke-width="1.2"/></svg>
-      <span id="hud-nuomi">0</span>
+    <img class="banner" src="assets/official/banner_top.png" alt="守卫农庄赢大奖">
+    <img class="banner" src="assets/official/banner_bottom.png" alt="">
+    <div class="o-content">
+      <img class="o-bar" src="assets/official/bar_content.png" alt="活动内容">
+      <div class="o-txt">
+        <p><span class="ind"></span>Q宠农庄坐落在一片小树林里。一到晚上，饥肠辘辘的小田鼠们就开始偷吃粮食。善良的农夫对它们是又气又怕。如果尽责的守护者能够保证粮仓的安全，就会得到很多丰厚的奖励哦！</p>
+        <p><span class="ind"></span>守护的粮仓越大，奖金就会越高哦。除此之外，守护者还有机会获得端午节包粽子用的材料——糯米哦！透露一下：糯米能够做出增加很多属性值的粽子哦！</p>
+      </div>
+      <img class="o-bar" src="assets/official/bar_rule.png" alt="活动规则">
+      <ol class="orules">
+        <li>守护粮仓必须选用一种<b>专用捕鼠工具</b>；每个捕鼠工具仅可使用一次；</li>
+        <li>每天首次进入农庄的 6 级以上的 Q 宠宝贝可使用<b>免费捕鼠夹</b>；</li>
+        <li>农庄里有 <b>5 个粮仓</b>，守护者必须从最小的粮仓开始值守，成功过关者才能晋级守护更大的粮仓，高级守护者有权选择值守更小的粮仓；</li>
+        <li>守护的粮仓越大，可获得的奖金越多，还有机会获得糯米哦；</li>
+        <li>糯米能够做出增加很多属性值的粽子，只能在端午节活动中使用；</li>
+        <li>本活动最终解释权归腾讯公司所有。</li>
+      </ol>
+      <div class="o-actions">
+        <img src="assets/official/i_main_bt01.jpg" alt="立即领养">
+        <img src="assets/official/i_main_bt02.jpg" alt="进入官网">
+      </div>
+      <div class="o-actions">
+        <button class="btn big" id="btn-play">进 入 农 庄</button>
+      </div>
+      <div class="o-note">※ 每失败一次，可获得的奖金（元宝）就会少一些，请谨慎准备后再去值守！</div>
+      <div class="o-footer">
+        <img src="assets/official/logo_game.jpg" alt="腾讯游戏" style="height:44px">
+        <div>
+          <div>关于腾讯 | About Tencent | 服务条款 | 广告服务 | 腾讯招聘 | 客服中心 | 网站导航</div>
+          <div>Copyright &copy; 1998 - 2007 TENCENT Inc. All Rights Reserved　腾讯公司 版权所有</div>
+        </div>
+      </div>
     </div>
-    <div class="chip" id="hud-free" title="每天首次进入农庄的6级以上Q宠宝贝可使用免费捕鼠夹">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="5" rx="1.5" fill="#a1662f" stroke="#7d4c22" stroke-width="1.4"/><path d="M6 14V8h12v6" fill="none" stroke="#9aa0a6" stroke-width="2.2"/><circle cx="12" cy="8" r="1.6" fill="#9aa0a6"/></svg>
-      <span id="hud-free-txt">免费捕鼠夹</span>
+  </div>
+</section>
+
+<!-- ======================= 农庄（游戏主界面） ======================= -->
+<section id="s-farm" class="screen">
+  <div class="gwin">
+    <div class="gbar">
+      <span class="left"><span class="dot"></span>宠物社区-全球最大网上乐园</span>
+      <span class="hudslot" id="hud-slot"></span>
+      <span class="right"><span class="q"></span>更多精彩游戏</span>
     </div>
-    <button class="btn sm sec" id="btn-reset" title="重置本地存档">重置</button>
+
+    <div class="gwrap">
+      <div class="scene" id="scene">
+        <svg id="scene-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="gFarm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e6c257"/><stop offset=".45" stop-color="#dcb44c"/><stop offset="1" stop-color="#cba13d"/>
+            </linearGradient>
+            <linearGradient id="gGrass" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#a9da50"/><stop offset="1" stop-color="#7cba33"/>
+            </linearGradient>
+            <linearGradient id="gPath" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e9d189"/><stop offset="1" stop-color="#d8bb6c"/>
+            </linearGradient>
+            <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#d8a95c"/><stop offset="1" stop-color="#b07f34"/>
+            </linearGradient>
+            <linearGradient id="gBarn" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#7fc8f0"/><stop offset="1" stop-color="#3f8fd0"/>
+            </linearGradient>
+            <linearGradient id="gPump" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffb43c"/><stop offset="1" stop-color="#e07a12"/>
+            </linearGradient>
+            <linearGradient id="gGourd" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#b7e26a"/><stop offset="1" stop-color="#6fae2c"/>
+            </linearGradient>
+            <linearGradient id="gPurp" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#d7c6f5"/><stop offset="1" stop-color="#9c7fe0"/>
+            </linearGradient>
+            <linearGradient id="gHive" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffd98a"/><stop offset="1" stop-color="#e9a23c"/>
+            </linearGradient>
+            <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#fff2a8" stop-opacity=".95"/>
+              <stop offset="1" stop-color="#ffd23f" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- 天空/远景麦田 -->
+          <rect x="0" y="0" width="1000" height="600" fill="url(#gFarm)"/>
+          <g stroke="#b98f33" stroke-width="2" opacity=".45">
+            <path d="M-20 120 Q500 96 1020 122"/><path d="M-20 152 Q500 128 1020 154"/>
+            <path d="M-20 184 Q500 160 1020 186"/>
+          </g>
+          <g opacity=".5" stroke="#c79a3a" stroke-width="1.6">
+            <path d="M40 90 L30 150"/><path d="M90 88 L80 150"/><path d="M140 86 L132 150"/>
+            <path d="M690 84 L682 150"/><path d="M740 84 L732 150"/><path d="M790 86 L784 150"/>
+          </g>
+
+          <!-- 麦垛 -->
+          <g>
+            <ellipse cx="120" cy="150" rx="52" ry="34" fill="#e9c25a"/><path d="M70 150 q50 -30 100 0" fill="none" stroke="#c79a3a" stroke-width="2"/>
+            <ellipse cx="905" cy="150" rx="46" ry="30" fill="#e9c25a"/><path d="M861 150 q44 -26 88 0" fill="none" stroke="#c79a3a" stroke-width="2"/>
+            <ellipse cx="968" cy="182" rx="40" ry="26" fill="#f0cd6e"/>
+          </g>
+
+          <!-- 篱笆 -->
+          <g>
+            <path d="M0 108 H1000" stroke="#c08a3e" stroke-width="7" stroke-linecap="round"/>
+            <path d="M0 128 H1000" stroke="#a5701f" stroke-width="6" stroke-linecap="round"/>
+            <g stroke="#b67f30" stroke-width="9" stroke-linecap="round">
+              <path d="M18 92 V150"/><path d="M78 92 V150"/><path d="M138 92 V150"/><path d="M198 92 V150"/>
+              <path d="M258 92 V150"/><path d="M318 92 V150"/><path d="M378 92 V150"/><path d="M438 92 V150"/>
+              <path d="M498 92 V150"/><path d="M558 92 V150"/><path d="M618 92 V150"/><path d="M678 92 V150"/>
+              <path d="M738 92 V150"/><path d="M798 92 V150"/><path d="M858 92 V150"/><path d="M918 92 V150"/><path d="M978 92 V150"/>
+            </g>
+          </g>
+
+          <!-- 草地前景 -->
+          <path d="M0 170 Q120 150 240 168 Q360 186 480 164 Q600 144 720 166 Q840 188 1000 160 V600 H0 Z" fill="url(#gGrass)"/>
+          <g opacity=".35" fill="#5f9c22">
+            <circle cx="60" cy="240" r="6"/><circle cx="120" cy="300" r="5"/><circle cx="900" cy="250" r="6"/><circle cx="840" cy="330" r="5"/>
+          </g>
+
+          <!-- 土路 -->
+          <g fill="url(#gPath)">
+            <path d="M-10 470 Q200 430 430 452 Q640 472 1010 430 L1010 522 Q640 560 430 540 Q200 520 -10 556 Z"/>
+            <path d="M430 250 Q470 330 440 452 L560 452 Q580 330 540 250 Z"/>
+          </g>
+          <g fill="#c9a24a" opacity=".5">
+            <circle cx="180" cy="498" r="4"/><circle cx="300" cy="470" r="3"/><circle cx="700" cy="500" r="4"/><circle cx="820" cy="470" r="3"/>
+          </g>
+
+          <!-- 树木 -->
+          <g>
+            <rect x="42" y="196" width="10" height="26" fill="#8a5c17"/>
+            <circle cx="47" cy="182" r="26" fill="#4f9d1e"/><circle cx="30" cy="196" r="18" fill="#5cb02a"/><circle cx="64" cy="196" r="18" fill="#3f8a18"/>
+            <rect x="980" y="210" width="9" height="22" fill="#8a5c17"/>
+            <circle cx="984" cy="198" r="22" fill="#4f9d1e"/><circle cx="968" cy="210" r="15" fill="#5cb02a"/>
+          </g>
+          <!-- 木桩 -->
+          <g transform="translate(300,392) rotate(-8)">
+            <rect x="-34" y="-13" width="68" height="26" rx="12" fill="#c08a3e"/><ellipse cx="34" cy="0" rx="8" ry="13" fill="#e0b072"/>
+          </g>
+
+          <!-- ============ 粮仓 3 ============ -->
+          <g class="bld locked" data-id="3" transform="translate(190,300)">
+            <ellipse class="glow" cx="0" cy="6" rx="120" ry="80" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="10" rx="86" ry="20" fill="rgba(70,100,30,.25)"/>
+              <rect x="-70" y="-16" width="140" height="26" rx="8" fill="#d9c9a0"/><rect x="-70" y="-16" width="140" height="8" rx="4" fill="#efe3c2"/>
+              <circle cx="-30" cy="-40" r="46" fill="#fff2d6"/><circle cx="26" cy="-24" r="34" fill="#ffe9bf"/>
+              <path d="M-74 -40 A46 46 0 0 1 14 -40 Z" fill="url(#gHive)"/>
+              <path d="M-6 -50 A34 34 0 0 1 58 -50 Z" fill="url(#gHive)"/>
+              <g fill="#e07a12" opacity=".55">
+                <circle cx="-34" cy="-58" r="4"/><circle cx="-20" cy="-66" r="4"/><circle cx="-46" cy="-46" r="4"/>
+                <circle cx="34" cy="-40" r="3"/><circle cx="44" cy="-30" r="3"/>
+              </g>
+              <rect x="-16" y="-30" width="30" height="40" rx="8" fill="#8a5c17"/><circle cx="-16" cy="-10" r="3" fill="#ffd23f"/>
+              <g transform="translate(-2,-96)">
+                <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#ffd23f"/><path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#f4c020" transform="rotate(60)"/>
+                <path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#ffd23f" transform="rotate(120)"/><path d="M0 0 L-8 -30 L0 -22 L8 -30 Z" fill="#f4c020" transform="rotate(180)"/>
+                <circle cx="0" cy="0" r="7" fill="#e07a12"/>
+              </g>
+            </g>
+            <g class="numbox" transform="translate(-92,12)">
+              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
+              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">3</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 4 ============ -->
+          <g class="bld locked" data-id="4" transform="translate(500,290)">
+            <ellipse class="glow" cx="0" cy="10" rx="140" ry="88" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="14" rx="100" ry="22" fill="rgba(70,100,30,.25)"/>
+              <rect x="-86" y="-8" width="172" height="24" fill="#7a8c96"/><rect x="-86" y="-8" width="172" height="8" fill="#9fb0b8"/>
+              <path d="M-92 -8 L0 -104 L92 -8 Z" fill="#5aa0d8"/>
+              <path d="M-92 -8 L0 -104 L92 -8 L72 -8 L0 -92 L-72 -8 Z" fill="#eef6f8"/>
+              <rect x="-78" y="-4" width="156" height="10" fill="#e6eef2"/>
+              <!-- 奶牛头 -->
+              <ellipse cx="-4" cy="-36" rx="30" ry="26" fill="#f3ede0"/>
+              <ellipse cx="-20" cy="-52" rx="9" ry="11" fill="#f3ede0"/><ellipse cx="12" cy="-52" rx="9" ry="11" fill="#f3ede0"/>
+              <path d="M-30 -56 q-16 -12 -30 -6 q10 4 14 14z" fill="#c9a24a"/><path d="M22 -56 q16 -12 30 -6 q-10 4 -14 14z" fill="#c9a24a"/>
+              <path d="M-48 -22 q-26 -6 -30 8 q16 6 30 0z" fill="#c9a24a"/><path d="M40 -22 q26 -6 30 8 q-16 6 -30 0z" fill="#c9a24a"/>
+              <ellipse cx="-4" cy="-24" rx="18" ry="13" fill="#e8dcbf"/><circle cx="-10" cy="-26" r="3" fill="#8a5c17"/><circle cx="2" cy="-26" r="3" fill="#8a5c17"/>
+              <circle cx="-16" cy="-42" r="4" fill="#3a2a1a"/><circle cx="8" cy="-42" r="4" fill="#3a2a1a"/>
+              <rect x="-22" y="-8" width="44" height="16" rx="4" fill="#a5701f"/>
+              <!-- 奶瓶 -->
+              <g transform="translate(74,4)">
+                <rect x="-8" y="-30" width="16" height="30" rx="4" fill="#eef6f8" stroke="#9fb0b8" stroke-width="2"/>
+                <rect x="-5" y="-40" width="10" height="12" rx="3" fill="#cfe3ea"/>
+                <rect x="-8" y="-16" width="16" height="10" fill="#ffd23f"/>
+              </g>
+            </g>
+            <g class="numbox" transform="translate(-84,16)">
+              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
+              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">4</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 5 ============ -->
+          <g class="bld locked" data-id="5" transform="translate(792,276)">
+            <ellipse class="glow" cx="0" cy="20" rx="150" ry="96" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="24" rx="108" ry="24" fill="rgba(70,100,30,.25)"/>
+              <rect x="-80" y="0" width="160" height="26" rx="8" fill="#b07f34"/><rect x="-80" y="0" width="160" height="8" fill="#d8a95c"/>
+              <circle cx="0" cy="-58" r="84" fill="#e07a12"/>
+              <g fill="#ffb43c">
+                <ellipse cx="0" cy="-58" rx="84" ry="84"/>
+                <ellipse cx="-58" cy="-58" rx="30" ry="80"/><ellipse cx="58" cy="-58" rx="30" ry="80"/>
+              </g>
+              <g fill="none" stroke="#c25e08" stroke-width="3" opacity=".7">
+                <path d="M-40 -132 Q-46 -58 -40 16"/><path d="M40 -132 Q46 -58 40 16"/>
+              </g>
+              <rect x="-16" y="-150" width="32" height="30" rx="8" fill="#5f9c22"/>
+              <path d="M0 -150 q-24 -22 -44 -14 q20 10 24 26z" fill="#4f8a18"/>
+              <rect x="-30" y="-56" width="60" height="46" rx="10" fill="#8a5c17"/>
+              <circle cx="-30" cy="-30" r="4" fill="#ffd23f"/>
+              <!-- 企鹅 -->
+              <g transform="translate(0,26)">
+                <ellipse cx="0" cy="34" rx="30" ry="9" fill="rgba(60,90,20,.35)"/>
+                <ellipse cx="0" cy="2" rx="30" ry="34" fill="#23262e"/>
+                <ellipse cx="0" cy="6" rx="21" ry="27" fill="#fdfdff"/>
+                <ellipse cx="-30" cy="4" rx="9" ry="20" fill="#23262e" transform="rotate(18 -30 4)"/>
+                <ellipse cx="30" cy="4" rx="9" ry="20" fill="#23262e" transform="rotate(-18 30 4)"/>
+                <circle cx="-9" cy="-16" r="8" fill="#fff"/><circle cx="9" cy="-16" r="8" fill="#fff"/>
+                <circle cx="-8" cy="-16" r="4" fill="#1b1e24"/><circle cx="10" cy="-16" r="4" fill="#1b1e24"/>
+                <path d="M-5 -4 L5 -4 L0 4 Z" fill="#f5a623"/>
+                <path d="M-19 22 q19 12 38 0 q-4 10 -19 10 q-15 0 -19 -10z" fill="#e0392b"/>
+                <path d="M14 24 l10 14 l8 -6 z" fill="#e0392b"/>
+              </g>
+            </g>
+            <g class="numbox" transform="translate(-96,26)">
+              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
+              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">5</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 1 ============ -->
+          <g class="bld avail sel" data-id="1" transform="translate(430,520)">
+            <ellipse class="glow" cx="0" cy="0" rx="130" ry="86" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="12" rx="78" ry="18" fill="rgba(70,100,30,.25)"/>
+              <rect x="-60" y="2" width="120" height="22" rx="6" fill="#c08a3e"/><rect x="-60" y="2" width="120" height="7" rx="3" fill="#d8a95c"/>
+              <ellipse cx="0" cy="-52" rx="72" ry="62" fill="url(#gGourd)"/>
+              <g fill="#4f8a18" opacity=".8">
+                <path d="M-46 -78 Q-2 -66 -46 -30" fill="none" stroke="#4f8a18" stroke-width="6"/>
+                <path d="M-16 -100 Q4 -80 -16 -60" fill="none" stroke="#4f8a18" stroke-width="6"/>
+                <path d="M20 -96 Q4 -80 20 -60" fill="none" stroke="#4f8a18" stroke-width="6"/>
+                <path d="M48 -76 Q4 -66 48 -30" fill="none" stroke="#4f8a18" stroke-width="6"/>
+              </g>
+              <g transform="translate(0,-104)">
+                <path d="M0 0 q-30 -16 -52 -6 q24 8 30 20z" fill="#5f9c22"/>
+                <path d="M0 0 q30 -16 52 -6 q-24 8 -30 20z" fill="#4f8a18"/>
+                <path d="M0 -4 q-6 -20 6 -34" stroke="#5f9c22" stroke-width="6" fill="none"/>
+              </g>
+              <path d="M-30 -20 q10 14 4 24" fill="none" stroke="#e0392b" stroke-width="4"/><circle cx="-26" cy="-24" r="7" fill="#ff8fb0"/>
+              <path d="M34 -34 q-8 12 -2 22" fill="none" stroke="#e0392b" stroke-width="4"/><circle cx="36" cy="-38" r="7" fill="#ff8fb0"/>
+            </g>
+            <g class="numbox" transform="translate(-72,10)">
+              <path d="M-24 -34 L24 -34 L24 10 Q0 26 -24 10 Z" fill="#e9f0d2" stroke="#9aa87c" stroke-width="3"/>
+              <text x="0" y="4" font-size="40" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">1</text>
+            </g>
+          </g>
+
+          <!-- ============ 粮仓 2 ============ -->
+          <g class="bld locked" data-id="2" transform="translate(720,500)">
+            <ellipse class="glow" cx="0" cy="6" rx="130" ry="84" fill="url(#gGlow)"/>
+            <g class="art">
+              <ellipse cx="0" cy="14" rx="86" ry="20" fill="rgba(70,100,30,.25)"/>
+              <path d="M-78 12 Q-70 -20 0 -20 Q70 -20 78 12 Q40 26 -40 26 Q-74 22 -78 12 Z" fill="#574a8c"/>
+              <ellipse cx="0" cy="-30" rx="66" ry="44" fill="url(#gPurp)"/>
+              <ellipse cx="0" cy="-72" rx="46" ry="38" fill="#e6dcf8"/>
+              <ellipse cx="-16" cy="-88" rx="20" ry="16" fill="#f5a6c0"/>
+              <ellipse cx="18" cy="-86" rx="18" ry="15" fill="#ffd0e0"/>
+              <path d="M-6 -96 q30 -8 44 6 q-24 6 -40 4z" fill="#ffcf3f"/>
+              <ellipse cx="0" cy="-104" rx="22" ry="14" fill="#fff2d6"/>
+              <circle cx="-8" cy="-106" r="3" fill="#3a2a1a"/><circle cx="8" cy="-106" r="3" fill="#3a2a1a"/>
+              <path d="M-58 -34 q-14 14 -8 34" fill="none" stroke="#e9c25a" stroke-width="6"/>
+              <path d="M58 -34 q14 14 8 34" fill="none" stroke="#e9c25a" stroke-width="6"/>
+            </g>
+            <g class="numbox" transform="translate(-76,12)">
+              <path d="M-22 -30 L22 -30 L22 8 Q0 22 -22 8 Z" fill="#c9c2b6" stroke="#8f887c" stroke-width="3"/>
+              <text x="0" y="4" font-size="34" font-weight="bold" text-anchor="middle" fill="#3f8a18" font-family="Arial">2</text>
+            </g>
+          </g>
+        </svg>
+
+        <div class="bubble" id="bubble"></div>
+        <div class="fsign"><div class="t1">Q宠</div><div class="t2">农庄</div></div>
+
+        <div class="menu">
+          <button class="mbtn hot" data-act="guard"><span>守卫农庄</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
+          <button class="mbtn" data-act="rules"><span>游戏规则</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
+          <button class="mbtn" data-act="rank"><span>排行奖励</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
+          <button class="mbtn" data-act="home"><span>返回首页</span><svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.6 7 .8-5.2 4.7 1.4 6.9L12 17.6 5.8 21l1.4-6.9L2 9.4l7-.8z" fill="#ffcf3f"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 弹窗 ======================= -->
+<div class="mask" id="mask">
+
+  <!-- 选择捕鼠工具 -->
+  <div class="dlg" id="d-tool">
+    <div class="dtitle">捕田鼠</div>
+    <div class="dclose" data-close>&#10005;</div>
+    <div class="dbody">
+      <div>守护 <b id="tool-gname">第一个粮仓</b>，Q宠宝贝必须先选用一种专用的捕鼠工具哦，请选择：</div>
+      <div class="toolrow">
+        <div class="topt" data-tool="cage">
+          <div class="tn">捕鼠器</div>
+          <svg class="ticon" viewBox="0 0 88 70"><rect x="10" y="16" width="68" height="44" rx="6" fill="#cfe0ea" stroke="#7a8c96" stroke-width="3"/><g stroke="#7a8c96" stroke-width="2"><path d="M22 18 V58"/><path d="M34 18 V58"/><path d="M46 18 V58"/><path d="M58 18 V58"/><path d="M66 18 V58"/><path d="M12 30 H76"/><path d="M12 46 H76"/></g><path d="M10 16 L78 12" stroke="#9fb0b8" stroke-width="3"/><circle cx="44" cy="58" r="6" fill="#e07a12"/></svg>
+          <div class="tp">价格：1 Q币</div>
+          <div class="td">专用工具，对付田鼠更有效</div>
+        </div>
+        <div class="topt pick" data-tool="trap">
+          <div class="tn">捕鼠夹</div>
+          <svg class="ticon" viewBox="0 0 88 70"><ellipse cx="44" cy="56" rx="34" ry="9" fill="#e6c98a"/><rect x="14" y="40" width="60" height="14" rx="4" fill="#c08a3e" stroke="#8a5c17" stroke-width="2"/><path d="M20 40 Q44 8 68 40" fill="none" stroke="#9aa0a6" stroke-width="5" stroke-linecap="round"/><circle cx="30" cy="47" r="5" fill="#8a5c17"/><circle cx="58" cy="47" r="5" fill="#8a5c17"/><circle cx="44" cy="46" r="4" fill="#ffd23f"/></svg>
+          <div class="tp">价格：0 Q币</div>
+          <div class="td">6 级以上每天可免费使用 1 个</div>
+        </div>
+      </div>
+    </div>
+    <div class="dfoot"><button class="btn sec" id="btn-next">下 一 步</button></div>
   </div>
 
-  <!-- ================= 开场 ================= -->
-  <section id="s-title" class="screen active">
-    <div class="wrap">
-      <div class="center" style="margin-top:76px">
-        <div class="sign">
-          <div class="big">守 卫 农 庄 赢 大 奖</div>
-          <div class="sub">活动时间：2007-6-7 起</div>
-        </div>
-      </div>
-
-      <div class="hero">
-        <canvas id="hero-canvas" width="760" height="230"></canvas>
-      </div>
-
-      <div class="center" style="margin-bottom:22px">
-        <button class="btn" id="btn-enter">进 入 农 庄</button>
-      </div>
-
-      <div class="panel">
-        <div class="ribbon"><span class="cn">活动内容</span><span class="en">ACTIVITY CONTENT</span></div>
-        <div class="body-text">
-          <p>Q宠农庄坐落在一片小树林里。一到晚上，饥饿辘辘的小田鼠们就开始偷吃粮食。善良的农夫对它们足又气又怕。如果尽责的守护者能够保证粮仓的安全，就会得到很多丰厚的奖励哦！</p>
-          <p>守护的粮仓越大，奖金就会越高哦。除此之外，守护者还有机会获得端午节包粽子用的材料——糯米哦！透露一下：<b>糯米能够做出增加很多属性值的粽子哦！</b></p>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="ribbon"><span class="cn">活动规则</span><span class="en">ACTIVITY RULE</span></div>
-        <ol class="rules">
-          <li>守护粮仓必须选用一种<b>专用捕鼠工具</b>；每个捕鼠工具仅可使用一次；</li>
-          <li>每天首次进入农庄的 6 级以上的 Q 宠宝贝可使用<b>免费捕鼠夹</b>；</li>
-          <li>农庄里有 <b>5 个粮仓</b>，守护者必须从最小的粮仓开始值守，成功过关者才能晋级守护更大的粮仓，高级守护者有权选择值守更小的粮仓；</li>
-          <li>守护的粮仓越大，可获得的奖金越多，还有机会获得糯米哦；</li>
-          <li>糯米能够做出增加很多属性值的粽子，只能在端午节活动中使用；</li>
-          <li>本活动最终解释权归腾讯公司所有。</li>
-        </ol>
-        <div class="body-text" style="margin-top:8px;color:#a1372b">
-          <p>※ 注意：每失败一次，本次可奖励的元宝就会少一些，请谨慎布夹！</p>
-        </div>
-      </div>
+  <!-- 结果 -->
+  <div class="dlg" id="d-result">
+    <div class="dtitle">捕田鼠</div>
+    <div class="dclose" data-close>&#10005;</div>
+    <div class="dbody">
+      <div id="res-line" class="losebig"></div>
+      <div class="rewardlist" id="res-rewards"></div>
+      <div class="hint" id="res-hint"></div>
     </div>
-  </section>
+    <div class="dfoot"><button class="btn" data-close>确 定</button></div>
+  </div>
 
-  <!-- ================= 选仓 / 选具 ================= -->
-  <section id="s-select" class="screen">
-    <div class="wrap">
-      <div class="panel">
-        <div class="ribbon"><span class="cn">选择要守护的粮仓</span><span class="en">CHOOSE A GRANARY</span></div>
-        <div class="body-text" style="margin-bottom:10px">粮仓从最小的「粮仓一」开始值守，过关后才能晋级守护更大的粮仓。守护的粮仓越大，奖金越多，获得糯米的几率也越高。</div>
-        <div class="granary-grid" id="granary-list"></div>
-      </div>
+  <!-- 次数限制 -->
+  <div class="dlg" id="d-limit">
+    <div class="dtitle">捕田鼠</div>
+    <div class="dclose" data-close>&#10005;</div>
+    <div class="dbody">
+      <div>很抱歉，捕鼠夹每天只能使用一个。您今天已经用掉了。推荐您使用专用工具—<b>捕鼠器</b>，对付田鼠更有效！</div>
+    </div>
+    <div class="dfoot"><button class="btn" data-close>确 定</button></div>
+  </div>
 
-      <div class="panel">
-        <div class="ribbon"><span class="cn">选用专用捕鼠工具</span><span class="en">CHOOSE A TRAP</span></div>
-        <div class="body-text" style="margin-bottom:10px">每种捕鼠工具仅可使用一次。工具越好，可布置的捕鼠夹越多、触发范围越大。</div>
-        <div class="tool-grid" id="tool-list"></div>
-        <div class="sel-bar">
-          <div class="sel-info" id="sel-info"></div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn sec sm" id="btn-back-title">返 回</button>
-            <button class="btn" id="btn-start-play">开始守卫</button>
-          </div>
-        </div>
-      </div>
+  <!-- 游戏规则 -->
+  <div class="dlg" id="d-rules">
+    <div class="dtitle">游戏规则</div>
+    <div class="dclose" data-close>&#10005;</div>
+    <div class="dbody" style="font-size:14px;line-height:1.9">
+      <div>1. 守护粮仓必须选用一种专用捕鼠工具，每个捕鼠工具仅可使用一次。</div>
+      <div>2. 每天首次进入农庄的 6 级以上的 Q 宠宝贝可使用免费捕鼠夹。</div>
+      <div>3. 农庄里有 5 个粮仓，守护者必须从最小的粮仓开始值守，成功过关者才能晋级守护更大的粮仓，高级守护者有权选择值守更小的粮仓。</div>
+      <div>4. 守护的粮仓越大，可获得的奖金越多，还有机会获得糯米哦。</div>
+      <div>5. 糯米能够做出增加很多属性值的粽子，只能在端午节活动中使用。</div>
+      <div>6. 每失败一次，奖励的元宝就会少一些。本活动最终解释权归腾讯公司所有。</div>
     </div>
-  </section>
+    <div class="dfoot"><button class="btn" data-close>返 回</button></div>
+  </div>
 
-  <!-- ================= 游戏 ================= -->
-  <section id="s-play" class="screen">
-    <div class="play-frame">
-      <canvas id="field" width="800" height="480"></canvas>
-      <div id="play-hint">
-        <div><span class="k">点击草地</span> 布置捕鼠夹，老鼠踩到即被捕获</div>
-        <div>别让老鼠碰到粮仓，<span class="k">抓光所有老鼠</span>即可过关</div>
+  <!-- 排行奖励 -->
+  <div class="dlg" id="d-rank">
+    <div class="dtitle">排行奖励</div>
+    <div class="dclose" data-close>&#10005;</div>
+    <div class="dbody" style="font-size:13.5px">
+      <div>通关关卡数说明：本游戏共设 5 个粮仓，从第 1 个粮仓值守至第 5 个粮仓算通关 1 个关卡数，再把这 5 个粮仓各值守一次算通关 2 个关卡数，以此类推。</div>
+      <div class="rewardlist" style="margin-top:10px">
+        <div class="r" style="border-bottom:2px solid rgba(255,255,255,.5)"><span>名次</span><span>QQ号码</span><span>QQ昵称</span><span>通关关卡数</span></div>
+        <div class="r"><span>1</span><span>10001</span><span>勤劳的小农夫</span><span>12</span></div>
+        <div class="r"><span>2</span><span>10002</span><span>捕鼠达人</span><span>10</span></div>
+        <div class="r" style="color:#ffe36a;font-weight:bold"><span id="rank-me-no">-</span><span>你</span><span>我</span><span id="rank-me-val">0</span></div>
       </div>
+      <div class="hint">成绩前 20 名者有奖励，第 1 名还可获赠绝版套装 + 365 天和 4 星级称号。</div>
     </div>
-    <div class="playbar">
-      <div class="pstat">守护：<b id="play-level">粮仓一</b></div>
-      <div class="pstat">剩余老鼠：<b id="play-mouse">0</b></div>
-      <div class="pstat">剩余捕鼠夹：<b id="play-traps">0</b></div>
-      <div class="pstat tip" id="play-tool">工具：--</div>
-      <button class="btn sm sec" id="btn-quit-play">放弃值守</button>
-    </div>
-  </section>
-
-  <!-- ================= 结算 ================= -->
-  <section id="s-result" class="screen">
-    <div class="wrap" style="padding-top:60px">
-      <div class="res-box">
-        <div class="rtitle win" id="res-title">守卫成功</div>
-        <div class="rsub" id="res-sub">粮仓安然无恙！</div>
-        <div class="res-line"><span>守护粮仓</span><b id="res-lv">粮仓一</b></div>
-        <div class="res-line"><span>获得元宝</span><b id="res-money">+0</b></div>
-        <div class="res-line nuomi"><span>获得糯米</span><b id="res-nuomi">0</b></div>
-        <div class="res-line" id="res-pen-row"><span>失败折损</span><b id="res-pen">-0%</b></div>
-        <div class="res-actions">
-          <button class="btn sec" id="btn-res-back">返回选仓</button>
-          <button class="btn" id="btn-res-again">再来一次</button>
-        </div>
-      </div>
-    </div>
-  </section>
+    <div class="dfoot"><button class="btn" data-close>返 回</button></div>
+  </div>
 
 </div>
 
@@ -290,830 +571,256 @@
 "use strict";
 
 /* ============================================================
-   数据配置
+   数据：5 个粮仓（必须从最小开始值守）
    ============================================================ */
 var GRANARIES = [
-  { lv:1, name:'粮仓一', mice:4,  speed:66,  spawn:1.50, reward:20,  nuomi:0.05 },
-  { lv:2, name:'粮仓二', mice:5,  speed:79,  spawn:1.38, reward:50,  nuomi:0.10 },
-  { lv:3, name:'粮仓三', mice:6,  speed:92,  spawn:1.26, reward:120, nuomi:0.20 },
-  { lv:4, name:'粮仓四', mice:7,  speed:105, spawn:1.14, reward:250, nuomi:0.35 },
-  { lv:5, name:'粮仓五', mice:8,  speed:118, spawn:1.02, reward:500, nuomi:0.55 }
-];
-var TOOLS = [
-  { id:'free', name:'免费捕鼠夹', traps:5,  radius:32, cost:0,  free:true,
-    tag:'每天首次进入农庄、且 6 级以上的 Q 宠宝贝免费领取' },
-  { id:'wood', name:'木制捕鼠夹', traps:7,  radius:34, cost:10,
-    tag:'结实耐用，可布置更多捕鼠夹' },
-  { id:'iron', name:'铁制捕鼠夹', traps:9,  radius:38, cost:30,
-    tag:'强力弹簧，触发范围更大' },
-  { id:'pro',  name:'加固捕鼠夹', traps:11, radius:42, cost:60,
-    tag:'农庄顶级配置，范围最广、夹数最多' }
+  { id:1, name:'第一个粮仓', reward:80,   nuomi:0, rate:{trap:0.35, cage:0.80} },
+  { id:2, name:'第二个粮仓', reward:100,  nuomi:1, rate:{trap:0.32, cage:0.78} },
+  { id:3, name:'第三个粮仓', reward:150,  nuomi:1, rate:{trap:0.28, cage:0.75} },
+  { id:4, name:'第四个粮仓', reward:300,  nuomi:1, rate:{trap:0.24, cage:0.72} },
+  { id:5, name:'第五个粮仓', reward:5000, nuomi:1, rate:{trap:0.18, cage:0.66} }
 ];
 
 /* ============================================================
-   本地存档
+   存档
    ============================================================ */
-var KEY = 'guard_farm_2007_save_v1';
+var KEY = 'guard_farm_2007_save_v3';
+var def = { money:300, qbi:3, nuomi:0,
+            unlocked:1,            // 已解锁到第几个粮仓
+            cleared:[],            // 已成功守护的粮仓 id
+            fails:{},              // 每个粮仓失败次数（每失败一次奖金打折）
+            trapDate:'',           // 免费捕鼠夹领取日期
+            pet:{ level:6 } };
 var save = load();
 function load(){
-  var def = { unlocked:1, cleared:[], money:300, nuomi:0, freeDate:'' };
+  var s = JSON.parse(JSON.stringify(def));
   try{
-    var s = JSON.parse(localStorage.getItem(KEY));
-    if (s && typeof s === 'object'){
-      def.unlocked = s.unlocked||1;
-      def.cleared  = s.cleared||[];
-      def.money    = (typeof s.money==='number')?s.money:300;
-      def.nuomi    = (typeof s.nuomi==='number')?s.nuomi:0;
-      def.freeDate = s.freeDate||'';
+    var o = JSON.parse(localStorage.getItem(KEY));
+    if(o && typeof o==='object'){
+      ['money','qbi','nuomi','unlocked'].forEach(function(k){ if(typeof o[k]==='number') s[k]=o[k]; });
+      if(Array.isArray(o.cleared)) s.cleared = o.cleared;
+      if(o.fails && typeof o.fails==='object') s.fails = o.fails;
+      if(typeof o.trapDate==='string') s.trapDate = o.trapDate;
+      if(o.pet && typeof o.pet==='object') s.pet = Object.assign(s.pet, o.pet);
     }
   }catch(e){}
-  return def;
+  return s;
 }
 function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(save)); }catch(e){} }
 function todayKey(){ var d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
-function freeAvailable(){ return save.freeDate !== todayKey(); }
-function useFree(){ save.freeDate = todayKey(); persist(); }
-
-/* ============================================================
-   绘制工具
-   ============================================================ */
-var C = {
-  sky1:'#fff3bf', sky2:'#ffdf6e',
-  hill:'#c8e36a', hill2:'#b3d956',
-  grass1:'#a4d755', grass2:'#95cc46', grass3:'#86bf3c',
-  roof:'#d9b56a', roofD:'#bd9548', wall:'#fbeec4', wallD:'#e6d29a',
-  wood:'#a1662f', woodD:'#7d4c22', woodL:'#c58a3d',
-  mouse:'#bdb6ab', mouseD:'#928a7e', mouseP:'#f2b8b8',
-  metal:'#9aa0a6', metalD:'#6f757a'
-};
-function rr(ctx,x,y,w,h,r){
-  if(r>w/2) r=w/2; if(r>h/2) r=h/2;
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);
-  ctx.arcTo(x+w,y,x+w,y+h,r);
-  ctx.arcTo(x+w,y+h,x,y+h,r);
-  ctx.arcTo(x,y+h,x,y,r);
-  ctx.arcTo(x,y,x+w,y,r);
-  ctx.closePath();
-}
-
-/* --- 粮仓 --- */
-function drawGranary(ctx, cx, baseY, w, h){
-  var bw = w*0.82;
-  // 落地阴影
-  ctx.save();
-  ctx.fillStyle = 'rgba(80,110,40,.22)';
-  ctx.beginPath(); ctx.ellipse(cx, baseY+4, bw*0.62, 11, 0,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-
-  var topY = baseY - h;
-  // 仓体
-  var g = ctx.createLinearGradient(cx-bw/2,0,cx+bw/2,0);
-  g.addColorStop(0, C.wallD); g.addColorStop(.35, C.wall); g.addColorStop(1, C.wallD);
-  ctx.fillStyle = g;
-  rr(ctx, cx-bw/2, topY, bw, h, 8); ctx.fill();
-  ctx.strokeStyle = 'rgba(160,130,70,.5)'; ctx.lineWidth = 2; ctx.stroke();
-  // 木板竖纹
-  ctx.save();
-  ctx.globalAlpha = .28; ctx.strokeStyle = '#a58a4e'; ctx.lineWidth = 1.5;
-  for (var i=1;i<4;i++){
-    var lx = cx-bw/2 + bw*i/4;
-    ctx.beginPath(); ctx.moveTo(lx, topY+8); ctx.lineTo(lx, baseY-6); ctx.stroke();
-  }
-  ctx.restore();
-  // 仓门
-  ctx.save();
-  ctx.fillStyle = C.woodD;
-  var dw = bw*0.42, dh = h*0.5;
-  ctx.beginPath();
-  ctx.moveTo(cx-dw/2, baseY);
-  ctx.lineTo(cx-dw/2, baseY-dh*0.72);
-  ctx.quadraticCurveTo(cx, baseY-dh*1.18, cx+dw/2, baseY-dh*0.72);
-  ctx.lineTo(cx+dw/2, baseY);
-  ctx.closePath(); ctx.fill();
-  ctx.restore();
-
-  // 茅草顶（圆锥）
-  ctx.save();
-  var apexY = topY - h*0.46;
-  ctx.fillStyle = C.roof;
-  ctx.beginPath();
-  ctx.moveTo(cx, apexY);
-  ctx.lineTo(cx - bw*0.72, topY + h*0.10);
-  ctx.quadraticCurveTo(cx, topY + h*0.20, cx + bw*0.72, topY + h*0.10);
-  ctx.closePath(); ctx.fill();
-  ctx.strokeStyle = C.roofD; ctx.lineWidth = 2.4; ctx.stroke();
-  // 茅草纹
-  ctx.save();
-  ctx.globalAlpha = .35; ctx.strokeStyle = '#8a6a2a'; ctx.lineWidth = 1.4;
-  for (var k=-2;k<=2;k++){
-    ctx.beginPath();
-    ctx.moveTo(cx + k*bw*0.16, apexY + 4);
-    ctx.lineTo(cx + k*bw*0.30, topY + h*0.11);
-    ctx.stroke();
-  }
-  ctx.restore();
-  // 顶上小尖
-  ctx.fillStyle = C.roofD;
-  ctx.beginPath(); ctx.arc(cx, apexY, 4, 0, Math.PI*2); ctx.fill();
-  ctx.restore();
-
-  // 仓前谷堆
-  ctx.save();
-  ctx.fillStyle = '#f6d86a';
-  ctx.beginPath();
-  ctx.moveTo(cx - bw*0.5, baseY);
-  ctx.quadraticCurveTo(cx - bw*0.28, baseY-16, cx - bw*0.05, baseY);
-  ctx.closePath(); ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(cx + bw*0.02, baseY);
-  ctx.quadraticCurveTo(cx + bw*0.24, baseY-14, cx + bw*0.5, baseY);
-  ctx.closePath(); ctx.fill();
-  ctx.restore();
-}
-
-/* --- 老鼠 --- */
-function drawMouse(ctx, x, y, facing, t){
-  ctx.save();
-  ctx.translate(x,y);
-  var bob = Math.sin(t*11)*1.4;
-  ctx.translate(0,bob);
-  ctx.scale(facing,1);
-  // 尾巴
-  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 3; ctx.lineCap='round';
-  ctx.beginPath();
-  ctx.moveTo(-13,1);
-  ctx.quadraticCurveTo(-28,-8+Math.sin(t*11)*5, -34,4);
-  ctx.stroke();
-  // 腿
-  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 3;
-  var legA = Math.sin(t*16)*5;
-  ctx.beginPath(); ctx.moveTo(-4,8); ctx.lineTo(-4+legA,14); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(6,8);  ctx.lineTo(6-legA,14);  ctx.stroke();
-  // 身体
-  ctx.fillStyle = C.mouse;
-  ctx.beginPath(); ctx.ellipse(0,0,15,11,0,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 1.4; ctx.stroke();
-  // 后耳
-  ctx.fillStyle = C.mouseD;
-  ctx.beginPath(); ctx.arc(3,-10,6,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle = C.mouseP;
-  ctx.beginPath(); ctx.arc(3,-10,3.2,0,Math.PI*2); ctx.fill();
-  // 头
-  ctx.fillStyle = C.mouse;
-  ctx.beginPath(); ctx.ellipse(12,1,9,8,0,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle = C.mouseD; ctx.lineWidth = 1.3; ctx.stroke();
-  // 前耳
-  ctx.fillStyle = C.mouseD;
-  ctx.beginPath(); ctx.arc(9,-8,5,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle = C.mouseP;
-  ctx.beginPath(); ctx.arc(9,-8,2.6,0,Math.PI*2); ctx.fill();
-  // 眼
-  ctx.fillStyle = '#2b2b2b';
-  ctx.beginPath(); ctx.arc(15,-2,2.2,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#fff';
-  ctx.beginPath(); ctx.arc(15.8,-2.7,0.8,0,Math.PI*2); ctx.fill();
-  // 鼻
-  ctx.fillStyle = C.mouseP;
-  ctx.beginPath(); ctx.arc(21,2,1.9,0,Math.PI*2); ctx.fill();
-  // 胡须
-  ctx.strokeStyle = 'rgba(120,110,100,.8)'; ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(20,3); ctx.lineTo(28,0); ctx.moveTo(20,4); ctx.lineTo(28,5); ctx.stroke();
-  ctx.restore();
-}
-
-/* --- 捕鼠夹 --- */
-function drawTrap(ctx, x, y, armed){
-  ctx.save();
-  ctx.translate(x,y);
-  ctx.fillStyle = 'rgba(80,110,40,.20)';
-  ctx.beginPath(); ctx.ellipse(2,7,22,7,0,0,Math.PI*2); ctx.fill();
-  // 木底座
-  var g = ctx.createLinearGradient(0,-14,0,14);
-  g.addColorStop(0,C.woodL); g.addColorStop(1,C.wood);
-  ctx.fillStyle = g;
-  rr(ctx,-22,-13,44,26,6); ctx.fill();
-  ctx.strokeStyle = C.woodD; ctx.lineWidth = 2.5; ctx.stroke();
-  // 弹簧
-  ctx.strokeStyle = C.metalD; ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.arc(-10,0,4,0,Math.PI*2); ctx.stroke();
-  ctx.beginPath(); ctx.arc(10,0,4,0,Math.PI*2); ctx.stroke();
-  if (armed){
-    // 竖起的弹簧夹
-    ctx.strokeStyle = C.metal; ctx.lineWidth = 3.4; ctx.lineCap='round';
-    ctx.beginPath();
-    ctx.moveTo(-14,6);
-    ctx.quadraticCurveTo(0,-24,14,6);
-    ctx.stroke();
-    // 诱饵
-    ctx.fillStyle = '#f6d86a';
-    ctx.beginPath(); ctx.arc(0,4,4,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle = '#c9a94e'; ctx.lineWidth=1.2; ctx.stroke();
-  } else {
-    // 已合上的夹子
-    ctx.strokeStyle = C.metal; ctx.lineWidth = 3.4; ctx.lineCap='round';
-    ctx.beginPath(); ctx.moveTo(-14,4); ctx.lineTo(14,4); ctx.stroke();
-  }
-  ctx.restore();
-}
-
-/* --- 小农夫 --- */
-function drawFarmer(ctx, x, y, s, t){
-  ctx.save();
-  ctx.translate(x,y); ctx.scale(s,s);
-  var bob = Math.sin(t*3)*2;
-  ctx.translate(0,bob);
-  // 阴影
-  ctx.fillStyle='rgba(80,110,40,.20)';
-  ctx.beginPath(); ctx.ellipse(0,62,30,8,0,0,Math.PI*2); ctx.fill();
-  // 腿
-  ctx.fillStyle='#2f6fb0';
-  rr(ctx,-13,26,11,30,4); ctx.fill();
-  rr(ctx,2,26,11,30,4); ctx.fill();
-  ctx.fillStyle='#7d4c22';
-  rr(ctx,-16,52,17,9,3); ctx.fill();
-  rr(ctx,-1,52,17,9,3); ctx.fill();
-  // 上身（背带裤）
-  ctx.fillStyle='#ffffff';
-  rr(ctx,-20,-8,40,38,10); ctx.fill();
-  ctx.fillStyle='#2f6fb0';
-  rr(ctx,-20,4,40,26,9); ctx.fill();
-  rr(ctx,-13,-8,7,18,3); ctx.fill();
-  rr(ctx,6,-8,7,18,3); ctx.fill();
-  // 手臂
-  ctx.strokeStyle='#f6c9a0'; ctx.lineWidth=7; ctx.lineCap='round';
-  ctx.beginPath(); ctx.moveTo(-18,2); ctx.lineTo(-27,20); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(18,2);  ctx.lineTo(27,18);  ctx.stroke();
-  // 头
-  ctx.fillStyle='#fbd8b0';
-  ctx.beginPath(); ctx.arc(0,-26,17,0,Math.PI*2); ctx.fill();
-  // 耳朵
-  ctx.beginPath(); ctx.arc(-17,-26,4,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(17,-26,4,0,Math.PI*2); ctx.fill();
-  // 眼睛
-  ctx.fillStyle='#3a2a1a';
-  ctx.beginPath(); ctx.arc(-6,-27,2.6,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(6,-27,2.6,0,Math.PI*2); ctx.fill();
-  // 腮红
-  ctx.fillStyle='rgba(240,150,140,.6)';
-  ctx.beginPath(); ctx.arc(-10,-20,3.4,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(10,-20,3.4,0,Math.PI*2); ctx.fill();
-  // 笑
-  ctx.strokeStyle='#c0392b'; ctx.lineWidth=1.8; ctx.lineCap='round';
-  ctx.beginPath(); ctx.arc(0,-22,5,0.15*Math.PI,0.85*Math.PI); ctx.stroke();
-  // 草帽
-  ctx.fillStyle='#e6c86a';
-  ctx.beginPath(); ctx.ellipse(0,-40,25,8,0,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#bd9548'; ctx.lineWidth=2; ctx.stroke();
-  ctx.fillStyle='#d9b56a';
-  ctx.beginPath(); ctx.arc(0,-44,14,Math.PI,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#bd9548'; ctx.stroke();
-  // 帽带
-  ctx.fillStyle='#c0392b';
-  ctx.beginPath(); ctx.ellipse(0,-40,14,3.4,0,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-}
-
-/* --- 玉米 --- */
-function drawCorn(ctx, x, y, s, t){
-  ctx.save();
-  ctx.translate(x,y); ctx.scale(s,s);
-  var sway = Math.sin(t*2+x*0.05)*0.06;
-  ctx.rotate(sway);
-  // 秆
-  ctx.strokeStyle='#6fa02c'; ctx.lineWidth=4; ctx.lineCap='round';
-  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-46); ctx.stroke();
-  // 叶
-  ctx.fillStyle='#8ec93f';
-  ctx.beginPath(); ctx.moveTo(0,-18); ctx.quadraticCurveTo(-22,-26,-26,-46);
-  ctx.quadraticCurveTo(-8,-34,0,-24); ctx.closePath(); ctx.fill();
-  ctx.beginPath(); ctx.moveTo(0,-22); ctx.quadraticCurveTo(22,-30,26,-50);
-  ctx.quadraticCurveTo(8,-38,0,-28); ctx.closePath(); ctx.fill();
-  // 玉米
-  ctx.fillStyle='#fdd835';
-  ctx.beginPath(); ctx.ellipse(2,-44,7,12,0.2,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#e0a800'; ctx.lineWidth=1;
-  for (var i=-1;i<=1;i++){ ctx.beginPath(); ctx.moveTo(2+i*3,-54); ctx.lineTo(2+i*3,-34); ctx.stroke(); }
-  ctx.fillStyle='#8ec93f';
-  ctx.beginPath(); ctx.ellipse(-2,-38,4,9,-0.5,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-}
-
-/* --- 场景背景 --- */
-function drawField(ctx, W, H, t){
-  // 天空
-  var g = ctx.createLinearGradient(0,0,0,H*0.55);
-  g.addColorStop(0,'#fff7cf'); g.addColorStop(1,'#ffe075');
-  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-  // 太阳
-  ctx.save();
-  ctx.fillStyle='rgba(255,236,150,.9)';
-  ctx.beginPath(); ctx.arc(W-96,66,34,0,Math.PI*2); ctx.fill();
-  ctx.fillStyle='rgba(255,214,90,.55)';
-  ctx.beginPath(); ctx.arc(W-96,66,48,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-  // 云
-  function cloud(cx,cy,s){
-    ctx.fillStyle='rgba(255,255,255,.9)';
-    ctx.beginPath();
-    ctx.arc(cx,cy,16*s,0,Math.PI*2);
-    ctx.arc(cx+18*s,cy+4*s,20*s,0,Math.PI*2);
-    ctx.arc(cx+40*s,cy,14*s,0,Math.PI*2);
-    ctx.fill();
-  }
-  var drift = (t*12)%(W+260)-130;
-  cloud(drift, 60, 1);
-  cloud((drift*0.62+300)%(W+260)-130, 96, 0.75);
-  // 远山
-  ctx.fillStyle=C.hill2;
-  ctx.beginPath(); ctx.moveTo(0,H*0.50);
-  ctx.quadraticCurveTo(W*0.18,H*0.34,W*0.38,H*0.50);
-  ctx.quadraticCurveTo(W*0.58,H*0.33,W*0.80,H*0.50);
-  ctx.quadraticCurveTo(W*0.92,H*0.42,W,H*0.50);
-  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
-  // 近坡
-  ctx.fillStyle=C.hill;
-  ctx.beginPath(); ctx.moveTo(0,H*0.60);
-  ctx.quadraticCurveTo(W*0.30,H*0.48,W*0.60,H*0.60);
-  ctx.quadraticCurveTo(W*0.82,H*0.68,W,H*0.58);
-  ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
-  // 草地
-  var gg = ctx.createLinearGradient(0,H*0.58,0,H);
-  gg.addColorStop(0,C.grass1); gg.addColorStop(1,C.grass2);
-  ctx.fillStyle=gg; ctx.fillRect(0,H*0.60,W,H*0.40);
-  // 草地条纹
-  ctx.save();
-  ctx.globalAlpha=.16; ctx.fillStyle='#5d8f24';
-  for (var x=-40;x<W;x+=80){
-    ctx.beginPath(); ctx.moveTo(x,H*0.60); ctx.lineTo(x+34,H*0.60); ctx.lineTo(x+70,H); ctx.lineTo(x+20,H); ctx.closePath(); ctx.fill();
-  }
-  ctx.restore();
-  // 栅栏
-  ctx.save();
-  ctx.strokeStyle=C.woodL; ctx.lineWidth=6; ctx.lineCap='round';
-  var fy=H*0.615;
-  ctx.beginPath(); ctx.moveTo(0,fy); ctx.lineTo(W,fy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(0,fy+14); ctx.lineTo(W,fy+14); ctx.stroke();
-  ctx.strokeStyle=C.wood; ctx.lineWidth=8;
-  for (var px=18;px<W;px+=54){ ctx.beginPath(); ctx.moveTo(px,fy-10); ctx.lineTo(px,fy+24); ctx.stroke(); }
-  ctx.restore();
-  // 玉米
-  drawCorn(ctx, 40, H*0.72, 1.25, t);
-  drawCorn(ctx, W-40, H*0.72, 1.25, t+1.5);
-}
-
-/* ============================================================
-   开场插图
-   ============================================================ */
-function drawHero(){
-  var cv = document.getElementById('hero-canvas');
-  var ctx = cv.getContext('2d');
-  var W = cv.width, H = cv.height;
-  ctx.clearRect(0,0,W,H);
-  // 地面
-  ctx.fillStyle='#bfe06a';
-  ctx.beginPath(); ctx.ellipse(W/2, H-24, W*0.46, 40, 0,0,Math.PI*2); ctx.fill();
-  // 三个粮仓（小中大）
-  drawGranary(ctx, 150, H-34, 96, 88);
-  drawGranary(ctx, 620, H-34, 108, 98);
-  drawGranary(ctx, 390, H-42, 132, 124);
-  // 农夫
-  drawFarmer(ctx, 275, H-46, 1.0, 0);
-  // 玉米
-  drawCorn(ctx, 510, H-30, 1.35, 0.4);
-  drawCorn(ctx, 70, H-30, 1.2, 1.1);
-  // 老鼠（装饰）
-  drawMouse(ctx, 470, H-30, -1, 0.5);
-  drawMouse(ctx, 205, H-26, 1, 2.0);
-}
-
-/* ============================================================
-   屏幕切换
-   ============================================================ */
-function show(id){
-  var list = document.querySelectorAll('.screen');
-  for (var i=0;i<list.length;i++) list[i].classList.remove('active');
-  document.getElementById(id).classList.add('active');
-}
+function trapFree(){ return save.trapDate !== todayKey(); }
 
 /* ============================================================
    HUD
    ============================================================ */
 function updateHUD(){
-  document.getElementById('hud-money').textContent = save.money;
-  document.getElementById('hud-nuomi').textContent = save.nuomi;
-  var chip = document.getElementById('hud-free');
-  var txt  = document.getElementById('hud-free-txt');
-  if (freeAvailable()){
-    chip.className = 'chip free-on';
-    txt.textContent = '免费捕鼠夹 可用';
-  } else {
-    chip.className = 'chip free-off';
-    txt.textContent = '免费捕鼠夹 今日已领';
-  }
+  var slot=document.getElementById('hud-slot');
+  if(slot) slot.innerHTML =
+      '<span style="background:rgba(255,255,255,.85);border:2px solid #d8a63a;border-radius:999px;padding:1px 10px">元宝 '+save.money+'</span>'+
+      '<span style="background:rgba(255,255,255,.85);border:2px solid #d8a63a;border-radius:999px;padding:1px 10px">Q币 '+save.qbi+'</span>'+
+      '<span style="background:rgba(255,255,255,.85);border:2px solid #d8a63a;border-radius:999px;padding:1px 10px">糯米 '+save.nuomi+'</span>';
 }
 
 /* ============================================================
-   选仓 / 选具
+   界面切换
    ============================================================ */
-var sel = { lv:1, tool:'free' };
-
-function renderGranaries(){
-  var box = document.getElementById('granary-list');
-  box.innerHTML = '';
-  GRANARIES.forEach(function(g){
-    var locked = g.lv > save.unlocked;
-    var cleared = save.cleared.indexOf(g.lv) >= 0;
-    var card = document.createElement('div');
-    card.className = 'gcard' + (locked?' locked':'') + (cleared?' cleared':'') + (sel.lv===g.lv?' sel':'');
-    // 缩略粮仓
-    var cv = document.createElement('canvas');
-    cv.width = 110; cv.height = 122;
-    var ctx = cv.getContext('2d');
-    var size = 30 + g.lv*9;
-    drawGranary(ctx, 55, 110, size, size*0.92);
-    card.appendChild(cv);
-    var badge = '';
-    if (locked) badge = '<span class="badge lock">🔒 未解锁</span>';
-    else if (cleared) badge = '<span class="badge">✔ 已守护</span>';
-    else if (sel.lv===g.lv) badge = '<span class="badge choose">值守中</span>';
-    card.insertAdjacentHTML('beforeend',
-      badge +
-      '<div class="gname">'+g.name+'</div>' +
-      '<div class="gold">奖金 '+g.reward+' 元宝</div>' +
-      '<div class="nuomi">糯米 '+Math.round(g.nuomi*100)+'%</div>'
-    );
-    if (!locked){
-      card.addEventListener('click', function(){
-        sel.lv = g.lv;
-        renderGranaries();
-        renderInfo();
-      });
-    }
-    box.appendChild(card);
-  });
+function show(id){
+  var l=document.querySelectorAll('.screen');
+  for(var i=0;i<l.length;i++) l[i].classList.remove('active');
+  document.getElementById(id).classList.add('active');
 }
-
-function renderTools(){
-  var box = document.getElementById('tool-list');
-  box.innerHTML = '';
-  TOOLS.forEach(function(tool){
-    var isFree = !!tool.free;
-    var affordable = save.money >= tool.cost;
-    var usable = isFree ? freeAvailable() : affordable;
-    var card = document.createElement('div');
-    card.className = 'tcard' + (usable?'':' no') + (sel.tool===tool.id?' sel':'');
-    var costTxt = isFree ? (freeAvailable() ? '<span style="color:#2e7d32">今日免费</span>' : '今日已领取') 
-                         : (tool.cost + ' 元宝');
-    card.innerHTML =
-      '<div class="tname">'+tool.name+'</div>' +
-      '<div class="tstat">可布置 <b>'+tool.traps+'</b> 个捕鼠夹<br>触发范围 <b>'+tool.radius+'</b> 像素</div>' +
-      '<div class="cost">'+costTxt+'</div>' +
-      '<div class="tagline">'+tool.tag+'</div>';
-    card.addEventListener('click', function(){
-      if (!usable) return;
-      sel.tool = tool.id;
-      renderTools();
-      renderInfo();
-    });
-    box.appendChild(card);
-  });
+var mask=document.getElementById('mask');
+function openDlg(id){
+  var dlgs=mask.querySelectorAll('.dlg');
+  for(var i=0;i<dlgs.length;i++) dlgs[i].classList.remove('on');
+  document.getElementById(id).classList.add('on');
+  mask.classList.add('on');
 }
-
-function currentGranary(){ return GRANARIES[sel.lv-1]; }
-function currentTool(){
-  for (var i=0;i<TOOLS.length;i++) if (TOOLS[i].id===sel.tool) return TOOLS[i];
-  return TOOLS[0];
-}
-
-function renderInfo(){
-  var g = currentGranary();
-  var t = currentTool();
-  var el = document.getElementById('sel-info');
-  var cost = t.free ? (freeAvailable() ? '免费' : '今日已领取') : (t.cost + ' 元宝');
-  el.innerHTML =
-    '将值守：<b>'+g.name+'</b>（老鼠 '+g.mice+' 只，移动速度 '+g.speed+'）<br>' +
-    '选用工具：<b>'+t.name+'</b>（'+t.traps+' 个夹，花费 '+cost+'）';
-  var budget = document.getElementById('btn-start-play');
-  var ok = (t.free ? freeAvailable() : (save.money >= t.cost));
-  budget.disabled = !ok;
-  budget.textContent = ok ? '开始守卫' : '元宝/工具不足';
-}
-
-/* ============================================================
-   游戏核心
-   ============================================================ */
-var GAME = {
-  running:false, raf:0, last:0, t:0,
-  lv:1, g:null, tool:null,
-  mice:[], traps:[],
-  spawned:0, caught:0,
-  trapsLeft:0,
-  nextSpawn:0,
-  W:800, H:480,
-  gx:400, gy:330, gr:70,
-  shake:0, flash:0
-};
-var field = document.getElementById('field');
-var fctx = field.getContext('2d');
-
-function resetGame(){
-  var g = currentGranary();
-  var tool = currentTool();
-  GAME.lv = g.lv; GAME.g = g; GAME.tool = tool;
-  GAME.mice = []; GAME.traps = [];
-  GAME.spawned = 0; GAME.caught = 0;
-  GAME.trapsLeft = tool.traps;
-  GAME.nextSpawn = 0.7;
-  GAME.t = 0; GAME.shake = 0; GAME.flash = 0;
-  GAME.gr = 40 + g.lv*10;
-  GAME.gy = 340;
-  updatePlayHUD();
-}
-
-function updatePlayHUD(){
-  document.getElementById('play-level').textContent = GAME.g.name;
-  document.getElementById('play-mouse').textContent = (GAME.g.mice - GAME.caught);
-  document.getElementById('play-traps').textContent = GAME.trapsLeft;
-  document.getElementById('play-tool').textContent = '工具：' + GAME.tool.name;
-}
-
-function spawnMouse(){
-  var gx = GAME.gx, gy = GAME.gy;
-  // 从场地边缘进入（上方/左右），保证与粮仓有足够距离
-  var x, y, tries = 0;
-  do {
-    var edge = Math.random();
-    if (edge < 0.6){          // 上方
-      x = 44 + Math.random()*(GAME.W-88); y = 34 + Math.random()*20;
-    } else if (edge < 0.8){   // 左侧
-      x = 34 + Math.random()*20;          y = 44 + Math.random()*(GAME.H*0.6);
-    } else {                  // 右侧
-      x = GAME.W-34 - Math.random()*20;   y = 44 + Math.random()*(GAME.H*0.6);
-    }
-    tries++;
-  } while (Math.hypot(x-gx, y-gy) < 200 && tries < 12);
-  var sp = GAME.g.speed * (0.88 + Math.random()*0.28);
-  GAME.mice.push({ x:x, y:y, speed:sp, facing:1, alive:true, caught:false, ct:0 });
-  GAME.spawned++;
-}
-
-function updateGame(dt){
-  GAME.t += dt;
-  var g = GAME.g;
-  // 生成
-  if (GAME.spawned < g.mice){
-    GAME.nextSpawn -= dt;
-    if (GAME.nextSpawn <= 0){
-      spawnMouse();
-      GAME.nextSpawn = g.spawn * (0.9 + Math.random()*0.3);
-    }
-  }
-  // 移动
-  for (var i=0;i<GAME.mice.length;i++){
-    var m = GAME.mice[i];
-    if (m.caught){ m.ct += dt; continue; }
-    var dx = GAME.gx - m.x, dy = GAME.gy - m.y;
-    var d = Math.hypot(dx,dy) || 1;
-    m.facing = dx < 0 ? -1 : 1;
-    m.x += (dx/d)*m.speed*dt;
-    m.y += (dy/d)*m.speed*dt;
-    // 撞粮仓 -> 失败
-    if (d < GAME.gr*0.72){ loseGame(); return; }
-    // 撞捕鼠夹
-    for (var j=0;j<GAME.traps.length;j++){
-      var tp = GAME.traps[j];
-      if (!tp.armed) continue;
-      if (Math.hypot(m.x-tp.x, m.y-tp.y) < GAME.tool.radius){
-        tp.armed = false; tp.t = 0;
-        m.caught = true; m.ct = 0;
-        GAME.caught++;
-        GAME.flash = 0.25;
-        updatePlayHUD();
-        break;
-      }
-    }
-  }
-  // 清理
-  for (var k=GAME.traps.length-1;k>=0;k--){
-    if (!GAME.traps[k].armed){ GAME.traps[k].t += dt; if (GAME.traps[k].t > 1.1) GAME.traps.splice(k,1); }
-  }
-  for (var q=GAME.mice.length-1;q>=0;q--){
-    if (GAME.mice[q].caught && GAME.mice[q].ct > 0.7) GAME.mice.splice(q,1);
-  }
-  if (GAME.shake > 0) GAME.shake -= dt;
-  if (GAME.flash > 0) GAME.flash -= dt;
-  // 胜利
-  if (GAME.caught >= g.mice && GAME.mice.length === 0){ winGame(); return; }
-}
-
-function renderGame(){
-  var W = GAME.W, H = GAME.H, ctx = fctx;
-  ctx.setTransform(1,0,0,1,0,0);
-  ctx.clearRect(0,0,W,H);
-  ctx.save();
-  if (GAME.shake > 0){
-    var s = GAME.shake*10;
-    ctx.translate((Math.random()-0.5)*s, (Math.random()-0.5)*s);
-  }
-  drawField(ctx, W, H, GAME.t);
-  // 粮仓
-  var size = 66 + GAME.lv*16;
-  drawGranary(ctx, GAME.gx, GAME.gy + 26, size, size*0.94);
-  // 捕鼠夹
-  for (var j=0;j<GAME.traps.length;j++){
-    var tp = GAME.traps[j];
-    var a = tp.armed ? 1 : Math.max(0, 1 - tp.t/1.1);
-    ctx.save(); ctx.globalAlpha = a;
-    drawTrap(ctx, tp.x, tp.y, tp.armed);
-    ctx.restore();
-  }
-  // 老鼠
-  for (var i=0;i<GAME.mice.length;i++){
-    var m = GAME.mice[i];
-    if (m.caught){
-      ctx.save(); ctx.globalAlpha = Math.max(0, 1 - m.ct/0.7);
-      drawMouse(ctx, m.x, m.y, m.facing, GAME.t);
-      // 捕获星星
-      ctx.fillStyle='#ffd23f'; ctx.font='bold 18px sans-serif'; ctx.textAlign='center';
-      ctx.fillText('+1', m.x, m.y-20);
-      ctx.restore();
-    } else {
-      drawMouse(ctx, m.x, m.y, m.facing, GAME.t);
-    }
-  }
-  // 捕获闪光
-  if (GAME.flash > 0){
-    ctx.fillStyle = 'rgba(255,255,255,'+(GAME.flash*0.8)+')';
-    ctx.fillRect(0,0,W,H);
-  }
-  ctx.restore();
-}
-
-function loop(ts){
-  if (!GAME.running) return;
-  if (!GAME.last) GAME.last = ts;
-  var dt = Math.min(0.05, (ts - GAME.last)/1000);
-  GAME.last = ts;
-  updateGame(dt);
-  if (GAME.running) renderGame();
-  GAME.raf = requestAnimationFrame(loop);
-}
-
-/* --- 点击布夹 --- */
-field.addEventListener('click', function(e){
-  if (!GAME.running) return;
-  var r = field.getBoundingClientRect();
-  var x = (e.clientX - r.left) * (GAME.W / r.width);
-  var y = (e.clientY - r.top)  * (GAME.H / r.height);
-  // 不能在粮仓上布夹
-  if (Math.hypot(x-GAME.gx, y-GAME.gy) < GAME.gr) return;
-  if (GAME.trapsLeft <= 0) return;
-  GAME.trapsLeft--;
-  GAME.traps.push({ x:x, y:y, armed:true, t:0 });
-  updatePlayHUD();
+function closeDlg(){ mask.classList.remove('on'); }
+mask.addEventListener('click', function(e){
+  if(e.target===mask || (e.target.hasAttribute && e.target.hasAttribute('data-close'))) closeDlg();
 });
 
 /* ============================================================
-   开始 / 结束
+   粮仓选择
    ============================================================ */
-var fatal = false;
+var sel = 1;   // 当前选中（默认从第 1 个粮仓开始）
+function getG(id){ for(var i=0;i<GRANARIES.length;i++) if(GRANARIES[i].id===id) return GRANARIES[i]; return GRANARIES[0]; }
+function isCleared(id){ return save.cleared.indexOf(id)>=0; }
+function discount(id){ return Math.min(0.6, 0.1*(save.fails[id]||0)); }   // 每失败一次，奖金少一些
+function curReward(id){ return Math.max(0, Math.round(getG(id).reward*(1-discount(id)))); }
 
-function beginPlay(){
-  // 购买/消耗工具：每个捕鼠工具仅可使用一次
-  var t = currentTool();
-  if (t.free){
-    if (!freeAvailable()) fatal = true;
-    else useFree();
-  } else {
-    if (save.money < t.cost) fatal = true;
-    else { save.money -= t.cost; persist(); }
+function renderScene(){
+  var bl = document.querySelectorAll('#scene-svg .bld');
+  for(var i=0;i<bl.length;i++){
+    var id = +bl[i].getAttribute('data-id');
+    var locked = id > save.unlocked;
+    bl[i].classList.toggle('locked', locked);
+    bl[i].classList.toggle('avail', !locked);
+    bl[i].classList.toggle('sel', id===sel && !locked);
   }
-  if (fatal){
-    fatal = false;
-    renderGranaries(); renderTools(); renderInfo(); updateHUD();
-    show('s-select');
+  var b=document.getElementById('bubble');
+  var g=getG(sel);
+  b.style.left = (bldPos[sel].x/1000*100)+'%';
+  b.style.top  = (bldPos[sel].y/600*100)+'%';
+  var extra = isCleared(sel) ? '（可重复值守）' : '';
+  b.textContent = '最高奖金总值 '+curReward(sel)+' 元宝！'+extra;
+  b.classList.add('on');
+}
+/* 气泡锚点（与 SVG 中粮仓位置一致） */
+var bldPos = { 1:{x:430,y:400}, 2:{x:720,y:380}, 3:{x:190,y:190}, 4:{x:500,y:175}, 5:{x:792,y:160} };
+
+document.getElementById('scene-svg').addEventListener('click', function(e){
+  var el = e.target.closest ? e.target.closest('.bld') : null;
+  if(!el) return;
+  var id = +el.getAttribute('data-id');
+  if(id > save.unlocked) return;
+  sel = id; renderScene();
+});
+var svgEl = document.getElementById('scene-svg');
+svgEl.querySelectorAll('.bld').forEach(function(g){
+  g.addEventListener('mouseenter', function(){
+    var id=+g.getAttribute('data-id');
+    if(id>save.unlocked) return;
+    var b=document.getElementById('bubble');
+    b.style.left=(bldPos[id].x/1000*100)+'%'; b.style.top=(bldPos[id].y/600*100)+'%';
+    b.textContent='最高奖金总值 '+curReward(id)+' 元宝！'; b.classList.add('on');
+  });
+  g.addEventListener('mouseleave', renderScene);
+});
+
+/* ============================================================
+   守卫农庄 → 选择捕鼠工具
+   ============================================================ */
+var pick = 'trap';  // 默认选中免费的捕鼠夹
+function openGuard(){
+  if(sel > save.unlocked){ sel = save.unlocked; }
+  document.getElementById('tool-gname').textContent = getG(sel).name;
+  // 工具可用性
+  var t1=document.querySelector('.topt[data-tool="cage"]');
+  var t2=document.querySelector('.topt[data-tool="trap"]');
+  t1.classList.toggle('dis', save.qbi < 1);
+  t2.classList.toggle('dis', !trapFree());
+  if(pick==='cage' && save.qbi<1) pick='trap';
+  if(pick==='trap' && !trapFree()) pick = save.qbi>=1 ? 'cage' : 'trap';
+  markPick();
+  openDlg('d-tool');
+}
+function markPick(){
+  var all=document.querySelectorAll('#d-tool .topt');
+  for(var i=0;i<all.length;i++) all[i].classList.toggle('pick', all[i].getAttribute('data-tool')===pick);
+}
+document.querySelectorAll('#d-tool .topt').forEach(function(el){
+  el.addEventListener('click', function(){
+    if(el.classList.contains('dis')) return;
+    pick = el.getAttribute('data-tool');
+    markPick();
+  });
+});
+
+/* ============================================================
+   下一步 → 进行捕鼠（纯概率判定）
+   ============================================================ */
+document.getElementById('btn-next').addEventListener('click', function(){
+  var g = getG(sel);
+  if(pick==='trap' && !trapFree()){
+    // 免费捕鼠夹当天已用
+    openDlg('d-limit');
     return;
   }
-  updateHUD();
-
-  resetGame();
-  show('s-play');
-  var hint = document.getElementById('play-hint');
-  hint.classList.remove('hide');
-  GAME.running = true;
-  GAME.last = 0;
-  GAME.raf = requestAnimationFrame(loop);
-  setTimeout(function(){ hint.classList.add('hide'); }, 2600);
-  updateHUD();
-}
-
-function stopLoop(){
-  GAME.running = false;
-  if (GAME.raf) cancelAnimationFrame(GAME.raf);
-  GAME.raf = 0;
-}
-
-function winGame(){
-  stopLoop();
-  var g = GAME.g;
-  var reward = g.reward;
-  var gainNuomi = Math.random() < g.nuomi;
-  save.money += reward;
-  if (gainNuomi) save.nuomi += 1;
-  if (save.cleared.indexOf(g.lv) < 0) save.cleared.push(g.lv);
-  if (g.lv === save.unlocked && save.unlocked < 5) save.unlocked = g.lv + 1;
-  FAILS = 0;
-  persist();
-  updateHUD();
-  showResult(true, reward, gainNuomi ? 1 : 0, g);
-}
-
-function loseGame(){
-  stopLoop();
-  GAME.shake = 0.5;
-  renderGame();
-  var g = GAME.g;
-  // 每失败一次，本次奖励元宝就会少一些
-  FAILS += 1;
-  var cut = Math.min(0.8, 0.15 * FAILS);
-  var reward = Math.max(0, Math.round(g.reward * (1 - cut)));
-  save.money += reward;
-  if (save.money < 0) save.money = 0;
-  persist();
-  updateHUD();
-  showResult(false, reward, 0, g, Math.round(cut*100));
-}
-var FAILS = 0;
-
-function showResult(win, reward, nuomi, g, cutPct){
-  var tEl = document.getElementById('res-title');
-  var sEl = document.getElementById('res-sub');
-  tEl.textContent = win ? '守卫成功' : '守卫失败';
-  tEl.className = 'rtitle ' + (win ? 'win' : 'lose');
-  sEl.textContent = win ? '粮仓安然无恙，老鼠全数落网！'
-                        : '老鼠钻进了粮仓，粮食被偷吃了…';
-  document.getElementById('res-lv').textContent = g.name;
-  document.getElementById('res-money').textContent = '+' + reward;
-  document.getElementById('res-nuomi').textContent = nuomi > 0 ? '糯米 ×'+nuomi : '未获得';
-  var penRow = document.getElementById('res-pen-row');
-  if (!win && cutPct){
-    penRow.style.display = 'flex';
-    document.getElementById('res-pen').textContent = '-' + cutPct + '%';
-    document.getElementById('res-money').textContent = '+' + reward;
-  } else {
-    penRow.style.display = 'none';
+  if(pick==='cage' && save.qbi < 1){
+    openDlg('d-limit');
+    return;
   }
-  document.getElementById('btn-res-again').style.display = win ? 'none' : '';
-  document.getElementById('btn-res-again').textContent = '再来一次';
-  show('s-result');
+  // 消耗工具（每个捕鼠工具仅可使用一次）
+  if(pick==='trap'){ save.trapDate = todayKey(); }
+  else { save.qbi -= 1; }
+  persist(); updateHUD();
+
+  var chance = g.rate[pick];
+  var win = Math.random() < chance;
+  var rl = document.getElementById('res-line');
+  var rr = document.getElementById('res-rewards');
+  var rh = document.getElementById('res-hint');
+  rr.innerHTML=''; rh.textContent='';
+
+  if(win){
+    var money = curReward(g.id);
+    save.money += money;
+    if(g.nuomi) save.nuomi += g.nuomi;
+    if(save.cleared.indexOf(g.id)<0) save.cleared.push(g.id);
+    if(g.id===save.unlocked && save.unlocked<5) save.unlocked = g.id+1;
+    delete save.fails[g.id];
+    persist(); updateHUD();
+    rl.className='winbig';
+    rl.textContent='恭喜！您第'+g.id+'关守仓成功啦！小田鼠被牢牢夹住，粮仓安然无恙。';
+    rr.innerHTML =
+      '<div class="r"><span>获得元宝</span><b>+'+money+'</b></div>'+
+      (g.nuomi? '<div class="r"><span>获得糯米</span><b>糯米 ×'+g.nuomi+'</b></div>':'')+
+      (save.unlocked>g.id? '<div class="r"><span>晋级</span><b>已可值守'+getG(save.unlocked).name+'</b></div>':'');
+    rh.textContent='守护的粮仓越大，奖金越多，还有机会获得糯米哦！';
+    if(save.unlocked>g.id && g.id===save.unlocked-1){ /* 首次通关提示 */ }
+  }else{
+    save.fails[g.id] = (save.fails[g.id]||0)+1;
+    persist(); updateHUD();
+    rl.className='losebig';
+    rl.textContent='很抱歉，您第'+g.id+'关守仓失败了。粮仓被小田鼠糟蹋得七零八落。';
+    rr.innerHTML =
+      '<div class="r"><span>本次奖励</span><b>0（守护失败）</b></div>'+
+      '<div class="r"><span>奖金折损</span><b>已失败 '+save.fails[g.id]+' 次，下次奖金 -'+Math.round(discount(g.id)*100)+'%</b></div>';
+    rh.textContent='每失败一次，可获得的元宝就会少一些。改用「捕鼠器」对付田鼠更有效哦！';
+  }
+  openDlg('d-result');
+  renderScene(); renderRank();
+});
+
+/* ============================================================
+   右侧木牌菜单
+   ============================================================ */
+document.querySelectorAll('.menu .mbtn').forEach(function(b){
+  b.addEventListener('click', function(){
+    var act=b.getAttribute('data-act');
+    if(act==='guard') openGuard();
+    else if(act==='rules') openDlg('d-rules');
+    else if(act==='rank'){ renderRank(); openDlg('d-rank'); }
+    else if(act==='home') show('s-home');
+  });
+});
+
+/* ============================================================
+   排行
+   ============================================================ */
+function clearedLevels(){
+  // 通关关卡数：每完整走完 1..5 算 1 个关卡数
+  var n=0, seen={};
+  for(var i=0;i<save.cleared.length;i++) seen[save.cleared[i]]=true;
+  for(var k=1;k<=5;k++){ if(!seen[k]) return n; }
+  return 1; // 简化：通关一遍记 1
+}
+function renderRank(){
+  var v=clearedLevels();
+  var me=document.getElementById('rank-me-val'); if(me) me.textContent=v;
+  var no=document.getElementById('rank-me-no'); if(no) no.textContent = v>=10 ? '3' : (v>=1? '21' : '-');
 }
 
 /* ============================================================
-   按钮绑定
+   入口 / 复位
    ============================================================ */
-document.getElementById('btn-enter').onclick = function(){
-  renderGranaries(); renderTools(); renderInfo();
-  updateHUD();
-  show('s-select');
-};
-document.getElementById('btn-back-title').onclick = function(){ show('s-title'); };
-document.getElementById('btn-start-play').onclick = function(){ beginPlay(); };
+document.getElementById('btn-play').addEventListener('click', function(){
+  sel = Math.min(save.unlocked,5);
+  updateHUD(); renderScene(); renderRank();
+  show('s-farm');
+});
 
-document.getElementById('btn-quit-play').onclick = function(){
-  stopLoop();
-  renderGranaries(); renderTools(); renderInfo(); updateHUD();
-  show('s-select');
-};
-document.getElementById('btn-res-back').onclick = function(){
-  renderGranaries(); renderTools(); renderInfo(); updateHUD();
-  show('s-select');
-};
-document.getElementById('btn-res-again').onclick = function(){
-  beginPlay();
-};
-document.getElementById('btn-reset').onclick = function(){
-  if (confirm('确定重置本地存档吗？（元宝、糯米、通关进度都会清空）')){
-    save = { unlocked:1, cleared:[], money:300, nuomi:0, freeDate:'' };
-    persist(); FAILS = 0;
-    updateHUD();
-    renderGranaries(); renderTools(); renderInfo();
+/* 双击顶部状态栏重置存档（方便反复体验） */
+document.getElementById('hud-slot').addEventListener('dblclick', function(){
+  if(confirm('重置本地存档？（元宝、Q币、糯米、进度都会清空）')){
+    save = JSON.parse(JSON.stringify(def));
+    persist(); updateHUD(); sel=1; renderScene(); renderRank();
   }
-};
+});
 
-/* ============================================================
-   初始化
-   ============================================================ */
 updateHUD();
-drawHero();
-// 开场动画：定时重绘 hero（农夫/玉米轻微摆动）
-(function heroLoop(){
-  if (document.getElementById('s-title').classList.contains('active')){
-    drawHero();
-  }
-  setTimeout(heroLoop, 120);
-})();
-
 })();
 </script>
 </body>
